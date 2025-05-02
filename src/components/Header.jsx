@@ -1,7 +1,14 @@
 import { Link, useNavigate } from 'react-router-dom';
    export default function Header() {
      const navigate = useNavigate();
-     const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+     let currentUser = {};
+     try {
+       const userData = localStorage.getItem('currentUser');
+       if (userData) currentUser = JSON.parse(userData);
+     } catch (error) {
+       console.error('Error parsing currentUser:', error);
+       localStorage.removeItem('currentUser');
+     }
      const handleLogout = () => {
        localStorage.removeItem('currentUser');
        navigate('/login');
