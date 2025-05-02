@@ -1,39 +1,39 @@
 import { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
-import { getCountryByName } from '../services/api';
-export default function CountryDetails() {
-  const { name } = useParams();
-  const [country, setCountry] = useState(null);
-  const [loading, setLoading] = useState(true);
-  useEffect(() => {
-    const fetchCountry = async () => {
-      setLoading(true);
-      try {
-        const data = await getCountryByName(name);
-        setCountry(Array.isArray(data) ? data[0] : data);
-      } catch (error) {
-        console.error('Error:', error);
-        setCountry(null);
-      }
-      setLoading(false);
-    };
-    fetchCountry();
-  }, [name]);
-  if (loading) return <p className="text-center">Loading...</p>;
-  if (!country) return <p className="text-center">Country not found.</p>;
-  return (
-    <div className="container mx-auto p-4">
-      <Link to="/" className="text-blue-500 mb-4 inline-block">← Back</Link>
-      <div className="bg-white shadow-md rounded-lg p-6 flex flex-col md:flex-row gap-6">
-        <img src={country.flags.png} alt={country.name.common} className="w-full md:w-1/2 h-64 object-cover rounded" />
-        <div>
-          <h2 className="text-2xl font-bold mb-4">{country.name.common}</h2>
-          <p><strong>Capital:</strong> {country.capital?.[0] || 'N/A'}</p>
-          <p><strong>Population:</strong> {country.population.toLocaleString()}</p>
-          <p><strong>Region:</strong> {country.region}</p>
-          <p><strong>Languages:</strong> {Object.values(country.languages || {}).join(', ')}</p>
-        </div>
-      </div>
-    </div>
-  );
-}
+   import { useParams, Link } from 'react-router-dom';
+   import { getCountryByName } from '../services/api';
+   export default function CountryDetails() {
+     const { name } = useParams();
+     const [country, setCountry] = useState(null);
+     const [loading, setLoading] = useState(true);
+     useEffect(() => {
+       const fetchCountry = async () => {
+         setLoading(true);
+         try {
+           const data = await getCountryByName(name);
+           setCountry(Array.isArray(data) ? data[0] : data);
+         } catch (error) {
+           console.error('Error:', error);
+           setCountry(null);
+         }
+         setLoading(false);
+       };
+       fetchCountry();
+     }, [name]);
+     if (loading) return <p className="text-center text-[#740938] text-xl font-bold animate-bounce">Loading...</p>;
+     if (!country) return <p className="text-center text-[#740938] text-xl font-bold animate-fadeIn">Country not found.</p>;
+     return (
+       <div className="container mx-auto p-8 bg-gradient-to-b from-gray-50 to-gray-100 min-h-screen animate-fadeInUp">
+         <Link to="/" className="text-[#740938] font-bold text-xl mb-8 inline-block hover:text-[#4e0625] transition-all duration-500 hover:scale-110 hover:rotate-3 transform">← Back</Link>
+         <div className="bg-gradient-to-br from-white to-gray-50 shadow-2xl rounded-2xl p-10 flex flex-col md:flex-row gap-10 animate-slideInRight">
+           <img src={country.flags.png} alt={country.name.common} className="w-full md:w-1/2 h-96 object-cover rounded-xl shadow-lg" />
+           <div>
+             <h2 className="text-4xl font-extrabold text-gray-900 mb-8 tracking-tight">{country.name.common}</h2>
+             <p className="text-gray-700 text-lg mb-3"><strong>Capital:</strong> {country.capital?.[0] || 'N/A'}</p>
+             <p className="text-gray-700 text-lg mb-3"><strong>Population:</strong> {country.population.toLocaleString()}</p>
+             <p className="text-gray-700 text-lg mb-3"><strong>Region:</strong> {country.region}</p>
+             <p className="text-gray-700 text-lg"><strong>Languages:</strong> {Object.values(country.languages || {}).join(', ')}</p>
+           </div>
+         </div>
+       </div>
+     );
+   }
