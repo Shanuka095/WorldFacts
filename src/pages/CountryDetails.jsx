@@ -19,7 +19,12 @@ import { useState, useEffect } from 'react';
        };
        fetchCountry();
      }, [name]);
-     if (loading) return <p className="text-center text-[#740938] text-xl font-bold animate-bounce">Loading...</p>;
+     if (loading) return (
+       <div className="flex justify-center items-center">
+         <div className="w-12 h-12 border-4 border-[#740938] border-t-transparent rounded-full animate-spin"></div>
+         <p className="ml-4 text-[#740938] text-xl font-bold">Loading...</p>
+       </div>
+     );
      if (!country) return <p className="text-center text-[#740938] text-xl font-bold animate-fadeIn">Country not found.</p>;
      return (
        <div className="container mx-auto p-8 bg-gradient-to-b from-gray-50 to-gray-100 min-h-screen animate-fadeInUp">

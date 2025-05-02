@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-   import CountryCard from '../components/CountryCard';
-   import SearchFilter from '../components/SearchFilter';
+   import CountryCard from '../components/CountryCard.jsx';
+   import SearchFilter from '../components/SearchFilter.jsx';
    import { getAllCountries, getCountriesByRegion, getCountryByName } from '../services/api';
    export default function Home() {
      const [countries, setCountries] = useState([]);
@@ -28,7 +28,10 @@ import { useState, useEffect } from 'react';
        <div className="container mx-auto p-8 bg-gradient-to-b from-gray-50 to-gray-100 min-h-screen animate-fadeInUp">
          <SearchFilter searchTerm={searchTerm} setSearchTerm={setSearchTerm} region={region} setRegion={setRegion} />
          {loading ? (
-           <p className="text-center text-[#740938] text-xl font-bold animate-bounce">Loading...</p>
+           <div className="flex justify-center items-center">
+             <div className="w-12 h-12 border-4 border-[#740938] border-t-transparent rounded-full animate-spin"></div>
+             <p className="ml-4 text-[#740938] text-xl font-bold">Loading...</p>
+           </div>
          ) : (
            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10">
              {countries.length ? countries.map((country) => (
