@@ -6,7 +6,14 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
    import Login from './pages/Login.jsx';
    import Register from './pages/Register.jsx';
    export default function App() {
-     const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+     let currentUser = {};
+     try {
+       const userData = localStorage.getItem('currentUser');
+       if (userData) currentUser = JSON.parse(userData);
+     } catch (error) {
+       console.error('Error parsing currentUser:', error);
+       localStorage.removeItem('currentUser');
+     }
      return (
        <Router>
          <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100">
