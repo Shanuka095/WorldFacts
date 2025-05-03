@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import Header from './components/Header.jsx';
 import Home from './pages/Home.jsx';
 import CountryDetails from './pages/CountryDetails.jsx';
@@ -39,17 +39,15 @@ export default function App() {
   };
 
   return (
-    <Router>
-      <div style={{ background: isDarkMode ? '#1F1B2E' : '#F9F5FF', minHeight: '100vh', color: isDarkMode ? '#E0DFFF' : '#2D1B4E' }}>
-        <Header isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} favorites={favorites} />
-        <Routes>
-          <Route path="/" element={<Home isDarkMode={isDarkMode} favorites={favorites} toggleFavorite={toggleFavorite} />} />
-          <Route path="/country/:name" element={<CountryDetails isDarkMode={isDarkMode} favorites={favorites} toggleFavorite={toggleFavorite} />} />
-          <Route path="/login" element={<Login isDarkMode={isDarkMode} />} />
-          <Route path="/register" element={<Register isDarkMode={isDarkMode} />} />
-          <Route path="/profile" element={<Profile isDarkMode={isDarkMode} favorites={favorites} />} />
-        </Routes>
-      </div>
-    </Router>
+    <div style={{ background: isDarkMode ? '#1F1B2E' : '#F9F5FF', minHeight: '100vh', color: isDarkMode ? '#E0DFFF' : '#2D1B4E' }}>
+      <Header isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} favorites={favorites} />
+      <Routes>
+        <Route path="/" element={<Home isDarkMode={isDarkMode} favorites={favorites} toggleFavorite={toggleFavorite} />} />
+        <Route path="/country/:name" element={<CountryDetails isDarkMode={isDarkMode} favorites={favorites} toggleFavorite={toggleFavorite} />} />
+        <Route path="/login" element={<Login isDarkMode={isDarkMode} />} />
+        <Route path="/register" element={<Register isDarkMode={isDarkMode} />} />
+        <Route path="/profile" element={<Profile isDarkMode={isDarkMode} favorites={favorites} />} />
+      </Routes>
+    </div>
   );
 }

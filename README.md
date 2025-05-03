@@ -1,16 +1,12 @@
-# Rest-Countries-App-Frontend
+# React + Vite
 
-A React application built for the Application Framework module at SLIIT, using the [REST Countries API](https://restcountries.com/v3.1) to display country information, including name, capital, population, region, languages, and flags.
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-## Features
-- View a list of countries with key details.
-- Search countries by name.
-- Filter countries by region.
-- View detailed country information.
-- Responsive design using Tailwind CSS.
-- (In progress: Session management, testing, and deployment)
+Currently, two official plugins are available:
 
-## Setup Instructions
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/Shanuka095/Rest-Countries-App-Frontend.git
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+
+## Expanding the ESLint configuration
+
+If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
