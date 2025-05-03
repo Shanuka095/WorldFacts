@@ -1,6 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import logo from '../assets/WorldFacts.png'; // Updated to use WorldFacts.png in assets folder
+import logoLight from '../assets/WorldFacts2.png';
+import logoDark from '../assets/WorldFacts.png';
 
 export default function Header({ isDarkMode, toggleDarkMode, favorites }) {
   const navigate = useNavigate();
@@ -16,15 +17,6 @@ export default function Header({ isDarkMode, toggleDarkMode, favorites }) {
     localStorage.removeItem('currentUser');
   }
 
-  const initials = currentUser.fullName
-    ? currentUser.fullName
-        .split(' ')
-        .map(name => name[0])
-        .slice(0, 2)
-        .join('')
-        .toUpperCase()
-    : 'NA';
-
   const handleLogout = () => {
     localStorage.removeItem('currentUser');
     navigate('/login');
@@ -36,17 +28,55 @@ export default function Header({ isDarkMode, toggleDarkMode, favorites }) {
   };
 
   return (
-    <header style={{ background: `linear-gradient(to right, ${isDarkMode ? '#4B0E9A' : '#6D16DF'}, ${isDarkMode ? '#7B46D3' : '#A678F2'})`, color: '#fff', padding: '1rem 2rem', boxShadow: '0 4px 12px rgba(0,0,0,0.3)', position: 'sticky', top: 0, zIndex: 50, backdropFilter: 'blur(10px)' }}>
-      <div style={{ maxWidth: '1280px', margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <Link to="/" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none', transition: 'transform 0.3s ease', transform: 'scale(1)' }} onMouseEnter={(e) => e.target.style.transform = 'scale(1.05)'} onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}>
-          <img src={logo} alt="WorldFacts Logo" style={{ width: '40px', height: '40px', objectFit: 'contain' }} />
+    <header style={{ background: `linear-gradient(to right, ${isDarkMode ? '#450F8A' : '#6015C3'}, ${isDarkMode ? '#6A4ABF' : '#9577E6'})`, color: '#FFFFFF', padding: '1rem 2rem', boxShadow: '0 4px 12px rgba(0,0,0,0.3)', position: 'sticky', top: 0, zIndex: 50, backdropFilter: 'blur(8px)', fontFamily: "'Poppins', sans-serif" }}>
+      <style>
+        {`@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');`}
+      </style>
+      <div style={{ maxWidth: '1440px', margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center', position: 'relative' }}>
+        <Link
+          to="/"
+          style={{ display: 'flex', alignItems: 'center', textDecoration: 'none', transition: 'transform 0.3s ease-in-out', transform: 'rotate(0deg)' }}
+          onMouseEnter={(e) => e.target.style.transform = 'rotate(3deg) scale(1.03)'}
+          onMouseLeave={(e) => e.target.style.transform = 'rotate(0deg) scale(1)'}
+        >
+          <img src={isDarkMode ? logoDark : logoLight} alt="WorldFacts Logo" style={{ width: '40px', height: '40px', objectFit: 'contain', animation: 'fadeIn 0.5s ease' }} />
         </Link>
+        <span
+          style={{
+            position: 'absolute',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            fontSize: '1.5rem',
+            fontWeight: '700',
+            color: '#FFFFFF',
+            textShadow: '0 2px 4px rgba(0,0,0,0.3)',
+            animation: 'textGlow 1.5s ease-in-out forwards',
+            transition: 'text-shadow 0.3s ease-in-out'
+          }}
+          onMouseEnter={(e) => e.target.style.textShadow = '0 0 8px #FFFFFF, 0 0 12px #9577E6'}
+          onMouseLeave={(e) => e.target.style.textShadow = '0 2px 4px rgba(0,0,0,0.3)'}
+        >
+          WorldFacts
+        </span>
         <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
           {currentUser.email && (
             <button
               onClick={handleFavoritesToggle}
-              style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', background: '#fff', color: isDarkMode ? '#4B0E9A' : '#6D16DF', padding: '0.5rem 1.25rem', borderRadius: '0.5rem', fontWeight: '600', transition: 'all 0.3s ease', transform: 'scale(1)', boxShadow: '0 4px 8px rgba(0,0,0,0.1)', animation: showFavorites ? 'pulse 0.5s ease' : 'none' }}
-              onMouseEnter={(e) => e.target.style.transform = 'scale(1.05)'}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                background: '#FFFFFF',
+                color: isDarkMode ? '#450F8A' : '#6015C3',
+                padding: '0.5rem 1.25rem',
+                borderRadius: '0.5rem',
+                fontWeight: '600',
+                transition: 'all 0.3s ease-in-out',
+                transform: 'scale(1)',
+                boxShadow: '0 4px 8px rgba(0,0,0,0.2)',
+                animation: showFavorites ? 'pulse 0.5s ease' : 'none'
+              }}
+              onMouseEnter={(e) => e.target.style.transform = 'scale(1.03)'}
               onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
             >
               <svg style={{ width: '1.25rem', height: '1.25rem', fill: showFavorites ? 'currentColor' : 'none', stroke: showFavorites ? 'none' : 'currentColor', strokeWidth: '2' }} viewBox="0 0 24 24">
@@ -61,8 +91,20 @@ export default function Header({ isDarkMode, toggleDarkMode, favorites }) {
           )}
           <button
             onClick={toggleDarkMode}
-            style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '2.5rem', height: '2.5rem', background: isDarkMode ? '#fff' : '#4B0E9A', color: isDarkMode ? '#4B0E9A' : '#fff', borderRadius: '50%', transition: 'all 0.3s ease', transform: 'scale(1)', boxShadow: '0 4px 8px rgba(0,0,0,0.1)' }}
-            onMouseEnter={(e) => e.target.style.transform = 'scale(1.1)'}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              width: '2.5rem',
+              height: '2.5rem',
+              background: isDarkMode ? '#FFFFFF' : '#450F8A',
+              color: isDarkMode ? '#450F8A' : '#FFFFFF',
+              borderRadius: '50%',
+              transition: 'all 0.3s ease-in-out',
+              transform: 'scale(1)',
+              boxShadow: '0 4px 8px rgba(0,0,0,0.2)'
+            }}
+            onMouseEnter={(e) => e.target.style.transform = 'scale(1.05)'}
             onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
           >
             {isDarkMode ? (
@@ -79,20 +121,53 @@ export default function Header({ isDarkMode, toggleDarkMode, favorites }) {
             <div style={{ position: 'relative' }}>
               <button
                 onClick={() => setIsProfileOpen(!isProfileOpen)}
-                style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '2.5rem', height: '2.5rem', background: '#fff', color: isDarkMode ? '#4B0E9A' : '#6D16DF', borderRadius: '50%', fontWeight: '600', transition: 'all 0.3s ease', transform: 'scale(1)', boxShadow: '0 4px 8px rgba(0,0,0,0.1)' }}
-                onMouseEnter={(e) => e.target.style.transform = 'scale(1.1)'}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  width: '2.5rem',
+                  height: '2.5rem',
+                  background: '#FFFFFF',
+                  borderRadius: '50%',
+                  overflow: 'hidden',
+                  transition: 'all 0.3s ease-in-out',
+                  transform: 'scale(1)',
+                  boxShadow: '0 4px 8px rgba(0,0,0,0.2)'
+                }}
+                onMouseEnter={(e) => e.target.style.transform = 'scale(1.05)'}
                 onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
               >
-                {initials}
+                {currentUser.profilePic ? (
+                  <img
+                    src={currentUser.profilePic}
+                    alt="Profile"
+                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                  />
+                ) : (
+                  <svg style={{ width: '1.5rem', height: '1.5rem', fill: isDarkMode ? '#450F8A' : '#6015C3' }} viewBox="0 0 24 24">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
+                  </svg>
+                )}
               </button>
               {isProfileOpen && (
-                <div style={{ position: 'absolute', right: 0, marginTop: '0.5rem', width: '12rem', background: isDarkMode ? '#2A2640' : '#fff', borderRadius: '0.5rem', boxShadow: '0 4px 12px rgba(0,0,0,0.2)', padding: '1rem', animation: 'fadeIn 0.3s ease', zIndex: 100 }}>
+                <div style={{
+                  position: 'absolute',
+                  right: 0,
+                  marginTop: '0.5rem',
+                  width: '12rem',
+                  background: isDarkMode ? '#2A2640' : '#FFFFFF',
+                  borderRadius: '0.5rem',
+                  boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
+                  padding: '1rem',
+                  animation: 'fadeIn 0.3s ease',
+                  zIndex: 100
+                }}>
                   <Link
                     to="/profile"
-                    style={{ display: 'block', color: isDarkMode ? '#E0DFFF' : '#2D1B4E', padding: '0.5rem 0', textDecoration: 'none', transition: 'color 0.3s ease' }}
+                    style={{ display: 'block', color: isDarkMode ? '#FFFFFF' : '#2D1B4E', padding: '0.5rem 0', textDecoration: 'none', transition: 'color 0.3s ease-in-out' }}
                     onClick={() => setIsProfileOpen(false)}
-                    onMouseEnter={(e) => e.target.style.color = '#6D16DF'}
-                    onMouseLeave={(e) => e.target.style.color = isDarkMode ? '#E0DFFF' : '#2D1B4E'}
+                    onMouseEnter={(e) => e.target.style.color = isDarkMode ? '#9577E6' : '#6015C3'}
+                    onMouseLeave={(e) => e.target.style.color = isDarkMode ? '#FFFFFF' : '#2D1B4E'}
                   >
                     Profile
                   </Link>
@@ -101,9 +176,9 @@ export default function Header({ isDarkMode, toggleDarkMode, favorites }) {
                       handleLogout();
                       setIsProfileOpen(false);
                     }}
-                    style={{ display: 'block', width: '100%', textAlign: 'left', color: isDarkMode ? '#E0DFFF' : '#2D1B4E', padding: '0.5rem 0', background: 'none', border: 'none', cursor: 'pointer', transition: 'color 0.3s ease' }}
-                    onMouseEnter={(e) => e.target.style.color = '#6D16DF'}
-                    onMouseLeave={(e) => e.target.style.color = isDarkMode ? '#E0DFFF' : '#2D1B4E'}
+                    style={{ display: 'block', width: '100%', textAlign: 'left', color: isDarkMode ? '#FFFFFF' : '#2D1B4E', padding: '0.5rem 0', background: 'none', border: 'none', cursor: 'pointer', transition: 'color 0.3s ease-in-out' }}
+                    onMouseEnter={(e) => e.target.style.color = isDarkMode ? '#9577E6' : '#6015C3'}
+                    onMouseLeave={(e) => e.target.style.color = isDarkMode ? '#FFFFFF' : '#2D1B4E'}
                   >
                     Sign Out
                   </button>
@@ -112,8 +187,22 @@ export default function Header({ isDarkMode, toggleDarkMode, favorites }) {
             </div>
           ) : (
             <div style={{ display: 'flex', gap: '1.5rem' }}>
-              <Link to="/login" style={{ color: '#fff', fontWeight: '600', textDecoration: 'none', transition: 'transform 0.3s ease', transform: 'scale(1)' }} onMouseEnter={(e) => e.target.style.transform = 'scale(1.05)'} onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}>Login</Link>
-              <Link to="/register" style={{ color: '#fff', fontWeight: '600', textDecoration: 'none', transition: 'transform 0.3s ease', transform: 'scale(1)' }} onMouseEnter={(e) => e.target.style.transform = 'scale(1.05)'} onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}>Register</Link>
+              <Link
+                to="/login"
+                style={{ color: '#FFFFFF', fontWeight: '600', textDecoration: 'none', transition: 'transform 0.3s ease-in-out', transform: 'scale(1)' }}
+                onMouseEnter={(e) => e.target.style.transform = 'scale(1.03)'}
+                onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
+              >
+                Login
+              </Link>
+              <Link
+                to="/register"
+                style={{ color: '#FFFFFF', fontWeight: '600', textDecoration: 'none', transition: 'transform 0.3s ease-in-out', transform: 'scale(1)' }}
+                onMouseEnter={(e) => e.target.style.transform = 'scale(1.03)'}
+                onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
+              >
+                Register
+              </Link>
             </div>
           )}
         </div>
@@ -127,6 +216,20 @@ export default function Header({ isDarkMode, toggleDarkMode, favorites }) {
           @keyframes pulse {
             0%, 100% { transform: scale(1); }
             50% { transform: scale(1.05); }
+          }
+          @keyframes textGlow {
+            from { letter-spacing: 0; opacity: 0.7; }
+            to { letter-spacing: 2px; opacity: 1; }
+          }
+          @media (max-width: 768px) {
+            .site-name {
+              font-size: 1.2rem;
+            }
+          }
+          @media (max-width: 480px) {
+            .site-name {
+              display: none;
+            }
           }
         `}
       </style>
