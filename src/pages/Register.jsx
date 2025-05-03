@@ -14,9 +14,27 @@ export default function Register({ isDarkMode }) {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
+  const validateInputs = () => {
+    if (!/^[a-zA-Z\s]{2,}$/.test(firstName)) return 'First name must be at least 2 letters';
+    if (!/^[a-zA-Z\s]{2,}$/.test(lastName)) return 'Last name must be at least 2 letters';
+    if (!/^\+?\d{10,15}$/.test(phone)) return 'Invalid phone number (10-15 digits)';
+    if (!/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)) return 'Invalid email format';
+    if (password.length < 8) return 'Password must be at least 8 characters';
+    if (password !== confirmPassword) return 'Passwords do not match';
+    return '';
+  };
+
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
+      if (!file.type.startsWith('image/')) {
+        setError('Please upload an image file');
+        return;
+      }
+      if (file.size > 5 * 1024 * 1024) {
+        setError('Image size must be less than 5MB');
+        return;
+      }
       const reader = new FileReader();
       reader.onloadend = () => {
         setProfilePic(reader.result);
@@ -33,14 +51,15 @@ export default function Register({ isDarkMode }) {
     e.preventDefault();
     setError('');
 
-    if (password !== confirmPassword) {
-      setError('Passwords do not match!');
+    const validationError = validateInputs();
+    if (validationError) {
+      setError(validationError);
       return;
     }
 
     const users = JSON.parse(localStorage.getItem('users') || '[]');
     if (users.some(user => user.email === email)) {
-      setError('Email already registered!');
+      setError('Email already registered');
       return;
     }
 
@@ -67,7 +86,13 @@ export default function Register({ isDarkMode }) {
   };
 
   return (
-    <div style={{ position: 'relative', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: `linear-gradient(135deg, ${isDarkMode ? '#1F1B2E' : '#F9F5FF'}, ${isDarkMode ? '#2A2640' : '#E6E0FA'})`, overflow: 'hidden' }}>
+    <div style={{ position: 'relative', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: `linear-gradient(135deg, ${isDarkMode ? '#1F1B2E' : '#F9F5FF'}, ${isDarkMode ? '#2A2640' : '#E6E0FA'})`, overflow: 'hidden', fontFamily: "'Poppins', sans-serif", boxSizing: 'border-box' }}>
+      <style>
+        {`
+          @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
+          * { box-sizing: border-box; }
+        `}
+      </style>
       <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 0 }}>
         {[...Array(12)].map((_, i) => (
           <span
@@ -85,17 +110,17 @@ export default function Register({ isDarkMode }) {
           ></span>
         ))}
       </div>
-      <div style={{ background: isDarkMode ? '#2A2640' : '#FFFFFF', padding: '2.5rem', borderRadius: '1rem', boxShadow: '0 8px 24px rgba(0,0,0,0.2)', maxWidth: '32rem', width: '100%', zIndex: 1, animation: 'fadeInUp 0.5s ease' }}>
-        <h2 style={{ fontSize: '2rem', fontWeight: '700', color: isDarkMode ? '#FFFFFF' : '#6D16DF', marginBottom: '1.5rem', textAlign: 'center', textShadow: '0 2px 4px rgba(0,0,0,0.2)' }}>Join WorldFacts</h2>
-        {error && <p style={{ color: '#ef4444', textAlign: 'center', marginBottom: '1rem', animation: 'pulse 1s ease' }}>{error}</p>}
-        <form onSubmit={handleRegister} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-          <div style={{ display: 'flex', gap: '1rem' }}>
+      <div style={{ background: isDarkMode ? 'rgba(42, 38, 64, 0.95)' : 'rgba(255, 255, 255, 0.98)', padding: '2rem', borderRadius: '1rem', boxShadow: `0 8px 24px ${isDarkMode ? '#4B0E9A33' : '#6D16DF33'}`, border: `1px solid ${isDarkMode ? '#4B0E9A33' : '#6D16DF33'}`, maxWidth: '40rem', width: '100%', margin: '0 1rem', zIndex: 1, animation: 'fadeInUp 0.5s ease', backdropFilter: 'blur(12px)' }}>
+        <h2 style={{ fontSize: '2.25rem', fontWeight: '700', color: isDarkMode ? '#FFFFFF' : '#6D16DF', marginBottom: '1.5rem', textAlign: 'center', textShadow: '0 2px 6px rgba(0,0,0,0.3)' }}>Join WorldFacts</h2>
+        {error && <p style={{ color: '#EF4444', textAlign: 'center', marginBottom: '1rem', fontWeight: '500', animation: 'pulse 1s ease', background: isDarkMode ? '#4B0E9A33' : '#6D16DF33', padding: '0.5rem', borderRadius: '0.5rem' }}>{error}</p>}
+        <form onSubmit={handleRegister} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem' }}>
             <input
               type="text"
               placeholder="First Name"
               value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
-              style={{ border: `1px solid ${isDarkMode ? '#4B0E9A' : '#6D16DF'}`, background: isDarkMode ? '#3B3555' : '#FFFFFF', color: isDarkMode ? '#FFFFFF' : '#2D1B4E', padding: '0.75rem', borderRadius: '0.5rem', width: '100%', outline: 'none', transition: 'all 0.3s ease', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}
+              style={{ border: `1px solid ${isDarkMode ? '#4B0E9A' : '#6D16DF'}`, background: isDarkMode ? '#3B3555' : '#F9F5FF', color: isDarkMode ? '#FFFFFF' : '#2D1B4E', padding: '0.75rem', borderRadius: '0.5rem', width: '100%', outline: 'none', transition: 'all 0.3s ease', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}
               required
               onFocus={(e) => e.target.style.boxShadow = `0 0 0 3px ${isDarkMode ? '#4B0E9A66' : '#6D16DF66'}`}
               onBlur={(e) => e.target.style.boxShadow = '0 2px 4px rgba(0,0,0,0.1)'}
@@ -105,7 +130,7 @@ export default function Register({ isDarkMode }) {
               placeholder="Last Name"
               value={lastName}
               onChange={(e) => setLastName(e.target.value)}
-              style={{ border: `1px solid ${isDarkMode ? '#4B0E9A' : '#6D16DF'}`, background: isDarkMode ? '#3B3555' : '#FFFFFF', color: isDarkMode ? '#FFFFFF' : '#2D1B4E', padding: '0.75rem', borderRadius: '0.5rem', width: '100%', outline: 'none', transition: 'all 0.3s ease', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}
+              style={{ border: `1px solid ${isDarkMode ? '#4B0E9A' : '#6D16DF'}`, background: isDarkMode ? '#3B3555' : '#F9F5FF', color: isDarkMode ? '#FFFFFF' : '#2D1B4E', padding: '0.75rem', borderRadius: '0.5rem', width: '100%', outline: 'none', transition: 'all 0.3s ease', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}
               required
               onFocus={(e) => e.target.style.boxShadow = `0 0 0 3px ${isDarkMode ? '#4B0E9A66' : '#6D16DF66'}`}
               onBlur={(e) => e.target.style.boxShadow = '0 2px 4px rgba(0,0,0,0.1)'}
@@ -114,14 +139,15 @@ export default function Register({ isDarkMode }) {
           <div style={{ position: 'relative' }}>
             <input
               type="tel"
-              placeholder="Phone Number"
+              placeholder="Phone Number (e.g., +1234567890)"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
-              style={{ border: `1px solid ${isDarkMode ? '#4B0E9A' : '#6D16DF'}`, background: isDarkMode ? '#3B3555' : '#FFFFFF', color: isDarkMode ? '#FFFFFF' : '#2D1B4E', padding: '0.75rem 2.5rem 0.75rem 0.75rem', borderRadius: '0.5rem', width: '100%', outline: 'none', transition: 'all 0.3s ease', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}
+              style={{ border: `1px solid ${isDarkMode ? '#4B0E9A' : '#6D16DF'}`, background: isDarkMode ? '#3B3555' : '#F9F5FF', color: isDarkMode ? '#FFFFFF' : '#2D1B4E', padding: '0.75rem 2.5rem 0.75rem 0.75rem', borderRadius: '0.5rem', width: '100%', outline: 'none', transition: 'all 0.3s ease', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}
+              required
               onFocus={(e) => e.target.style.boxShadow = `0 0 0 3px ${isDarkMode ? '#4B0E9A66' : '#6D16DF66'}`}
               onBlur={(e) => e.target.style.boxShadow = '0 2px 4px rgba(0,0,0,0.1)'}
             />
-            <span style={{ position: 'absolute', right: '0.75rem', top: '0.75rem', color: isDarkMode ? '#FFFFFF' : '#6D16DF' }}>📞</span>
+            <span style={{ position: 'absolute', right: '0.75rem', top: '50%', transform: 'translateY(-50%)', color: isDarkMode ? '#FFFFFF' : '#6D16DF', fontSize: '1.25rem' }}>📞</span>
           </div>
           <div style={{ position: 'relative' }}>
             <input
@@ -129,20 +155,20 @@ export default function Register({ isDarkMode }) {
               placeholder="Email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              style={{ border: `1px solid ${isDarkMode ? '#4B0E9A' : '#6D16DF'}`, background: isDarkMode ? '#3B3555' : '#FFFFFF', color: isDarkMode ? '#FFFFFF' : '#2D1B4E', padding: '0.75rem 2.5rem 0.75rem 0.75rem', borderRadius: '0.5rem', width: '100%', outline: 'none', transition: 'all 0.3s ease', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}
+              style={{ border: `1px solid ${isDarkMode ? '#4B0E9A' : '#6D16DF'}`, background: isDarkMode ? '#3B3555' : '#F9F5FF', color: isDarkMode ? '#FFFFFF' : '#2D1B4E', padding: '0.75rem 2.5rem 0.75rem 0.75rem', borderRadius: '0.5rem', width: '100%', outline: 'none', transition: 'all 0.3s ease', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}
               required
               onFocus={(e) => e.target.style.boxShadow = `0 0 0 3px ${isDarkMode ? '#4B0E9A66' : '#6D16DF66'}`}
               onBlur={(e) => e.target.style.boxShadow = '0 2px 4px rgba(0,0,0,0.1)'}
             />
-            <span style={{ position: 'absolute', right: '0.75rem', top: '0.75rem', color: isDarkMode ? '#FFFFFF' : '#6D16DF' }}>📧</span>
+            <span style={{ position: 'absolute', right: '0.75rem', top: '50%', transform: 'translateY(-50%)', color: isDarkMode ? '#FFFFFF' : '#6D16DF', fontSize: '1.25rem' }}>📧</span>
           </div>
           <div style={{ position: 'relative' }}>
             <input
               type={showPassword ? 'text' : 'password'}
-              placeholder="Password"
+              placeholder="Password (min 8 characters)"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              style={{ border: `1px solid ${isDarkMode ? '#4B0E9A' : '#6D16DF'}`, background: isDarkMode ? '#3B3555' : '#FFFFFF', color: isDarkMode ? '#FFFFFF' : '#2D1B4E', padding: '0.75rem 2.5rem 0.75rem 0.75rem', borderRadius: '0.5rem', width: '100%', outline: 'none', transition: 'all 0.3s ease', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}
+              style={{ border: `1px solid ${isDarkMode ? '#4B0E9A' : '#6D16DF'}`, background: isDarkMode ? '#3B3555' : '#F9F5FF', color: isDarkMode ? '#FFFFFF' : '#2D1B4E', padding: '0.75rem 2.5rem 0.75rem 0.75rem', borderRadius: '0.5rem', width: '100%', outline: 'none', transition: 'all 0.3s ease', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}
               required
               onFocus={(e) => e.target.style.boxShadow = `0 0 0 3px ${isDarkMode ? '#4B0E9A66' : '#6D16DF66'}`}
               onBlur={(e) => e.target.style.boxShadow = '0 2px 4px rgba(0,0,0,0.1)'}
@@ -150,9 +176,9 @@ export default function Register({ isDarkMode }) {
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              style={{ position: 'absolute', right: '0.75rem', top: '0.75rem', background: 'none', border: 'none', color: isDarkMode ? '#FFFFFF' : '#6D16DF', cursor: 'pointer', transition: 'transform 0.3s ease', transform: 'scale(1)' }}
-              onMouseEnter={(e) => e.target.style.transform = 'scale(1.2)'}
-              onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
+              style={{ position: 'absolute', right: '0.75rem', top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', color: isDarkMode ? '#FFFFFF' : '#6D16DF', cursor: 'pointer', fontSize: '1.25rem', transition: 'transform 0.3s ease' }}
+              onMouseEnter={(e) => e.target.style.transform = 'translateY(-50%) scale(1.2)'}
+              onMouseLeave={(e) => e.target.style.transform = 'translateY(-50%) scale(1)'}
             >
               {showPassword ? '🙈' : '👁️'}
             </button>
@@ -163,7 +189,7 @@ export default function Register({ isDarkMode }) {
               placeholder="Confirm Password"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
-              style={{ border: `1px solid ${isDarkMode ? '#4B0E9A' : '#6D16DF'}`, background: isDarkMode ? '#3B3555' : '#FFFFFF', color: isDarkMode ? '#FFFFFF' : '#2D1B4E', padding: '0.75rem 2.5rem 0.75rem 0.75rem', borderRadius: '0.5rem', width: '100%', outline: 'none', transition: 'all 0.3s ease', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}
+              style={{ border: `1px solid ${isDarkMode ? '#4B0E9A' : '#6D16DF'}`, background: isDarkMode ? '#3B3555' : '#F9F5FF', color: isDarkMode ? '#FFFFFF' : '#2D1B4E', padding: '0.75rem 2.5rem 0.75rem 0.75rem', borderRadius: '0.5rem', width: '100%', outline: 'none', transition: 'all 0.3s ease', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}
               required
               onFocus={(e) => e.target.style.boxShadow = `0 0 0 3px ${isDarkMode ? '#4B0E9A66' : '#6D16DF66'}`}
               onBlur={(e) => e.target.style.boxShadow = '0 2px 4px rgba(0,0,0,0.1)'}
@@ -171,9 +197,9 @@ export default function Register({ isDarkMode }) {
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              style={{ position: 'absolute', right: '0.75rem', top: '0.75rem', background: 'none', border: 'none', color: isDarkMode ? '#FFFFFF' : '#6D16DF', cursor: 'pointer', transition: 'transform 0.3s ease', transform: 'scale(1)' }}
-              onMouseEnter={(e) => e.target.style.transform = 'scale(1.2)'}
-              onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
+              style={{ position: 'absolute', right: '0.75rem', top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', color: isDarkMode ? '#FFFFFF' : '#6D16DF', cursor: 'pointer', fontSize: '1.25rem', transition: 'transform 0.3s ease' }}
+              onMouseEnter={(e) => e.target.style.transform = 'translateY(-50%) scale(1.2)'}
+              onMouseLeave={(e) => e.target.style.transform = 'translateY(-50%) scale(1)'}
             >
               {showPassword ? '🙈' : '👁️'}
             </button>
@@ -183,11 +209,11 @@ export default function Register({ isDarkMode }) {
               type="file"
               accept="image/*"
               onChange={handleFileChange}
-              style={{ border: `1px solid ${isDarkMode ? '#4B0E9A' : '#6D16DF'}`, background: isDarkMode ? '#3B3555' : '#FFFFFF', color: isDarkMode ? '#FFFFFF' : '#2D1B4E', padding: '0.75rem', borderRadius: '0.5rem', width: '100%', outline: 'none', transition: 'all 0.3s ease', boxShadow: '0 2px 4px rgba(0,0,0,0.1)', cursor: 'pointer' }}
+              style={{ border: `1px solid ${isDarkMode ? '#4B0E9A' : '#6D16DF'}`, background: isDarkMode ? '#3B3555' : '#F9F5FF', color: isDarkMode ? '#FFFFFF' : '#2D1B4E', padding: '0.75rem', borderRadius: '0.5rem', width: '100%', outline: 'none', transition: 'all 0.3s ease', boxShadow: '0 2px 4px rgba(0,0,0,0.1)', cursor: 'pointer' }}
               onFocus={(e) => e.target.style.boxShadow = `0 0 0 3px ${isDarkMode ? '#4B0E9A66' : '#6D16DF66'}`}
               onBlur={(e) => e.target.style.boxShadow = '0 2px 4px rgba(0,0,0,0.1)'}
             />
-            <span style={{ position: 'absolute', right: '0.75rem', top: '0.75rem', color: isDarkMode ? '#FFFFFF' : '#6D16DF' }}>🖼️</span>
+            <span style={{ position: 'absolute', right: '0.75rem', top: '50%', transform: 'translateY(-50%)', color: isDarkMode ? '#FFFFFF' : '#6D16DF', fontSize: '1.25rem' }}>🖼️</span>
             {preview && (
               <img
                 src={preview}
@@ -198,14 +224,14 @@ export default function Register({ isDarkMode }) {
           </div>
           <button
             type="submit"
-            style={{ background: isDarkMode ? '#4B0E9A' : '#6D16DF', color: '#FFFFFF', padding: '0.75rem', borderRadius: '0.5rem', fontWeight: '600', border: 'none', cursor: 'pointer', transition: 'all 0.3s ease', transform: 'scale(1)', boxShadow: '0 4px 8px rgba(0,0,0,0.2)' }}
+            style={{ background: `linear-gradient(45deg, ${isDarkMode ? '#4B0E9A' : '#6D16DF'}, ${isDarkMode ? '#6A4ABF' : '#9577E6'})`, color: '#FFFFFF', padding: '0.75rem', borderRadius: '0.5rem', fontWeight: '600', border: 'none', cursor: 'pointer', transition: 'all 0.3s ease', transform: 'scale(1)', boxShadow: `0 4px 12px ${isDarkMode ? '#4B0E9A66' : '#6D16DF66'}` }}
             onMouseEnter={(e) => e.target.style.transform = 'scale(1.05)'}
             onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
           >
             Register
           </button>
         </form>
-        <p style={{ textAlign: 'center', marginTop: '1.5rem', color: isDarkMode ? '#FFFFFF' : '#2D1B4E' }}>
+        <p style={{ textAlign: 'center', marginTop: '1.5rem', color: isDarkMode ? '#FFFFFF' : '#2D1B4E', fontWeight: '500' }}>
           Already have an account?{' '}
           <Link
             to="/login"
@@ -238,6 +264,11 @@ export default function Register({ isDarkMode }) {
           @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
+          }
+          @media (max-width: 640px) {
+            div[style*="grid-template-columns: 1fr 1fr"] {
+              grid-template-columns: 1fr;
+            }
           }
         `}
       </style>
