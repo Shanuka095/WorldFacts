@@ -7,6 +7,8 @@ export default function Header({ isDarkMode, toggleDarkMode, favorites }) {
   const navigate = useNavigate();
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [showFavorites, setShowFavorites] = useState(false);
+  const [isFavoriteAnimating, setIsFavoriteAnimating] = useState(false);
+  const [isDarkModeAnimating, setIsDarkModeAnimating] = useState(false);
 
   let currentUser = {};
   try {
@@ -23,8 +25,16 @@ export default function Header({ isDarkMode, toggleDarkMode, favorites }) {
   };
 
   const handleFavoritesToggle = () => {
+    setIsFavoriteAnimating(true);
     setShowFavorites(!showFavorites);
     navigate('/', { state: { showFavorites: !showFavorites } });
+    setTimeout(() => setIsFavoriteAnimating(false), 300);
+  };
+
+  const handleDarkModeToggle = () => {
+    setIsDarkModeAnimating(true);
+    toggleDarkMode();
+    setTimeout(() => setIsDarkModeAnimating(false), 300);
   };
 
   return (
@@ -58,7 +68,7 @@ export default function Header({ isDarkMode, toggleDarkMode, favorites }) {
         >
           WorldFacts
         </span>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
           {currentUser.email && (
             <button
               onClick={handleFavoritesToggle}
@@ -68,13 +78,15 @@ export default function Header({ isDarkMode, toggleDarkMode, favorites }) {
                 gap: '0.5rem',
                 background: '#FFFFFF',
                 color: isDarkMode ? '#450F8A' : '#6015C3',
-                padding: '0.5rem 1.25rem',
+                padding: '0.5rem 1rem',
                 borderRadius: '0.5rem',
                 fontWeight: '600',
+                border: 'none',
+                cursor: 'pointer',
                 transition: 'all 0.3s ease-in-out',
                 transform: 'scale(1)',
                 boxShadow: '0 4px 8px rgba(0,0,0,0.2)',
-                animation: showFavorites ? 'pulse 0.5s ease' : 'none'
+                animation: isFavoriteAnimating ? 'heartPulse 0.3s ease' : 'none'
               }}
               onMouseEnter={(e) => e.target.style.transform = 'scale(1.03)'}
               onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
@@ -90,32 +102,37 @@ export default function Header({ isDarkMode, toggleDarkMode, favorites }) {
             </button>
           )}
           <button
-            onClick={toggleDarkMode}
+            onClick={handleDarkModeToggle}
             style={{
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               width: '2.5rem',
               height: '2.5rem',
-              background: isDarkMode ? '#FFFFFF' : '#450F8A',
-              color: isDarkMode ? '#450F8A' : '#FFFFFF',
+              background: '#FFFFFF',
+              color: isDarkMode ? '#450F8A' : '#6015C3',
               borderRadius: '50%',
+              border: 'none',
+              cursor: 'pointer',
               transition: 'all 0.3s ease-in-out',
               transform: 'scale(1)',
-              boxShadow: '0 4px 8px rgba(0,0,0,0.2)'
+              boxShadow: '0 4px 8px rgba(0,0,0,0.2)',
+              animation: isDarkModeAnimating ? 'scalePulse 0.3s ease' : 'none'
             }}
             onMouseEnter={(e) => e.target.style.transform = 'scale(1.05)'}
             onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
           >
-            {isDarkMode ? (
-              <svg style={{ width: '1.25rem', height: '1.25rem', fill: 'currentColor' }} viewBox="0 0 20 20">
-                <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
-              </svg>
-            ) : (
-              <svg style={{ width: '1.25rem', height: '1.25rem', fill: 'currentColor' }} viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.707.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 11-2 0 1 1 0 012 0zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 11-2 0 1 1 0 012 0zm-1-1z" clipRule="evenodd" />
-              </svg>
-            )}
+            <span style={{ display: 'inline-block', transition: 'transform 0.3s ease', transform: isDarkMode ? 'rotate(180deg)' : 'rotate(0deg)' }}>
+              {isDarkMode ? (
+                <svg style={{ width: '1.25rem', height: '1.25rem', fill: 'currentColor' }} viewBox="0 0 20 20">
+                  <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+                </svg>
+              ) : (
+                <svg style={{ width: '1.25rem', height: '1.25rem', fill: 'currentColor' }} viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.707.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 11-2 0 1 1 0 012 0zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 11-2 0 1 1 0 012 0zm-1-1z" clipRule="evenodd" />
+                </svg>
+              )}
+            </span>
           </button>
           {currentUser.email ? (
             <div style={{ position: 'relative' }}>
@@ -127,9 +144,11 @@ export default function Header({ isDarkMode, toggleDarkMode, favorites }) {
                   justifyContent: 'center',
                   width: '2.5rem',
                   height: '2.5rem',
-                  background: '#FFFFFF',
+                  background: 'transparent',
+                  border: '1px solid #FFFFFF',
                   borderRadius: '50%',
                   overflow: 'hidden',
+                  cursor: 'pointer',
                   transition: 'all 0.3s ease-in-out',
                   transform: 'scale(1)',
                   boxShadow: '0 4px 8px rgba(0,0,0,0.2)'
@@ -141,10 +160,10 @@ export default function Header({ isDarkMode, toggleDarkMode, favorites }) {
                   <img
                     src={currentUser.profilePic}
                     alt="Profile"
-                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                    style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '50%' }}
                   />
                 ) : (
-                  <svg style={{ width: '1.5rem', height: '1.5rem', fill: isDarkMode ? '#450F8A' : '#6015C3' }} viewBox="0 0 24 24">
+                  <svg style={{ width: '1.5rem', height: '1.5rem', fill: isDarkMode ? '#FFFFFF' : '#6015C3' }} viewBox="0 0 24 24">
                     <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
                   </svg>
                 )}
@@ -153,14 +172,16 @@ export default function Header({ isDarkMode, toggleDarkMode, favorites }) {
                 <div style={{
                   position: 'absolute',
                   right: 0,
-                  marginTop: '0.5rem',
+                  top: '3rem',
                   width: '12rem',
-                  background: isDarkMode ? '#2A2640' : '#FFFFFF',
+                  background: isDarkMode ? 'rgba(42, 38, 64, 0.95)' : 'rgba(255, 255, 255, 0.98)',
                   borderRadius: '0.5rem',
                   boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
                   padding: '1rem',
                   animation: 'fadeIn 0.3s ease',
-                  zIndex: 100
+                  zIndex: 100,
+                  border: `1px solid ${isDarkMode ? '#4B0E9A33' : '#9577E633'}`,
+                  backdropFilter: 'blur(12px)'
                 }}>
                   <Link
                     to="/profile"
@@ -186,7 +207,7 @@ export default function Header({ isDarkMode, toggleDarkMode, favorites }) {
               )}
             </div>
           ) : (
-            <div style={{ display: 'flex', gap: '1.5rem' }}>
+            <div style={{ display: 'flex', gap: '1rem' }}>
               <Link
                 to="/login"
                 style={{ color: '#FFFFFF', fontWeight: '600', textDecoration: 'none', transition: 'transform 0.3s ease-in-out', transform: 'scale(1)' }}
@@ -217,6 +238,16 @@ export default function Header({ isDarkMode, toggleDarkMode, favorites }) {
             0%, 100% { transform: scale(1); }
             50% { transform: scale(1.05); }
           }
+          @keyframes heartPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+          }
+          @keyframes scalePulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+          }
           @keyframes textGlow {
             from { letter-spacing: 0; opacity: 0.7; }
             to { letter-spacing: 2px; opacity: 1; }
@@ -225,10 +256,20 @@ export default function Header({ isDarkMode, toggleDarkMode, favorites }) {
             .site-name {
               font-size: 1.2rem;
             }
+            div[style*="gap: 1rem"] {
+              gap: 0.75rem;
+            }
+            button[style*="padding: 0.5rem 1rem"] {
+              padding: 0.5rem 0.75rem;
+              font-size: 0.875rem;
+            }
           }
           @media (max-width: 480px) {
             .site-name {
               display: none;
+            }
+            div[style*="gap: 1rem"] {
+              gap: 0.5rem;
             }
           }
         `}
