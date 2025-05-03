@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 export default function Profile({ isDarkMode, favorites, toggleFavorite }) {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
+  const [isModeAnimating, setIsModeAnimating] = useState(false);
 
   useEffect(() => {
     try {
@@ -20,6 +21,12 @@ export default function Profile({ isDarkMode, favorites, toggleFavorite }) {
     }
   }, [navigate]);
 
+  useEffect(() => {
+    setIsModeAnimating(true);
+    const timer = setTimeout(() => setIsModeAnimating(false), 500); // Match animation duration
+    return () => clearTimeout(timer);
+  }, [isDarkMode]);
+
   const handleLogout = () => {
     localStorage.removeItem('currentUser');
     navigate('/login');
@@ -35,7 +42,16 @@ export default function Profile({ isDarkMode, favorites, toggleFavorite }) {
   }
 
   return (
-    <div style={{ maxWidth: '1440px', margin: '0 auto', padding: '2rem 1rem', background: `linear-gradient(135deg, ${isDarkMode ? '#1F1B2E' : '#F9F5FF'}, ${isDarkMode ? '#2A2640' : '#E6E0FA'})`, minHeight: '100vh', fontFamily: "'Poppins', sans-serif" }}>
+    <div style={{ 
+      maxWidth: '1440px', 
+      margin: '0 auto', 
+      padding: '2rem 1rem', 
+      background: `linear-gradient(135deg, ${isDarkMode ? '#1F1B2E' : '#F9F5FF'}, ${isDarkMode ? '#2A2640' : '#E6E0FA'})`, 
+      minHeight: '100vh', 
+      fontFamily: "'Poppins', sans-serif",
+      animation: isModeAnimating ? 'darkModeTransition 0.5s ease' : 'none',
+      transition: 'background 0.3s ease'
+    }}>
       <style>
         {`@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');`}
       </style>
@@ -52,13 +68,13 @@ export default function Profile({ isDarkMode, favorites, toggleFavorite }) {
           fontWeight: '600',
           textDecoration: 'none',
           transition: 'all 0.3s ease-in-out',
-          transform: 'scale(1)',
+          transform: isModeAnimating ? 'scale(1.05)' : 'scale(1)',
           boxShadow: '0 6px 12px rgba(0,0,0,0.3)',
           marginBottom: '2rem',
-          animation: 'slideInLeft 0.5s ease-in-out'
+          animation: isModeAnimating ? 'none' : 'slideInLeft 0.5s ease-in-out'
         }}
         onMouseEnter={(e) => e.target.style.transform = 'scale(1.05)'}
-        onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
+        onMouseLeave={(e) => e.target.style.transform = isModeAnimating ? 'scale(1.05)' : 'scale(1)'}
       >
         <svg style={{ width: '1.25rem', height: '1.25rem', fill: 'none', stroke: '#FFFFFF', strokeWidth: '2' }} viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7"/>
@@ -72,25 +88,65 @@ export default function Profile({ isDarkMode, favorites, toggleFavorite }) {
         borderRadius: '1rem',
         padding: '2.5rem',
         backdropFilter: 'blur(12px)',
-        animation: 'fadeInUp 0.6s ease-in-out',
+        animation: isModeAnimating ? 'darkModeTransition 0.5s ease' : 'fadeInUp 0.6s ease-in-out',
         position: 'relative',
         overflow: 'hidden'
       }}>
-        <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', background: `linear-gradient(45deg, ${isDarkMode ? '#450F8A33' : '#6015C333'}, transparent)`, opacity: '0.2', zIndex: 0 }}></div>
+        <div style={{ 
+          position: 'absolute', 
+          top: 0, 
+          left: 0, 
+          width: '100%', 
+          height: '100%', 
+          background: `linear-gradient(45deg, ${isDarkMode ? '#450F8A33' : '#6015C333'}, transparent)`, 
+          opacity: isModeAnimating ? 0.4 : 0.2, 
+          zIndex: 0, 
+          transition: 'opacity 0.5s ease' 
+        }}></div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem', zIndex: 1 }}>
-          <h2 style={{ fontSize: '2.5rem', fontWeight: '800', color: isDarkMode ? '#FFFFFF' : '#2D1B4E', textAlign: 'center', textShadow: '0 2px 6px rgba(0,0,0,0.3)', animation: 'fadeIn 0.7s ease-in-out' }}>User Profile</h2>
+          <h2 style={{ 
+            fontSize: '2.5rem', 
+            fontWeight: '800', 
+            color: isDarkMode ? '#FFFFFF' : '#2D1B4E', 
+            textAlign: 'center', 
+            textShadow: '0 2px 6px rgba(0,0,0,0.3)', 
+            animation: isModeAnimating ? 'none' : 'fadeIn 0.7s ease-in-out',
+            transition: 'color 0.3s ease, transform 0.3s ease',
+            transform: isModeAnimating ? 'translateY(-3px)' : 'translateY(0)'
+          }}>User Profile</h2>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '2rem', alignItems: 'flex-start' }}>
-            <div style={{ flex: '1 1 200px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1.5rem', animation: 'zoomIn 0.7s ease-in-out 0.1s' }}>
+            <div style={{ 
+              flex: '1 1 200px', 
+              display: 'flex', 
+              flexDirection: 'column', 
+              alignItems: 'center', 
+              gap: '1.5rem', 
+              animation: isModeAnimating ? 'darkModeTransition 0.5s ease 0.1s' : 'zoomIn 0.7s ease-in-out 0.1s'
+            }}>
               {user.profilePic ? (
                 <img
                   src={user.profilePic}
                   alt="Profile Picture"
-                  style={{ width: '150px', height: '150px', borderRadius: '50%', objectFit: 'cover', boxShadow: `0 8px 16px ${isDarkMode ? '#450F8A33' : '#6015C333'}`, transition: 'transform 0.3s ease-in-out' }}
+                  style={{ 
+                    width: '150px', 
+                    height: '150px', 
+                    borderRadius: '50%', 
+                    objectFit: 'cover', 
+                    boxShadow: `0 8px 16px ${isDarkMode ? '#450F8A33' : '#6015C333'}`, 
+                    transition: 'transform 0.3s ease-in-out',
+                    transform: isModeAnimating ? 'scale(1.05)' : 'scale(1)'
+                  }}
                   onMouseEnter={(e) => e.target.style.transform = 'scale(1.05)'}
-                  onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
+                  onMouseLeave={(e) => e.target.style.transform = isModeAnimating ? 'scale(1.05)' : 'scale(1)'}
                 />
               ) : (
-                <svg style={{ width: '150px', height: '150px', fill: isDarkMode ? '#FFFFFF' : '#6015C3' }} viewBox="0 0 24 24">
+                <svg style={{ 
+                  width: '150px', 
+                  height: '150px', 
+                  fill: isDarkMode ? '#FFFFFF' : '#6015C3',
+                  transform: isModeAnimating ? 'scale(1.05)' : 'scale(1)', 
+                  transition: 'transform 0.3s ease-in-out, fill 0.3s ease' 
+                }} viewBox="0 0 24 24">
                   <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
                 </svg>
               )}
@@ -105,36 +161,84 @@ export default function Profile({ isDarkMode, favorites, toggleFavorite }) {
                   border: 'none',
                   cursor: 'pointer',
                   transition: 'all 0.3s ease-in-out',
-                  transform: 'scale(1)',
+                  transform: isModeAnimating ? 'scale(1.05)' : 'scale(1)',
                   boxShadow: `0 4px 12px ${isDarkMode ? '#450F8A33' : '#6015C333'}`,
-                  animation: 'fadeIn 0.7s ease-in-out 0.2s'
+                  animation: isModeAnimating ? 'none' : 'fadeIn 0.7s ease-in-out 0.2s'
                 }}
                 onMouseEnter={(e) => {
                   e.target.style.transform = 'scale(1.05)';
                   e.target.style.boxShadow = `0 6px 16px ${isDarkMode ? '#450F8A66' : '#6015C366'}`;
                 }}
                 onMouseLeave={(e) => {
-                  e.target.style.transform = 'scale(1)';
+                  e.target.style.transform = isModeAnimating ? 'scale(1.05)' : 'scale(1)';
                   e.target.style.boxShadow = `0 4px 12px ${isDarkMode ? '#450F8A33' : '#6015C333'}`;
                 }}
               >
                 Sign Out
               </button>
             </div>
-            <div style={{ flex: '2 1 400px', display: 'flex', flexDirection: 'column', gap: '1.5rem', animation: 'slideInRight 0.7s ease-in-out 0.3s' }}>
-              <p style={{ fontSize: '1.2rem', color: isDarkMode ? '#FFFFFF' : '#2D1B4E', fontWeight: '500' }}><strong>Name:</strong> {user.fullName}</p>
-              <p style={{ fontSize: '1.2rem', color: isDarkMode ? '#FFFFFF' : '#2D1B4E', fontWeight: '500' }}><strong>Email:</strong> {user.email}</p>
-              <p style={{ fontSize: '1.2rem', color: isDarkMode ? '#FFFFFF' : '#2D1B4E', fontWeight: '500' }}><strong>Phone:</strong> {user.phone || 'N/A'}</p>
-              <p style={{ fontSize: '1.2rem', color: isDarkMode ? '#FFFFFF' : '#2D1B4E', fontWeight: '500' }}><strong>Joined:</strong> {new Date(user.registrationDate).toLocaleDateString()}</p>
+            <div style={{ 
+              flex: '2 1 400px', 
+              display: 'flex', 
+              flexDirection: 'column', 
+              gap: '1.5rem', 
+              animation: isModeAnimating ? 'darkModeTransition 0.5s ease 0.3s' : 'slideInRight 0.7s ease-in-out 0.3s'
+            }}>
+              <p style={{ 
+                fontSize: '1.2rem', 
+                color: isDarkMode ? '#FFFFFF' : '#2D1B4E', 
+                fontWeight: '500', 
+                transition: 'color 0.3s ease, transform 0.3s ease',
+                transform: isModeAnimating ? 'translateY(-2px)' : 'translateY(0)'
+              }}><strong>Name:</strong> {user.fullName}</p>
+              <p style={{ 
+                fontSize: '1.2rem', 
+                color: isDarkMode ? '#FFFFFF' : '#2D1B4E', 
+                fontWeight: '500', 
+                transition: 'color 0.3s ease, transform 0.3s ease',
+                transform: isModeAnimating ? 'translateY(-2px)' : 'translateY(0)'
+              }}><strong>Email:</strong> {user.email}</p>
+              <p style={{ 
+                fontSize: '1.2rem', 
+                color: isDarkMode ? '#FFFFFF' : '#2D1B4E', 
+                fontWeight: '500', 
+                transition: 'color 0.3s ease, transform 0.3s ease',
+                transform: isModeAnimating ? 'translateY(-2px)' : 'translateY(0)'
+              }}><strong>Phone:</strong> {user.phone || 'N/A'}</p>
+              <p style={{ 
+                fontSize: '1.2rem', 
+                color: isDarkMode ? '#FFFFFF' : '#2D1B4E', 
+                fontWeight: '500', 
+                transition: 'color 0.3s ease, transform 0.3s ease',
+                transform: isModeAnimating ? 'translateY(-2px)' : 'translateY(0)'
+              }}><strong>Joined:</strong> {new Date(user.registrationDate).toLocaleDateString()}</p>
               <div>
-                <p style={{ fontSize: '1.2rem', color: isDarkMode ? '#FFFFFF' : '#2D1B4E', fontWeight: '500', marginBottom: '0.5rem' }}><strong>Favorite Countries:</strong></p>
+                <p style={{ 
+                  fontSize: '1.2rem', 
+                  color: isDarkMode ? '#FFFFFF' : '#2D1B4E', 
+                  fontWeight: '500', 
+                  marginBottom: '0.5rem', 
+                  transition: 'color 0.3s ease, transform 0.3s ease',
+                  transform: isModeAnimating ? 'translateY(-2px)' : 'translateY(0)'
+                }}><strong>Favorite Countries:</strong></p>
                 {favorites.length > 0 ? (
                   <ul style={{ listStyle: 'none', padding: 0, display: 'flex', flexWrap: 'wrap', gap: '1rem' }}>
                     {favorites.map((country, index) => (
-                      <li key={index} style={{ animation: `fadeIn 0.7s ease-in-out ${0.4 + index * 0.1}s` }}>
+                      <li 
+                        key={index} 
+                        style={{ 
+                          animation: isModeAnimating ? `darkModeTransition 0.5s ease ${0.4 + index * 0.1}s` : `fadeIn 0.7s ease-in-out ${0.4 + index * 0.1}s`
+                        }}
+                      >
                         <Link
                           to={`/country/${encodeURIComponent(country)}`}
-                          style={{ color: isDarkMode ? '#FFFFFF' : '#6015C3', textDecoration: 'none', fontWeight: '500', transition: 'color 0.3s ease-in-out' }}
+                          style={{ 
+                            color: isDarkMode ? '#FFFFFF' : '#6015C3', 
+                            textDecoration: 'none', 
+                            fontWeight: '500', 
+                            transition: 'color 0.3s ease-in-out, transform 0.3s ease',
+                            transform: isModeAnimating ? 'translateY(-2px)' : 'translateY(0)'
+                          }}
                           onMouseEnter={(e) => e.target.style.color = isDarkMode ? '#9577E6' : '#450F8A'}
                           onMouseLeave={(e) => e.target.style.color = isDarkMode ? '#FFFFFF' : '#6015C3'}
                         >
@@ -142,9 +246,17 @@ export default function Profile({ isDarkMode, favorites, toggleFavorite }) {
                         </Link>
                         <button
                           onClick={() => toggleFavorite(country)}
-                          style={{ marginLeft: '0.5rem', background: 'none', border: 'none', color: isDarkMode ? '#FFFFFF' : '#6015C3', cursor: 'pointer', transition: 'transform 0.3s ease-in-out', transform: 'scale(1)' }}
+                          style={{ 
+                            marginLeft: '0.5rem', 
+                            background: 'none', 
+                            border: 'none', 
+                            color: isDarkMode ? '#FFFFFF' : '#6015C3', 
+                            cursor: 'pointer', 
+                            transition: 'transform 0.3s ease-in-out, color 0.3s ease', 
+                            transform: isModeAnimating ? 'scale(1.2)' : 'scale(1)'
+                          }}
                           onMouseEnter={(e) => e.target.style.transform = 'scale(1.2)'}
-                          onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
+                          onMouseLeave={(e) => e.target.style.transform = isModeAnimating ? 'scale(1.2)' : 'scale(1)'}
                         >
                           🗑️
                         </button>
@@ -152,7 +264,13 @@ export default function Profile({ isDarkMode, favorites, toggleFavorite }) {
                     ))}
                   </ul>
                 ) : (
-                  <p style={{ fontSize: '1.1rem', color: isDarkMode ? '#FFFFFF' : '#2D1B4E', fontStyle: 'italic' }}>No favorite countries yet.</p>
+                  <p style={{ 
+                    fontSize: '1.1rem', 
+                    color: isDarkMode ? '#FFFFFF' : '#2D1B4E', 
+                    fontStyle: 'italic', 
+                    transition: 'color 0.3s ease, transform 0.3s ease',
+                    transform: isModeAnimating ? 'translateY(-2px)' : 'translateY(0)'
+                  }}>No favorite countries yet.</p>
                 )}
               </div>
             </div>
@@ -183,6 +301,11 @@ export default function Profile({ isDarkMode, favorites, toggleFavorite }) {
           }
           @keyframes spin {
             to { transform: rotate(360deg); }
+          }
+          @keyframes darkModeTransition {
+            0% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.02); opacity: 1; }
+            100% { transform: scale(1); opacity: 1; }
           }
           @media (max-width: 768px) {
             .profile-container {
