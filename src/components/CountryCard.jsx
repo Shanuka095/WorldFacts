@@ -1,11 +1,39 @@
 import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 
 export default function CountryCard({ country, toggleFavorite, isFavorite, isDarkMode }) {
   const encodedCountryName = encodeURIComponent(country.name.common);
+  const [isModeAnimating, setIsModeAnimating] = useState(false);
+
+  useEffect(() => {
+    setIsModeAnimating(true);
+    const timer = setTimeout(() => setIsModeAnimating(false), 500); // Match animation duration
+    return () => clearTimeout(timer);
+  }, [isDarkMode]);
 
   return (
-    <div style={{ background: isDarkMode ? '#2A2640' : '#fff', boxShadow: `0 6px 12px ${isDarkMode ? '#450F8A33' : '#6015C333'}`, borderRadius: '0.75rem', padding: '1.5rem', border: `1px solid ${isDarkMode ? '#450F8A' : '#6015C3'}`, transition: 'all 0.3s ease', animation: 'fadeInUp 0.5s ease', position: 'relative', overflow: 'hidden' }}>
-      <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', background: `linear-gradient(45deg, ${isDarkMode ? '#450F8A33' : '#6015C333'}, transparent)`, opacity: 0.2, zIndex: 0 }}></div>
+    <div style={{ 
+      background: isDarkMode ? '#2A2640' : '#fff', 
+      boxShadow: `0 6px 12px ${isDarkMode ? '#450F8A33' : '#6015C333'}`, 
+      borderRadius: '0.75rem', 
+      padding: '1.5rem', 
+      border: `1px solid ${isDarkMode ? '#450F8A' : '#6015C3'}`, 
+      transition: 'all 0.3s ease', 
+      animation: `${isModeAnimating ? 'darkModeTransition 0.5s ease' : 'fadeInUp 0.5s ease'}`, 
+      position: 'relative', 
+      overflow: 'hidden' 
+    }}>
+      <div style={{ 
+        position: 'absolute', 
+        top: 0, 
+        left: 0, 
+        width: '100%', 
+        height: '100%', 
+        background: `linear-gradient(45deg, ${isDarkMode ? '#450F8A33' : '#6015C333'}, transparent)`, 
+        opacity: isModeAnimating ? 0.4 : 0.2, 
+        zIndex: 0, 
+        transition: 'opacity 0.5s ease' 
+      }}></div>
       <Link
         to={`/country/${encodedCountryName}`}
         style={{ textDecoration: 'none', zIndex: 10, display: 'block', pointerEvents: 'auto', position: 'relative' }}
@@ -13,24 +41,67 @@ export default function CountryCard({ country, toggleFavorite, isFavorite, isDar
         <img
           src={country.flags.png}
           alt={country.name.common}
-          style={{ width: '100%', height: '10rem', objectFit: 'cover', borderRadius: '0.5rem', marginBottom: '1rem', boxShadow: `0 4px 8px ${isDarkMode ? '#450F8A33' : '#6015C333'}`, transition: 'transform 0.3s ease' }}
+          style={{ 
+            width: '100%', 
+            height: '10rem', 
+            objectFit: 'cover', 
+            borderRadius: '0.5rem', 
+            marginBottom: '1rem', 
+            boxShadow: `0 4px 8px ${isDarkMode ? '#450F8A33' : '#6015C333'}`, 
+            transition: 'transform 0.3s ease' 
+          }}
           onMouseEnter={(e) => e.target.style.transform = 'scale(1.02)'}
           onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
         />
-        <h3 style={{ fontSize: '1.5rem', fontWeight: '700', color: isDarkMode ? '#E0DFFF' : '#2D1B4E', marginBottom: '0.75rem', textShadow: '0 1px 2px rgba(0,0,0,0.2)' }}>{country.name.common}</h3>
-        <p style={{ fontSize: '0.875rem', color: isDarkMode ? '#9577E6' : '#6015C3', marginBottom: '0.25rem' }}><strong>Capital:</strong> {country.capital?.[0] || 'N/A'}</p>
-        <p style={{ fontSize: '0.875rem', color: isDarkMode ? '#9577E6' : '#6015C3', marginBottom: '0.25rem' }}><strong>Population:</strong> {country.population.toLocaleString()}</p>
-        <p style={{ fontSize: '0.875rem', color: isDarkMode ? '#9577E6' : '#6015C3' }}><strong>Region:</strong> {country.region}</p>
+        <h3 style={{ 
+          fontSize: '1.5rem', 
+          fontWeight: '700', 
+          color: isDarkMode ? '#FFFFFF' : '#2D1B4E', 
+          marginBottom: '0.75rem', 
+          textShadow: '0 1px 2px rgba(0,0,0,0.2)', 
+          transition: 'color 0.3s ease, transform 0.3s ease',
+          transform: isModeAnimating ? 'translateY(-2px)' : 'translateY(0)'
+        }}>{country.name.common}</h3>
+        <p style={{ 
+          fontSize: '0.875rem', 
+          color: isDarkMode ? '#FFFFFF' : '#6015C3', 
+          marginBottom: '0.25rem', 
+          transition: 'color 0.3s ease, transform 0.3s ease',
+          transform: isModeAnimating ? 'translateY(-2px)' : 'translateY(0)'
+        }}><strong>Capital:</strong> {country.capital?.[0] || 'N/A'}</p>
+        <p style={{ 
+          fontSize: '0.875rem', 
+          color: isDarkMode ? '#FFFFFF' : '#6015C3', 
+          marginBottom: '0.25rem', 
+          transition: 'color 0.3s ease, transform 0.3s ease',
+          transform: isModeAnimating ? 'translateY(-2px)' : 'translateY(0)'
+        }}><strong>Population:</strong> {country.population.toLocaleString()}</p>
+        <p style={{ 
+          fontSize: '0.875rem', 
+          color: isDarkMode ? '#FFFFFF' : '#6015C3', 
+          transition: 'color 0.3s ease, transform 0.3s ease',
+          transform: isModeAnimating ? 'translateY(-2px)' : 'translateY(0)'
+        }}><strong>Region:</strong> {country.region}</p>
       </Link>
       <button
         onClick={(e) => {
-          e.stopPropagation(); // Prevent click from bubbling to Link
+          e.stopPropagation();
           console.log(`Toggling favorite for ${country.name.common}`);
           toggleFavorite(country.name.common);
         }}
-        style={{ marginTop: '1rem', color: isFavorite ? (isDarkMode ? '#9577E6' : '#6015C3') : (isDarkMode ? '#6A4ABF' : '#9577E6'), transition: 'all 0.3s ease', transform: 'scale(1)', zIndex: 10, background: 'transparent', border: 'none', cursor: 'pointer', position: 'relative' }}
-        onMouseEnter={(e) => e.target.style.transform = 'scale(1.1)'}
-        onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
+        style={{ 
+          marginTop: '1rem', 
+          color: isFavorite ? (isDarkMode ? '#FFFFFF' : '#6015C3') : (isDarkMode ? '#A8A4CE' : '#9577E6'), 
+          transition: 'all 0.3s ease', 
+          transform: isModeAnimating ? 'scale(1.1)' : 'scale(1)', 
+          zIndex: 10, 
+          background: 'transparent', 
+          border: 'none', 
+          cursor: 'pointer', 
+          position: 'relative' 
+        }}
+        onMouseEnter={(e) => e.target.style.transform = isModeAnimating ? 'scale(1.2)' : 'scale(1.1)'}
+        onMouseLeave={(e) => e.target.style.transform = isModeAnimating ? 'scale(1.1)' : 'scale(1)'}
       >
         <svg style={{ width: '1.5rem', height: '1.5rem', fill: isFavorite ? 'currentColor' : 'none', stroke: isFavorite ? 'none' : 'currentColor', strokeWidth: '2' }} viewBox="0 0 24 24">
           {isFavorite ? (
@@ -45,6 +116,11 @@ export default function CountryCard({ country, toggleFavorite, isFavorite, isDar
           @keyframes fadeInUp {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
+          }
+          @keyframes darkModeTransition {
+            0% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.02); opacity: 1; }
+            100% { transform: scale(1); opacity: 1; }
           }
         `}
       </style>
