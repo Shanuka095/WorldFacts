@@ -1,45 +1,45 @@
-import axios from 'axios';
+const BASE_URL = 'https://restcountries.com/v3.1';
 
-   const BASE_URL = 'https://restcountries.com/v3.1';
+export const getAllCountries = async () => {
+  try {
+    const response = await fetch(`${BASE_URL}/all`);
+    if (!response.ok) throw new Error('Failed to fetch countries');
+    return await response.json();
+  } catch (error) {
+    console.error('Error fetching all countries:', error);
+    throw error;
+  }
+};
 
-   export const getAllCountries = async () => {
-     try {
-       const response = await axios.get(`${BASE_URL}/all?fields=name,population,region,languages,flags,capital,area,subregion,latlng`);
-       return response.data;
-     } catch (error) {
-       console.error('Error fetching all countries:', error);
-       throw error;
-     }
-   };
+export const getCountriesByRegion = async (region) => {
+  try {
+    const response = await fetch(`${BASE_URL}/region/${region}`);
+    if (!response.ok) throw new Error(`Failed to fetch countries for region: ${region}`);
+    return await response.json();
+  } catch (error) {
+    console.error(`Error fetching countries by region (${region}):`, error);
+    throw error;
+  }
+};
 
-   export const getCountryByName = async (name) => {
-     try {
-       const response = await axios.get(`${BASE_URL}/name/${name}?fields=name,population,region,languages,flags,capital,area,subregion,latlng`);
-       return response.data;
-     } catch (error) {
-       console.error(`Error fetching country ${name}:`, error);
-       throw error;
-     }
-   };
+export const getCountryByName = async (name) => {
+  try {
+    const response = await fetch(`${BASE_URL}/name/${encodeURIComponent(name)}?fullText=true`);
+    if (!response.ok) throw new Error(`Failed to fetch country: ${name}`);
+    return await response.json();
+  } catch (error) {
+    console.error(`Error fetching country by name (${name}):`, error);
+    throw error;
+  }
+};
 
-   export const getCountriesByRegion = async (region) => {
-     try {
-       const response = await axios.get(`${BASE_URL}/region/${region}?fields=name,population,region,languages,flags,capital,area,subregion,latlng`);
-       return response.data;
-     } catch (error) {
-       console.error(`Error fetching countries by region ${region}:`, error);
-       throw error;
-     }
-   };
-
-   export const getCountriesByLanguage = async (language) => {
-     try {
-       const allCountries = await getAllCountries();
-       return allCountries.filter(country =>
-         Object.values(country.languages || {}).some(lang => lang.toLowerCase().includes(language.toLowerCase()))
-       );
-     } catch (error) {
-       console.error(`Error fetching countries by language ${language}:`, error);
-       throw error;
-     }
-   };
+export const getCountriesByLanguage = async (language) => {
+  try {
+    const response = await fetch(`${BASE_URL}/lang/${language}`);
+    if (!response.ok) throw new Error(`Failed to fetch countries for language: ${language}`);
+    return await response.json();
+  } catch (error) {
+    console.error(`Error fetching countries by language (${language}):`, error);
+    throw error;
+  }
+};
