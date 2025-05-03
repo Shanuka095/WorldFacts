@@ -1,53 +1,72 @@
-import { useState, useEffect } from 'react';
-import { Routes, Route } from 'react-router-dom';
-import Header from './components/Header.jsx';
-import Home from './pages/Home.jsx';
-import CountryDetails from './pages/CountryDetails.jsx';
-import Login from './pages/Login.jsx';
-import Register from './pages/Register.jsx';
-import Profile from './pages/Profile.jsx';
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import Profile from './pages/Profile';
+import Header from './components/Header'; // Adjust path as needed
+import Login from './pages/Login'; // Adjust path as needed
+import Register from './pages/Register'; // Adjust path as needed
+import CountryDetails from './pages/CountryDetails'; // Adjust path as needed
+import Home from './pages/Home'; // Adjust path as needed
 
-export default function App() {
-  const [isDarkMode, setIsDarkMode] = useState(() => localStorage.getItem('darkMode') === 'true');
-  const [favorites, setFavorites] = useState(() => {
-    const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
-    return JSON.parse(localStorage.getItem(`favorites_${currentUser.email}`) || '[]');
-  });
+function App() {
+  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [favorites, setFavorites] = useState([]);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
+  // Check authentication status
   useEffect(() => {
-    localStorage.setItem('darkMode', isDarkMode);
-    if (isDarkMode) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-  }, [isDarkMode]);
+    const user = localStorage.getItem('currentUser');
+    setIsAuthenticated(!!user);
+  }, []);
 
-  useEffect(() => {
-    const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
-    localStorage.setItem(`favorites_${currentUser.email}`, JSON.stringify(favorites));
-  }, [favorites]);
-
-  const toggleDarkMode = () => setIsDarkMode(!isDarkMode);
-
-  const toggleFavorite = (countryName) => {
+  const toggleFavorite = (country) => {
     setFavorites((prev) =>
-      prev.includes(countryName)
-        ? prev.filter((name) => name !== countryName)
-        : [...prev, countryName]
+      prev.includes(country)
+        ? prev.filter((c) => c !== country)
+        : [...prev, country]
     );
   };
 
   return (
-    <div style={{ background: isDarkMode ? '#1F1B2E' : '#F9F5FF', minHeight: '100vh', color: isDarkMode ? '#E0DFFF' : '#2D1B4E' }}>
-      <Header isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} favorites={favorites} />
+    <Router>
+      <Header isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />
       <Routes>
-        <Route path="/" element={<Home isDarkMode={isDarkMode} favorites={favorites} toggleFavorite={toggleFavorite} />} />
-        <Route path="/country/:name" element={<CountryDetails isDarkMode={isDarkMode} favorites={favorites} toggleFavorite={toggleFavorite} />} />
-        <Route path="/login" element={<Login isDarkMode={isDarkMode} />} />
-        <Route path="/register" element={<Register isDarkMode={isDarkMode} />} />
-        <Route path="/profile" element={<Profile isDarkMode={isDarkMode} favorites={favorites} />} />
+        <Route path="/" element={<Login />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route
+          path="/home"
+          element={
+            isAuthenticated ? (
+              <Home isDarkMode={isDarkMode} favorites={favorites} toggleFavorite={toggleFavorite} />
+            ) : (
+              <Navigate to="/login" replace />
+            )
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            isAuthenticated ? (
+              <Profile isDarkMode={isDarkMode} favorites={favorites} toggleFavorite={toggleFavorite} />
+            ) : (
+              <Navigate to="/login" replace />
+            )
+          }
+        />
+        <Route
+          path="/country/:name"
+          element={
+            isAuthenticated ? (
+              <CountryDetails isDarkMode={isDarkMode} favorites={favorites} toggleFavorite={toggleFavorite} />
+            ) : (
+              <Navigate to="/login" replace />
+            )
+          }
+        />
+        <Route path="*" element={<Navigate to="/login" replace />} />
       </Routes>
-    </div>
+    </Router>
   );
 }
+
+export default App;
