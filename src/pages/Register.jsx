@@ -46,21 +46,21 @@ import { useState } from 'react';
      };
 
      return (
-       <div className="container mx-auto p-8 bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 min-h-screen animate-fadeInUp flex items-center justify-center">
-         <div className="bg-white dark:bg-gray-800 shadow-2xl rounded-2xl p-8 max-w-md w-full transform transition-all duration-500 hover:scale-105">
-           <h2 className="text-4xl font-extrabold text-[#000080] dark:text-[#0000b3] mb-6 tracking-tight text-center">Create Account</h2>
-           {error && <p className="text-red-500 text-center mb-4 animate-pulse">{error}</p>}
-           <form onSubmit={handleRegister} className="flex flex-col gap-6">
+       <div className="container mx-auto p-6 bg-gray-50 dark:bg-gray-900 min-h-screen flex items-center justify-center">
+         <div className="bg-white dark:bg-gray-800 shadow-lg rounded-lg p-8 max-w-md w-full transition-all duration-300 hover:shadow-xl">
+           <h2 className="text-3xl font-bold text-[#20B2AA] dark:text-[#1A8E88] mb-6 text-center">Create Account</h2>
+           {error && <p className="text-red-500 text-center mb-4">{error}</p>}
+           <form onSubmit={handleRegister} className="flex flex-col gap-4">
              <div className="relative">
                <input
                  type="text"
                  placeholder="First Name"
                  value={firstName}
                  onChange={(e) => setFirstName(e.target.value)}
-                 className="border-2 border-[#000080] dark:border-[#0000b3] bg-gradient-to-r from-white to-gray-50 dark:from-gray-800 dark:to-gray-700 text-gray-900 dark:text-gray-100 p-4 rounded-xl w-full shadow-lg focus:outline-none focus:ring-4 focus:ring-[#000080]/50 dark:focus:ring-[#0000b3]/50 transition-all duration-500 focus:scale-105 transform"
+                 className="border border-[#20B2AA] dark:border-[#1A8E88] bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 p-3 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-[#20B2AA] dark:focus:ring-[#1A8E88] transition-all duration-300"
                  required
                />
-               <span className="absolute right-3 top-4 text-gray-500 dark:text-gray-300">👤</span>
+               <span className="absolute right-3 top-3 text-gray-500 dark:text-gray-400">👤</span>
              </div>
              <div className="relative">
                <input
@@ -68,10 +68,10 @@ import { useState } from 'react';
                  placeholder="Last Name"
                  value={lastName}
                  onChange={(e) => setLastName(e.target.value)}
-                 className="border-2 border-[#000080] dark:border-[#0000b3] bg-gradient-to-r from-white to-gray-50 dark:from-gray-800 dark:to-gray-700 text-gray-900 dark:text-gray-100 p-4 rounded-xl w-full shadow-lg focus:outline-none focus:ring-4 focus:ring-[#000080]/50 dark:focus:ring-[#0000b3]/50 transition-all duration-500 focus:scale-105 transform"
+                 className="border border-[#20B2AA] dark:border-[#1A8E88] bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 p-3 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-[#20B2AA] dark:focus:ring-[#1A8E88] transition-all duration-300"
                  required
                />
-               <span className="absolute right-3 top-4 text-gray-500 dark:text-gray-300">👤</span>
+               <span className="absolute right-3 top-3 text-gray-500 dark:text-gray-400">👤</span>
              </div>
              <div className="relative">
                <input
@@ -79,10 +79,10 @@ import { useState } from 'react';
                  placeholder="Email"
                  value={email}
                  onChange={(e) => setEmail(e.target.value)}
-                 className="border-2 border-[#000080] dark:border-[#0000b3] bg-gradient-to-r from-white to-gray-50 dark:from-gray-800 dark:to-gray-700 text-gray-900 dark:text-gray-100 p-4 rounded-xl w-full shadow-lg focus:outline-none focus:ring-4 focus:ring-[#000080]/50 dark:focus:ring-[#0000b3]/50 transition-all duration-500 focus:scale-105 transform"
+                 className="border border-[#20B2AA] dark:border-[#1A8E88] bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 p-3 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-[#20B2AA] dark:focus:ring-[#1A8E88] transition-all duration-300"
                  required
                />
-               <span className="absolute right-3 top-4 text-gray-500 dark:text-gray-300">📧</span>
+               <span className="absolute right-3 top-3 text-gray-500 dark:text-gray-400">📧</span>
              </div>
              <div className="relative">
                <input
@@ -90,10 +90,10 @@ import { useState } from 'react';
                  placeholder="Phone Number"
                  value={phone}
                  onChange={(e) => setPhone(e.target.value)}
-                 className="border-2 border-[#000080] dark:border-[#0000b3] bg-gradient-to-r from-white to-gray-50 dark:from-gray-800 dark:to-gray-700 text-gray-900 dark:text-gray-100 p-4 rounded-xl w-full shadow-lg focus:outline-none focus:ring-4 focus:ring-[#000080]/50 dark:focus:ring-[#0000b3]/50 transition-all duration-500 focus:scale-105 transform"
+                 className="border border-[#20B2AA] dark:border-[#1A8E88] bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 p-3 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-[#20B2AA] dark:focus:ring-[#1A8E88] transition-all duration-300"
                  required
                />
-               <span className="absolute right-3 top-4 text-gray-500 dark:text-gray-300">📞</span>
+               <span className="absolute right-3 top-3 text-gray-500 dark:text-gray-400">📞</span>
              </div>
              <div className="relative">
                <input
@@ -101,10 +101,10 @@ import { useState } from 'react';
                  placeholder="Password"
                  value={password}
                  onChange={(e) => setPassword(e.target.value)}
-                 className="border-2 border-[#000080] dark:border-[#0000b3] bg-gradient-to-r from-white to-gray-50 dark:from-gray-800 dark:to-gray-700 text-gray-900 dark:text-gray-100 p-4 rounded-xl w-full shadow-lg focus:outline-none focus:ring-4 focus:ring-[#000080]/50 dark:focus:ring-[#0000b3]/50 transition-all duration-500 focus:scale-105 transform"
+                 className="border border-[#20B2AA] dark:border-[#1A8E88] bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 p-3 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-[#20B2AA] dark:focus:ring-[#1A8E88] transition-all duration-300"
                  required
                />
-               <span className="absolute right-3 top-4 text-gray-500 dark:text-gray-300">🔒</span>
+               <span className="absolute right-3 top-3 text-gray-500 dark:text-gray-400">🔒</span>
              </div>
              <div className="relative">
                <input
@@ -112,29 +112,29 @@ import { useState } from 'react';
                  placeholder="Confirm Password"
                  value={confirmPassword}
                  onChange={(e) => setConfirmPassword(e.target.value)}
-                 className="border-2 border-[#000080] dark:border-[#0000b3] bg-gradient-to-r from-white to-gray-50 dark:from-gray-800 dark:to-gray-700 text-gray-900 dark:text-gray-100 p-4 rounded-xl w-full shadow-lg focus:outline-none focus:ring-4 focus:ring-[#000080]/50 dark:focus:ring-[#0000b3]/50 transition-all duration-500 focus:scale-105 transform"
+                 className="border border-[#20B2AA] dark:border-[#1A8E88] bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 p-3 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-[#20B2AA] dark:focus:ring-[#1A8E88] transition-all duration-300"
                  required
                />
-               <span className="absolute right-3 top-4 text-gray-500 dark:text-gray-300">🔒</span>
+               <span className="absolute right-3 top-3 text-gray-500 dark:text-gray-400">🔒</span>
              </div>
              <div className="relative">
                <input
                  type="file"
                  accept="image/*"
                  onChange={(e) => setProfilePic(e.target.files[0])}
-                 className="border-2 border-[#000080] dark:border-[#0000b3] bg-gradient-to-r from-white to-gray-50 dark:from-gray-800 dark:to-gray-700 text-gray-900 dark:text-gray-100 p-4 rounded-xl w-full shadow-lg focus:outline-none focus:ring-4 focus:ring-[#000080]/50 dark:focus:ring-[#0000b3]/50 transition-all duration-500 focus:scale-105 transform"
+                 className="border border-[#20B2AA] dark:border-[#1A8E88] bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 p-3 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-[#20B2AA] dark:focus:ring-[#1A8E88] transition-all duration-300"
                />
-               <span className="absolute right-3 top-4 text-gray-500 dark:text-gray-300">🖼️</span>
+               <span className="absolute right-3 top-3 text-gray-500 dark:text-gray-400">🖼️</span>
              </div>
              <button
                type="submit"
-               className="bg-[#000080] dark:bg-[#0000b3] text-white p-4 rounded-xl shadow-lg hover:bg-[#000066] dark:hover:bg-[#000099] transition-all duration-300 hover:scale-105 transform"
+               className="bg-[#20B2AA] dark:bg-[#1A8E88] text-white p-3 rounded-lg hover:bg-[#1A8E88] dark:hover:bg-[#20B2AA] transition-all duration-300"
              >
                Sign Up
              </button>
            </form>
-           <p className="mt-6 text-gray-700 dark:text-gray-300 text-center">
-             Already have an account? <Link to="/login" className="text-[#000080] dark:text-[#0000b3] hover:text-[#000066] dark:hover:text-[#000099] transition-all duration-300">Login</Link>
+           <p className="mt-4 text-gray-600 dark:text-gray-400 text-center">
+             Already have an account? <Link to="/login" className="text-[#20B2AA] dark:text-[#1A8E88] hover:text-[#1A8E88] dark:hover:text-[#20B2AA] transition-all duration-300">Login</Link>
            </p>
          </div>
        </div>
