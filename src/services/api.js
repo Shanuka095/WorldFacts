@@ -1,45 +1,51 @@
-const BASE_URL = 'https://restcountries.com/v3.1';
-
-export const getAllCountries = async () => {
-  try {
-    const response = await fetch(`${BASE_URL}/all`);
-    if (!response.ok) throw new Error('Failed to fetch countries');
-    return await response.json();
-  } catch (error) {
-    console.error('Error fetching all countries:', error);
-    throw error;
+export async function getAllCountries() {
+    try {
+      const response = await fetch('https://restcountries.com/v3.1/all');
+      if (!response.ok) throw new Error('Failed to fetch countries');
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error('Error in getAllCountries:', error);
+      throw error;
+    }
   }
-};
-
-export const getCountriesByRegion = async (region) => {
-  try {
-    const response = await fetch(`${BASE_URL}/region/${region}`);
-    if (!response.ok) throw new Error(`Failed to fetch countries for region: ${region}`);
-    return await response.json();
-  } catch (error) {
-    console.error(`Error fetching countries by region (${region}):`, error);
-    throw error;
+  
+  export async function getCountriesByRegion(region) {
+    try {
+      const response = await fetch(`https://restcountries.com/v3.1/region/${region}`);
+      if (!response.ok) throw new Error(`Failed to fetch countries for region: ${region}`);
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error(`Error in getCountriesByRegion (${region}):`, error);
+      throw error;
+    }
   }
-};
-
-export const getCountryByName = async (name) => {
-  try {
-    const response = await fetch(`${BASE_URL}/name/${encodeURIComponent(name)}?fullText=true`);
-    if (!response.ok) throw new Error(`Failed to fetch country: ${name}`);
-    return await response.json();
-  } catch (error) {
-    console.error(`Error fetching country by name (${name}):`, error);
-    throw error;
+  
+  export async function getCountryByName(name) {
+    try {
+      const response = await fetch(`https://restcountries.com/v3.1/name/${encodeURIComponent(name)}`);
+      if (!response.ok) {
+        console.warn(`No countries found for name: ${name}`);
+        return [];
+      }
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error(`Error in getCountryByName (${name}):`, error);
+      return [];
+    }
   }
-};
-
-export const getCountriesByLanguage = async (language) => {
-  try {
-    const response = await fetch(`${BASE_URL}/lang/${language}`);
-    if (!response.ok) throw new Error(`Failed to fetch countries for language: ${language}`);
-    return await response.json();
-  } catch (error) {
-    console.error(`Error fetching countries by language (${language}):`, error);
-    throw error;
+  
+  export async function getCountriesByLanguage(language) {
+    try {
+      const allCountries = await getAllCountries();
+      const filteredCountries = allCountries.filter(country =>
+        country.languages && Object.values(country.languages).map(lang => lang.toLowerCase()).includes(language.toLowerCase())
+      );
+      return filteredCountries;
+    } catch (error) {
+      console.error(`Error in getCountriesByLanguage (${language}):`, error);
+      throw error;
+    }
   }
-};
