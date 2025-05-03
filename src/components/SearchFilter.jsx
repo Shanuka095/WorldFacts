@@ -1,21 +1,25 @@
-export default function SearchFilter({ searchTerm, setSearchTerm, region, setRegion, language, setLanguage }) {
+export default function SearchFilter({ isDarkMode, searchTerm, setSearchTerm, region, setRegion, language, setLanguage }) {
   const regions = ['Africa', 'Americas', 'Asia', 'Europe', 'Oceania'];
   const languages = ['English', 'Spanish', 'French', 'German', 'Chinese', 'Arabic'];
 
   return (
-    <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-8 animate-fadeIn">
+    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '1.5rem', marginBottom: '2.5rem', animation: 'slideInUp 0.5s ease', flexWrap: 'wrap' }}>
       <input
         type="text"
         placeholder="Search for a country..."
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
-        className="border border-[#20B2AA] dark:border-[#1A8E88] bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 p-3 rounded-lg w-full md:w-1/3 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#20B2AA] dark:focus:ring-[#1A8E88] transition-all duration-300 animate-slideInLeft"
+        style={{ border: `1px solid ${isDarkMode ? '#4B0E9A' : '#6D16DF'}`, background: isDarkMode ? '#2A2640' : '#fff', color: isDarkMode ? '#E0DFFF' : '#2D1B4E', padding: '0.75rem', borderRadius: '0.5rem', flex: '1 1 300px', maxWidth: '24rem', boxShadow: '0 4px 8px rgba(0,0,0,0.1)', outline: 'none', transition: 'all 0.3s ease', fontSize: '1rem' }}
+        onFocus={(e) => e.target.style.boxShadow = `0 0 0 3px ${isDarkMode ? '#4B0E9A66' : '#6D16DF66'}`}
+        onBlur={(e) => e.target.style.boxShadow = '0 4px 8px rgba(0,0,0,0.1)'}
       />
-      <div className="flex gap-4 w-full md:w-auto">
+      <div style={{ display: 'flex', gap: '1.5rem', flex: '1 1 auto', maxWidth: '24rem', justifyContent: 'flex-end' }}>
         <select
           value={region}
           onChange={(e) => setRegion(e.target.value)}
-          className="border border-[#20B2AA] dark:border-[#1A8E88] bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 p-3 rounded-lg w-full md:w-40 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#20B2AA] dark:focus:ring-[#1A8E88] transition-all duration-300 animate-slideInRight"
+          style={{ border: `1px solid ${isDarkMode ? '#4B0E9A' : '#6D16DF'}`, background: isDarkMode ? '#2A2640' : '#fff', color: isDarkMode ? '#E0DFFF' : '#2D1B4E', padding: '0.75rem', borderRadius: '0.5rem', flex: '1', boxShadow: '0 4px 8px rgba(0,0,0,0.1)', outline: 'none', transition: 'all 0.3s ease', fontSize: '1rem' }}
+          onFocus={(e) => e.target.style.boxShadow = `0 0 0 3px ${isDarkMode ? '#4B0E9A66' : '#6D16DF66'}`}
+          onBlur={(e) => e.target.style.boxShadow = '0 4px 8px rgba(0,0,0,0.1)'}
         >
           <option value="">Filter by Region</option>
           {regions.map((reg) => <option key={reg} value={reg}>{reg}</option>)}
@@ -23,12 +27,22 @@ export default function SearchFilter({ searchTerm, setSearchTerm, region, setReg
         <select
           value={language}
           onChange={(e) => setLanguage(e.target.value)}
-          className="border border-[#20B2AA] dark:border-[#1A8E88] bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 p-3 rounded-lg w-full md:w-40 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#20B2AA] dark:focus:ring-[#1A8E88] transition-all duration-300 animate-slideInRight"
+          style={{ border: `1px solid ${isDarkMode ? '#4B0E9A' : '#6D16DF'}`, background: isDarkMode ? '#2A2640' : '#fff', color: isDarkMode ? '#E0DFFF' : '#2D1B4E', padding: '0.75rem', borderRadius: '0.5rem', flex: '1', boxShadow: '0 4px 8px rgba(0,0,0,0.1)', outline: 'none', transition: 'all 0.3s ease', fontSize: '1rem' }}
+          onFocus={(e) => e.target.style.boxShadow = `0 0 0 3px ${isDarkMode ? '#4B0E9A66' : '#6D16DF66'}`}
+          onBlur={(e) => e.target.style.boxShadow = '0 4px 8px rgba(0,0,0,0.1)'}
         >
           <option value="">Filter by Language</option>
           {languages.map((lang) => <option key={lang} value={lang}>{lang}</option>)}
         </select>
       </div>
+      <style>
+        {`
+          @keyframes slideInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+          }
+        `}
+      </style>
     </div>
   );
 }
