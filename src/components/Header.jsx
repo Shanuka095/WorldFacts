@@ -1,5 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom';
-   export default function Header() {
+
+   export default function Header({ isDarkMode, toggleDarkMode }) {
      const navigate = useNavigate();
      let currentUser = {};
      try {
@@ -22,6 +23,13 @@ import { Link, useNavigate } from 'react-router-dom';
                <Link to="/" className="text-xl font-semibold hover:text-gray-100 transition-all duration-300 hover:scale-110 hover:rotate-2 transform">Home</Link>
                <Link to="/about" className="text-xl font-semibold hover:text-gray-100 transition-all duration-300 hover:scale-110 hover:rotate-2 transform">About</Link>
              </nav>
+             <button
+               onClick={toggleDarkMode}
+               className="text-2xl transition-all duration-500 transform hover:scale-110 hover:rotate-45"
+               style={{ animation: isDarkMode ? 'spinMoon 0.5s ease-in-out' : 'spinSun 0.5s ease-in-out' }}
+             >
+               {isDarkMode ? '🌙' : '☀️'}
+             </button>
              {currentUser.email ? (
                <div className="flex items-center gap-4">
                  <span className="text-xl font-semibold">{currentUser.fullName}</span>
