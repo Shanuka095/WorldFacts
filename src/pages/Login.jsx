@@ -1,77 +1,103 @@
 import { useState } from 'react';
-   import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
-   export default function Login() {
-     const [email, setEmail] = useState('');
-     const [password, setPassword] = useState('');
-     const [showPassword, setShowPassword] = useState(false);
-     const [error, setError] = useState('');
-     const navigate = useNavigate();
+export default function Login({ isDarkMode }) {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
 
-     const handleLogin = (e) => {
-       e.preventDefault();
-       setError('');
-       const users = JSON.parse(localStorage.getItem('users') || '[]');
-       const user = users.find(user => user.email === email && user.password === password);
-       if (user) {
-         localStorage.setItem('currentUser', JSON.stringify({
-           email: user.email,
-           fullName: `${user.firstName} ${user.lastName}`,
-           phone: user.phone,
-           profilePic: user.profilePic,
-           registrationDate: user.registrationDate
-         }));
-         navigate('/');
-       } else {
-         setError('Invalid email or password!');
-       }
-     };
+  const handleLogin = (e) => {
+    e.preventDefault();
+    setError('');
+    const users = JSON.parse(localStorage.getItem('users') || '[]');
+    const user = users.find(user => user.email === email && user.password === password);
+    if (user) {
+      localStorage.setItem('currentUser', JSON.stringify({
+        email: user.email,
+        fullName: `${user.firstName} ${user.lastName}`,
+        phone: user.phone,
+        profilePic: user.profilePic,
+        registrationDate: user.registrationDate
+      }));
+      navigate('/');
+    } else {
+      setError('Invalid email or password!');
+    }
+  };
 
-     return (
-       <div className="container mx-auto p-6 bg-gray-50 dark:bg-gray-900 min-h-screen flex items-center justify-center">
-         <div className="bg-white dark:bg-gray-800 shadow-lg rounded-lg p-8 max-w-md w-full transition-all duration-300 hover:shadow-xl">
-           <h2 className="text-3xl font-bold text-[#20B2AA] dark:text-[#1A8E88] mb-6 text-center">Welcome Back</h2>
-           {error && <p className="text-red-500 text-center mb-4">{error}</p>}
-           <form onSubmit={handleLogin} className="flex flex-col gap-4">
-             <div className="relative">
-               <input
-                 type="email"
-                 placeholder="Email"
-                 value={email}
-                 onChange={(e) => setEmail(e.target.value)}
-                 className="border border-[#20B2AA] dark:border-[#1A8E88] bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 p-3 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-[#20B2AA] dark:focus:ring-[#1A8E88] transition-all duration-300"
-                 required
-               />
-               <span className="absolute right-3 top-3 text-gray-500 dark:text-gray-400">📧</span>
-             </div>
-             <div className="relative">
-               <input
-                 type={showPassword ? 'text' : 'password'}
-                 placeholder="Password"
-                 value={password}
-                 onChange={(e) => setPassword(e.target.value)}
-                 className="border border-[#20B2AA] dark:border-[#1A8E88] bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 p-3 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-[#20B2AA] dark:focus:ring-[#1A8E88] transition-all duration-300"
-                 required
-               />
-               <button
-                 type="button"
-                 onClick={() => setShowPassword(!showPassword)}
-                 className="absolute right-3 top-3 text-gray-500 dark:text-gray-400"
-               >
-                 {showPassword ? '🙈' : '👁️'}
-               </button>
-             </div>
-             <button
-               type="submit"
-               className="bg-[#20B2AA] dark:bg-[#1A8E88] text-white p-3 rounded-lg hover:bg-[#1A8E88] dark:hover:bg-[#20B2AA] transition-all duration-300"
-             >
-               Sign In
-             </button>
-           </form>
-           <p className="mt-4 text-gray-600 dark:text-gray-400 text-center">
-             Don't have an account? <Link to="/register" className="text-[#20B2AA] dark:text-[#1A8E88] hover:text-[#1A8E88] dark:hover:text-[#20B2AA] transition-all duration-300">Register</Link>
-           </p>
-         </div>
-       </div>
-     );
-   }
+  return (
+    <div style={{ position: 'relative', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: `linear-gradient(135deg, ${isDarkMode ? '#1F1B2E' : '#F9F5FF'}, ${isDarkMode ? '#2A2640' : '#E6E0FA'})`, overflow: 'hidden' }}>
+      <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', background: `linear-gradient(45deg, ${isDarkMode ? '#4B0E9A33' : '#6D16DF33'}, transparent)`, animation: 'flagWave 12s infinite ease-in-out', zIndex: 0, filter: 'blur(8px)' }}></div>
+      <div style={{ background: isDarkMode ? '#2A2640' : '#fff', padding: '2.5rem', borderRadius: '1rem', boxShadow: '0 8px 24px rgba(0,0,0,0.2)', maxWidth: '32rem', width: '100%', zIndex: 1, animation: 'fadeInUp 0.5s ease' }}>
+        <h2 style={{ fontSize: '2rem', fontWeight: '700', color: isDarkMode ? '#A678F2' : '#6D16DF', marginBottom: '1.5rem', textAlign: 'center', textShadow: '0 2px 4px rgba(0,0,0,0.2)' }}>Welcome Back</h2>
+        {error && <p style={{ color: '#ef4444', textAlign: 'center', marginBottom: '1rem', animation: 'pulse 1s ease' }}>{error}</p>}
+        <form onSubmit={handleLogin} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+          <div style={{ position: 'relative' }}>
+            <input
+              type="email"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              style={{ border: `1px solid ${isDarkMode ? '#4B0E9A' : '#6D16DF'}`, background: isDarkMode ? '#3B3555' : '#fff', color: isDarkMode ? '#E0DFFF' : '#2D1B4E', padding: '0.75rem 2.5rem 0.75rem 0.75rem', borderRadius: '0.5rem', width: '100%', outline: 'none', transition: 'all 0.3s ease', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}
+              required
+              onFocus={(e) => e.target.style.boxShadow = `0 0 0 3px ${isDarkMode ? '#4B0E9A66' : '#6D16DF66'}`}
+              onBlur={(e) => e.target.style.boxShadow = '0 2px 4px rgba(0,0,0,0.1)'}
+            />
+            <span style={{ position: 'absolute', right: '0.75rem', top: '0.75rem', color: isDarkMode ? '#A678F2' : '#6D16DF' }}>📧</span>
+          </div>
+          <div style={{ position: 'relative' }}>
+            <input
+              type={showPassword ? 'text' : 'password'}
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              style={{ border: `1px solid ${isDarkMode ? '#4B0E9A' : '#6D16DF'}`, background: isDarkMode ? '#3B3555' : '#fff', color: isDarkMode ? '#E0DFFF' : '#2D1B4E', padding: '0.75rem 2.5rem 0.75rem 0.75rem', borderRadius: '0.5rem', width: '100%', outline: 'none', transition: 'all 0.3s ease', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}
+              required
+              onFocus={(e) => e.target.style.boxShadow = `0 0 0 3px ${isDarkMode ? '#4B0E9A66' : '#6D16DF66'}`}
+              onBlur={(e) => e.target.style.boxShadow = '0 2px 4px rgba(0,0,0,0.1)'}
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              style={{ position: 'absolute', right: '0.75rem', top: '0.75rem', background: 'none', border: 'none', color: isDarkMode ? '#A678F2' : '#6D16DF', cursor: 'pointer', transition: 'transform 0.3s ease', transform: 'scale(1)' }}
+              onMouseEnter={(e) => e.target.style.transform = 'scale(1.2)'}
+              onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
+            >
+              {showPassword ? '🙈' : '👁️'}
+            </button>
+          </div>
+          <button
+            type="submit"
+            style={{ background: isDarkMode ? '#4B0E9A' : '#6D16DF', color: '#fff', padding: '0.75rem', borderRadius: '0.5rem', fontWeight: '600', border: 'none', cursor: 'pointer', transition: 'all 0.3s ease', transform: 'scale(1)', boxShadow: '0 4px 8px rgba(0,0,0,0.2)' }}
+            onMouseEnter={(e) => e.target.style.transform = 'scale(1.05)'}
+            onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
+          >
+            Login
+          </button>
+        </form>
+        <p style={{ textAlign: 'center', marginTop: '1.5rem', color: isDarkMode ? '#E0DFFF' : '#2D1B4E' }}>
+          Don't have an account?{' '}
+          <Link to="/register" style={{ color: isDarkMode ? '#A678F2' : '#6D16DF', textDecoration: 'none', fontWeight: '600', transition: 'color 0.3s ease' }} onMouseEnter={(e) => e.target.style.color = isDarkMode ? '#7B46D3' : '#4B0E9A'} onMouseLeave={(e) => e.target.style.color = isDarkMode ? '#A678F2' : '#6D16DF'}>Register</Link>
+        </p>
+      </div>
+      <style>
+        {`
+          @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+          }
+          @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+          }
+          @keyframes flagWave {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+          }
+        `}
+      </style>
+    </div>
+  );
+}
