@@ -4,21 +4,31 @@ export default function CountryCard({ country, toggleFavorite, isFavorite, isDar
   const encodedCountryName = encodeURIComponent(country.name.common);
 
   return (
-    <div style={{ background: isDarkMode ? '#2A2640' : '#fff', boxShadow: `0 6px 12px ${isDarkMode ? '#4B0E9A33' : '#6D16DF33'}`, borderRadius: '0.75rem', padding: '1.5rem', border: `1px solid ${isDarkMode ? '#4B0E9A' : '#6D16DF'}`, transition: 'all 0.3s ease', transform: 'scale(1)', animation: 'fadeInUp 0.5s ease', position: 'relative', overflow: 'hidden' }}>
-      <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', background: `linear-gradient(45deg, ${isDarkMode ? '#4B0E9A33' : '#6D16DF33'}, transparent)`, opacity: 0.2, zIndex: 0 }}></div>
-      <Link to={`/country/${encodedCountryName}`} style={{ textDecoration: 'none', zIndex: 1 }}>
-        <img src={country.flags.png} alt={country.name.common} style={{ width: '100%', height: '10rem', objectFit: 'cover', borderRadius: '0.5rem', marginBottom: '1rem', boxShadow: `0 4px 8px ${isDarkMode ? '#4B0E9A33' : '#6D16DF33'}`, transition: 'transform 0.3s ease' }} onMouseEnter={(e) => e.target.style.transform = 'scale(1.02)'} onMouseLeave={(e) => e.target.style.transform = 'scale(1)'} />
+    <div style={{ background: isDarkMode ? '#2A2640' : '#fff', boxShadow: `0 6px 12px ${isDarkMode ? '#450F8A33' : '#6015C333'}`, borderRadius: '0.75rem', padding: '1.5rem', border: `1px solid ${isDarkMode ? '#450F8A' : '#6015C3'}`, transition: 'all 0.3s ease', animation: 'fadeInUp 0.5s ease', position: 'relative', overflow: 'hidden' }}>
+      <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', background: `linear-gradient(45deg, ${isDarkMode ? '#450F8A33' : '#6015C333'}, transparent)`, opacity: 0.2, zIndex: 0 }}></div>
+      <Link
+        to={`/country/${encodedCountryName}`}
+        style={{ textDecoration: 'none', zIndex: 10, display: 'block', pointerEvents: 'auto', position: 'relative' }}
+      >
+        <img
+          src={country.flags.png}
+          alt={country.name.common}
+          style={{ width: '100%', height: '10rem', objectFit: 'cover', borderRadius: '0.5rem', marginBottom: '1rem', boxShadow: `0 4px 8px ${isDarkMode ? '#450F8A33' : '#6015C333'}`, transition: 'transform 0.3s ease' }}
+          onMouseEnter={(e) => e.target.style.transform = 'scale(1.02)'}
+          onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
+        />
         <h3 style={{ fontSize: '1.5rem', fontWeight: '700', color: isDarkMode ? '#E0DFFF' : '#2D1B4E', marginBottom: '0.75rem', textShadow: '0 1px 2px rgba(0,0,0,0.2)' }}>{country.name.common}</h3>
-        <p style={{ fontSize: '0.875rem', color: isDarkMode ? '#A678F2' : '#6D16DF', marginBottom: '0.25rem' }}><strong>Capital:</strong> {country.capital?.[0] || 'N/A'}</p>
-        <p style={{ fontSize: '0.875rem', color: isDarkMode ? '#A678F2' : '#6D16DF', marginBottom: '0.25rem' }}><strong>Population:</strong> {country.population.toLocaleString()}</p>
-        <p style={{ fontSize: '0.875rem', color: isDarkMode ? '#A678F2' : '#6D16DF' }}><strong>Region:</strong> {country.region}</p>
+        <p style={{ fontSize: '0.875rem', color: isDarkMode ? '#9577E6' : '#6015C3', marginBottom: '0.25rem' }}><strong>Capital:</strong> {country.capital?.[0] || 'N/A'}</p>
+        <p style={{ fontSize: '0.875rem', color: isDarkMode ? '#9577E6' : '#6015C3', marginBottom: '0.25rem' }}><strong>Population:</strong> {country.population.toLocaleString()}</p>
+        <p style={{ fontSize: '0.875rem', color: isDarkMode ? '#9577E6' : '#6015C3' }}><strong>Region:</strong> {country.region}</p>
       </Link>
       <button
         onClick={(e) => {
-          e.preventDefault();
+          e.stopPropagation(); // Prevent click from bubbling to Link
+          console.log(`Toggling favorite for ${country.name.common}`);
           toggleFavorite(country.name.common);
         }}
-        style={{ marginTop: '1rem', color: isFavorite ? (isDarkMode ? '#A678F2' : '#6D16DF') : (isDarkMode ? '#7B46D3' : '#A678F2'), transition: 'all 0.3s ease', transform: 'scale(1)', zIndex: 1 }}
+        style={{ marginTop: '1rem', color: isFavorite ? (isDarkMode ? '#9577E6' : '#6015C3') : (isDarkMode ? '#6A4ABF' : '#9577E6'), transition: 'all 0.3s ease', transform: 'scale(1)', zIndex: 10, background: 'transparent', border: 'none', cursor: 'pointer', position: 'relative' }}
         onMouseEnter={(e) => e.target.style.transform = 'scale(1.1)'}
         onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
       >
