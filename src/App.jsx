@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
    import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
    import Header from './components/Header.jsx';
    import Home from './pages/Home.jsx';
@@ -6,6 +6,7 @@ import { useState } from 'react';
    import About from './pages/About.jsx';
    import Login from './pages/Login.jsx';
    import Register from './pages/Register.jsx';
+   import Profile from './pages/Profile.jsx';
 
    export default function App() {
      let currentUser = {};
@@ -18,14 +19,36 @@ import { useState } from 'react';
      }
 
      const [isDarkMode, setIsDarkMode] = useState(() => {
-       return localStorage.getItem('darkMode') === 'true';
+       const savedMode = localStorage.getItem('darkMode');
+       return savedMode ? JSON.parse(savedMode) : false;
      });
 
+     const [favorites, setFavorites] = useState(() => {
+       const users = JSON.parse(localStorage.getItem('users') || '[]');
+       const user = users.find(user => user.email === currentUser.email);
+       return user ? user.favorites || [] : [];
+     });
+
+     useEffect(() => {
+       localStorage.setItem('darkMode', JSON.stringify(isDarkMode));
+     }, [isDarkMode]);
+
      const toggleDarkMode = () => {
-       setIsDarkMode((prev) => {
-         const newMode = !prev;
-         localStorage.setItem('darkMode', newMode);
-         return newMode;
+       setIsDarkMode((prev) => !prev);
+     };
+
+     const toggleFavorite = (countryName) => {
+       setFavorites((prev) => {
+         const newFavorites = prev.includes(countryName)
+           ? prev.filter(name => name !== countryName)
+           : [...prev, countryName];
+         const users = JSON.parse(localStorage.getItem('users') || '[]');
+         const userIndex = users.findIndex(user => user.email === currentUser.email);
+         if (userIndex !== -1) {
+           users[userIndex].favorites = newFavorites;
+           localStorage.setItem('users', JSON.stringify(users));
+         }
+         return newFavorites;
        });
      };
 
@@ -37,7 +60,8 @@ import { useState } from 'react';
              <Route path="/login" element={<Login />} />
              <Route path="/register" element={<Register />} />
              <Route path="/about" element={<About />} />
-             <Route path="/" element={currentUser.email ? <Home /> : <Navigate to="/login" />} />
+             <Route path="/profile" element={currentUser.email ? <Profile favorites={favorites} /> : <Navigate to="/login" />} />
+             <Route path="/" element={currentUser.email ? <Home favorites={favorites} toggleFavorite={toggleFavorite} /> : <Navigate to="/login" />} />
              <Route path="/country/:name" element={currentUser.email ? <CountryDetails /> : <Navigate to="/login" />} />
            </Routes>
          </div>
