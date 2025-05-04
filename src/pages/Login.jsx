@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 
-export default function Login({ isDarkMode }) {
+export default function Login({ isDarkMode, setIsAuthenticated }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -34,7 +34,8 @@ export default function Login({ isDarkMode }) {
         profilePic: user.profilePic,
         registrationDate: user.registrationDate
       }));
-      navigate('/');
+      setIsAuthenticated(true);
+      navigate('/home');
     } else {
       setError('Invalid email or password');
     }
@@ -105,7 +106,7 @@ export default function Login({ isDarkMode }) {
           </div>
           <button
             type="submit"
-            style={{ background: `linear-gradient(45deg, ${isDarkMode ? '#6A4ABF' : '#9577E6'}, ${isDarkMode ? '#4B0E9A' : '#6D16DF'})`, color: '#FFFFFF', padding: '0.75rem', borderRadius: '0.5rem', fontWeight: '600', border: 'none', cursor: 'pointer', transition: 'all 0.3s ease', transform: 'scale(1)', boxShadow: `0 4px 12px ${isDarkMode ? '#6A4ABF66' : '#9577E666'}` }}
+            style={{ background: `linear-gradient(45deg, ${isDarkMode ? '#6A4ABF' : '#9577E6'}, ${isDarkMode ? '#4B0E9A' : '#6D16DF'})`, color: '#FFFFFF', padding: '0.75rem', borderRadius: '0.5rem', fontWeight: '600', border: 'none', cursor: 'pointer', transition: 'all 0.3s ease', transform: 'scale(1)', boxShadow: `0 4px 12px ${isDarkMode ? '#6A4ABF66' : '#9577E633'}` }}
             onMouseEnter={(e) => e.target.style.transform = 'scale(1.05)'}
             onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
           >
@@ -116,9 +117,9 @@ export default function Login({ isDarkMode }) {
           Don't have an account?{' '}
           <Link
             to="/register"
-            style={{ color: isDarkMode ? '#FFFFFF' : '#6D16DF', textDecoration: 'none', fontWeight: '600', transition: 'color 0.3s ease' }}
-            onMouseEnter={(e) => e.target.style.color = isDarkMode ? '#9577E6' : '#4B0E9A'}
-            onMouseLeave={(e) => e.target.style.color = isDarkMode ? '#FFFFFF' : '#6D16DF'}
+            style={{ color: isDarkMode ? '#9577E6' : '#6D16DF', textDecoration: 'none', fontWeight: '600', transition: 'color 0.3s ease' }}
+            onMouseEnter={(e) => e.target.style.color = isDarkMode ? '#FFFFFF' : '#4B0E9A'}
+            onMouseLeave={(e) => e.target.style.color = isDarkMode ? '#9577E6' : '#6D16DF'}
           >
             Register
           </Link>
