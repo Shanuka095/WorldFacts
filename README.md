@@ -1,80 +1,89 @@
 🌍 WorldFacts
-Welcome to WorldFacts, a dynamic web application that lets you explore detailed information about countries worldwide. Search, filter, and save your favorite countries with an intuitive and responsive interface.
+Explore Now: https://world-facts.vercel.app
+Discover the world with WorldFacts – your gateway to country insights!
+
+WorldFacts is a vibrant, user-friendly web app that lets you explore detailed information about countries worldwide. Search, filter, and save your favorite countries with a sleek, responsive interface.
 🚀 Deployment
-The application is live and accessible at:
-WorldFacts on Vercel
+The application is live at:WorldFacts on Vercel
 Share this link with friends to showcase your project!
 ✨ Features
 🔐 User Authentication
 
-Register: Create a new account to personalize your experience.
-Login: Access your account with existing credentials.
-Local Storage: User data is stored in the browser’s localStorage for persistence (demo purposes).
+Register: Create a new account to personalize your experience.  
+Login: Access your account with existing credentials.  
+Local Storage: Persists user data in localStorage (demo purposes).
 
 🌎 Country Exploration
 
-Browse Countries: View a list of all countries with key details (flag, population, capital).
-Search: Find countries by name using real-time search.
-Filter: Narrow down countries by region or language.
-Detailed View: Dive into comprehensive country profiles.
+Browse Countries: View all countries with flags, population, and capitals.  
+Search: Find countries instantly by name.  
+Filter: Sort by region or language.  
+Detailed View: Explore in-depth country profiles.
 
 📍 Detailed Country View
 
-Official Info: See flags, official names, and capitals.
-Stats: Explore population, area, currencies, and languages.
-Interactive Map: View the country’s location on a map (powered by Leaflet).
-Time Display: Compare local time with the country’s time using a real-time clock.
+Official Info: Flags, official names, and capitals.  
+Stats: Population, area, currencies, languages.  
+Interactive Map: Locate countries with React-Leaflet.  
+Live Clock: Compare local and country time.
 
 ❤️ User Preferences
 
-Favorites: Save countries to a favorites list.
-Quick Access: Toggle between all countries and your favorites.
-Dark Mode: Switch between light and dark themes for better usability.
+Favorites: Save and manage favorite countries.  
+Quick Toggle: Switch between all countries and favorites.  
+Dark Mode: Seamless light/dark theme switching.
 
 🛠️ Tech Stack
+
+
+
+Category
+Tools
+
+
+
 Frontend
+React 18, React Router 6, Tailwind CSS 3, Framer Motion, React-Leaflet, React Clock
 
-React 18: Core framework for building the UI.
-React Router 6: Seamless navigation between pages.
-Tailwind CSS 3: Modern, utility-first styling.
-Framer Motion: Smooth animations and transitions.
-React-Leaflet: Interactive maps for country locations.
-React Clock: Real-time clock for time zone display.
 
-Development Tools
+Development
+Vite, Jest, React Testing Library, ESLint
 
-Vite: Fast build tool and development server.
-Jest & React Testing Library: Unit testing for components.
-ESLint: Code quality and consistency.
-Vercel: Hosting and automatic deployments.
 
-Data Storage
+Storage
+Browser localStorage (demo)
 
-LocalStorage: Stores user data and favorites (for demo purposes).
-REST Countries API: Fetches comprehensive country data.
+
+API
+REST Countries API
+
+
+Hosting
+Vercel
+
 
 📦 Setup & Installation
 
-Clone the Repository
+Clone the Repository  
 git clone https://github.com/Shanuka095/Rest-Countries-App-Frontend.git
 cd Rest-Countries-App-Frontend
 
 
-Install Dependencies
+Install Dependencies  
 npm install
 
 
-Start the Development Server
+Start the Development Server  
 npm run dev
 
-Open your browser and navigate to http://localhost:5173.
+Open http://localhost:5173 in your browser.
 
-Building for Production
+Build for Production  
 npm run build
 
-The build artifacts will be stored in the dist/ directory.
+Artifacts are stored in dist/.
 
-Running Tests
+Run Tests  
 npm test
 
 
@@ -82,89 +91,89 @@ npm test
 📂 Project Structure
 Rest-Countries-App-Frontend/
 ├── src/
-│   ├── components/              # Reusable UI components
-│   │   ├── CountryCard.jsx      # Card for country summaries
-│   │   ├── SearchFilter.jsx     # Search and filter controls
+│   ├── components/              # UI components
+│   │   ├── CountryCard.jsx      # Country summary card
+│   │   ├── SearchFilter.jsx     # Search and filter UI
 │   │   ├── Header.jsx           # Navigation header
 │   │   ├── __tests__/           # Component tests
-│   ├── pages/                   # Main application pages
-│   │   ├── Home.jsx             # Country list page
-│   │   ├── CountryDetails.jsx   # Detailed country view
+│   ├── pages/                   # App pages
+│   │   ├── Home.jsx             # Country list
+│   │   ├── CountryDetails.jsx   # Country details
 │   │   ├── __tests__/           # Page tests
 │   ├── services/                # API services
-│   │   ├── api.js               # REST Countries API functions
-│   ├── __mocks__/               # Mock files for testing
+│   │   ├── api.js               # REST Countries API calls
+│   ├── __mocks__/               # Test mocks
 
 🌐 API Integration
-The app uses the REST Countries API with the following endpoints:
+The app leverages the REST Countries API with endpoints:
 
-getAllCountries(): Fetches all countries.
-getCountryByName(name): Searches countries by name.
-getCountriesByRegion(region): Filters countries by region.
-getCountryByCode(code): Retrieves a specific country by code.
+getAllCountries(): Fetch all countries.
+getCountryByName(name): Search by name.
+getCountriesByRegion(region): Filter by region.
+getCountryByCode(code): Get country by code.
 
-Environment variable:
+Environment Variable:  
 
-VITE_API_URL=https://restcountries.com/v3.1 (set in Vercel).
-
-📝 Technical Report
-Choice of API
-The REST Countries API was chosen for:
-
-Comprehensive Data: Includes flags, population, languages, timezones, and more.
-No Authentication: Freely accessible, simplifying development.
-Reliability: Stable with good uptime and fast responses.
-Documentation: Clear and predictable response structure.
-
-Challenges and Solutions
-
-Client-Side Authentication
-
-Challenge: Managing user authentication without a backend.
-Solution: Used localStorage to store user credentials and session data, suitable for a frontend-only demo.
-
-
-Responsive Design
-
-Challenge: Ensuring the app looks great on mobile and desktop.
-Solution: Leveraged Tailwind CSS for responsive layouts with media queries and flexbox.
-
-
-Time Zone Display
-
-Challenge: Showing accurate country time vs. local time.
-Solution: Used Intl.DateTimeFormat for timezone conversions and React Clock for real-time display.
-
-
-Efficient Filtering
-
-Challenge: Performant search and filter on a large dataset.
-Solution: Implemented client-side filtering with React state, caching the country list to reduce API calls.
-
-
-Testing Reliability
-
-Challenge: Testing components with API dependencies.
-Solution: Mocked API services using Jest to isolate components and ensure reliable tests.
-
-
-
-Future Improvements
-
-Add a backend for secure authentication and data storage.
-Implement advanced filters (e.g., population, area).
-Add country comparison and statistical charts.
-Support offline mode with service workers.
-Introduce multilingual UI support.
+VITE_API_URL=https://restcountries.com/v3.1 (configured in Vercel).
 
 📱 Mobile Access
-The app is fully responsive and works on mobile devices:
+Access WorldFacts on any device:  
 
-Open https://world-facts.vercel.app in your mobile browser (e.g., Chrome, Safari).
-Explore countries, search, and view details on the go.
-Share the link with friends for easy access on their devices.
+Open https://world-facts.vercel.app in your mobile browser (Chrome, Safari).  
+Enjoy a responsive design optimized for phones and tablets.
+
+📸 Screenshot
+Explore countries with an intuitive interface.
+📝 Technical Report
+Why REST Countries API?
+
+Rich Data: Flags, population, languages, timezones, and more.
+No Auth: Freely accessible, no API keys needed.
+Reliable: Stable with fast response times.
+Well-Documented: Easy-to-use endpoints.
+
+Challenges & Solutions
+
+Client-Side Authentication  
+
+Challenge: No backend for user management.  
+Solution: Used localStorage for session and credential storage (demo-friendly).
+
+
+Responsive Design  
+
+Challenge: Supporting mobile and desktop layouts.  
+Solution: Tailwind CSS with responsive utilities and media queries.
+
+
+Time Zone Handling  
+
+Challenge: Accurate time display for countries.  
+Solution: Intl.DateTimeFormat for conversions, React Clock for visuals.
+
+
+Efficient Filtering  
+
+Challenge: Fast search/filter on large datasets.  
+Solution: Client-side filtering with cached country data.
+
+
+Testing Dependencies  
+
+Challenge: Testing API-dependent components.  
+Solution: Jest mocks for API and localStorage.
+
+
+
+Future Enhancements
+
+Backend for secure authentication.
+Advanced filters (e.g., population, area).
+Country comparison and charts.
+Offline mode with service workers.
+Multilingual UI support.
 
 📜 License
-This project was developed as part of an academic assignment at SLIIT.
+Developed for an academic assignment at SLIIT.
 
-Built with ❤️ by Shanuka Induran
+Built with ❤️ by Shanuka InduranShare the app: world-facts.vercel.app
