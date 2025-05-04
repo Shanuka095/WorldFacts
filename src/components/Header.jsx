@@ -3,7 +3,7 @@ import { useState } from 'react';
 import logoLight from '../assets/WorldFacts2.png';
 import logoDark from '../assets/WorldFacts.png';
 
-export default function Header({ isDarkMode, toggleDarkMode, favorites }) {
+export default function Header({ isDarkMode, toggleTheme, favorites, setIsAuthenticated }) {
   const navigate = useNavigate();
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [showFavorites, setShowFavorites] = useState(false);
@@ -21,19 +21,20 @@ export default function Header({ isDarkMode, toggleDarkMode, favorites }) {
 
   const handleLogout = () => {
     localStorage.removeItem('currentUser');
+    setIsAuthenticated(false);
     navigate('/login');
   };
 
   const handleFavoritesToggle = () => {
     setIsFavoriteAnimating(true);
     setShowFavorites(!showFavorites);
-    navigate('/', { state: { showFavorites: !showFavorites } });
+    navigate('/home', { state: { showFavorites: !showFavorites } });
     setTimeout(() => setIsFavoriteAnimating(false), 300);
   };
 
   const handleDarkModeToggle = () => {
     setIsDarkModeAnimating(true);
-    toggleDarkMode();
+    toggleTheme();
     setTimeout(() => setIsDarkModeAnimating(false), 300);
   };
 
