@@ -1,252 +1,280 @@
+import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import logoLight from '../assets/WorldFacts2.png';
+import logoDark from '../assets/WorldFacts.png';
 
-export default function Header({ isDarkMode, toggleDarkMode }) {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+export default function Header({ isDarkMode, toggleTheme, favorites, setIsAuthenticated }) {
+  const navigate = useNavigate();
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [showFavorites, setShowFavorites] = useState(false);
+  const [isFavoriteAnimating, setIsFavoriteAnimating] = useState(false);
+  const [isDarkModeAnimating, setIsDarkModeAnimating] = useState(false);
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
+  let currentUser = {};
+  try {
+    const userData = localStorage.getItem('currentUser');
+    if (userData) currentUser = JSON.parse(userData);
+  } catch (error) {
+    console.error('Error parsing currentUser:', error);
+    localStorage.removeItem('currentUser');
+  }
+
+  const handleLogout = () => {
+    localStorage.removeItem('currentUser');
+    setIsAuthenticated(false);
+    navigate('/login');
+  };
+
+  const handleFavoritesToggle = () => {
+    setIsFavoriteAnimating(true);
+    setShowFavorites(!showFavorites);
+    navigate('/home', { state: { showFavorites: !showFavorites } });
+    setTimeout(() => setIsFavoriteAnimating(false), 300);
+  };
+
+  const handleDarkModeToggle = () => {
+    setIsDarkModeAnimating(true);
+    toggleTheme();
+    setTimeout(() => setIsDarkModeAnimating(false), 300);
   };
 
   return (
-    <header className="header">
+    <header style={{ background: `linear-gradient(to right, ${isDarkMode ? '#450F8A' : '#6015C3'}, ${isDarkMode ? '#6A4ABF' : '#9577E6'})`, color: '#FFFFFF', padding: '1rem 2rem', boxShadow: '0 4px 12px rgba(0,0,0,0.3)', position: 'sticky', top: 0, zIndex: 50, backdropFilter: 'blur(8px)', fontFamily: "'Poppins', sans-serif" }}>
+      <style>
+        {`@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');`}
+      </style>
+      <div style={{ maxWidth: '1440px', margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center', position: 'relative' }}>
+        <Link
+          to="/"
+          style={{ display: 'flex', alignItems: 'center', textDecoration: 'none', transition: 'transform 0.3s ease-in-out', transform: 'rotate(0deg)' }}
+          onMouseEnter={(e) => e.target.style.transform = 'rotate(3deg) scale(1.03)'}
+          onMouseLeave={(e) => e.target.style.transform = 'rotate(0deg) scale(1)'}
+        >
+          <img src={isDarkMode ? logoDark : logoLight} alt="WorldFacts Logo" style={{ width: '40px', height: '40px', objectFit: 'contain', animation: 'fadeIn 0.5s ease' }} />
+        </Link>
+        <span
+          style={{
+            position: 'absolute',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            fontSize: '1.5rem',
+            fontWeight: '700',
+            color: '#FFFFFF',
+            textShadow: '0 2px 4px rgba(0,0,0,0.3)',
+            animation: 'textGlow 1.5s ease-in-out forwards',
+            transition: 'text-shadow 0.3s ease-in-out'
+          }}
+          onMouseEnter={(e) => e.target.style.textShadow = '0 0 8px #FFFFFF, 0 0 12px #9577E6'}
+          onMouseLeave={(e) => e.target.style.textShadow = '0 2px 4px rgba(0,0,0,0.3)'}
+        >
+          WorldFacts
+        </span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+          {currentUser.email && (
+            <button
+              onClick={handleFavoritesToggle}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                background: '#FFFFFF',
+                color: isDarkMode ? '#450F8A' : '#6015C3',
+                padding: '0.5rem 1rem',
+                borderRadius: '0.5rem',
+                fontWeight: '600',
+                border: 'none',
+                cursor: 'pointer',
+                transition: 'all 0.3s ease-in-out',
+                transform: 'scale(1)',
+                boxShadow: '0 4px 8px rgba(0,0,0,0.2)',
+                animation: isFavoriteAnimating ? 'heartPulse 0.3s ease' : 'none'
+              }}
+              onMouseEnter={(e) => e.target.style.transform = 'scale(1.03)'}
+              onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
+            >
+              <svg style={{ width: '1.25rem', height: '1.25rem', fill: showFavorites ? 'currentColor' : 'none', stroke: showFavorites ? 'none' : 'currentColor', strokeWidth: '2' }} viewBox="0 0 24 24">
+                {showFavorites ? (
+                  <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                ) : (
+                  <path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" strokeLinecap="round" strokeLinejoin="round"/>
+                )}
+              </svg>
+              {showFavorites ? 'All Countries' : 'Favorites'}
+            </button>
+          )}
+          <button
+            onClick={handleDarkModeToggle}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              width: '2.5rem',
+              height: '2.5rem',
+              background: '#FFFFFF',
+              color: isDarkMode ? '#450F8A' : '#6015C3',
+              borderRadius: '50%',
+              border: 'none',
+              cursor: 'pointer',
+              transition: 'all 0.3s ease-in-out',
+              transform: 'scale(1)',
+              boxShadow: '0 4px 8px rgba(0,0,0,0.2)',
+              animation: isDarkModeAnimating ? 'scalePulse 0.3s ease' : 'none'
+            }}
+            onMouseEnter={(e) => e.target.style.transform = 'scale(1.05)'}
+            onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
+          >
+            <span style={{ display: 'inline-block', transition: 'transform 0.3s ease', transform: isDarkMode ? 'rotate(180deg)' : 'rotate(0deg)' }}>
+              {isDarkMode ? (
+                <svg style={{ width: '1.25rem', height: '1.25rem', fill: 'currentColor' }} viewBox="0 0 20 20">
+                  <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+                </svg>
+              ) : (
+                <svg style={{ width: '1.25rem', height: '1.25rem', fill: 'currentColor' }} viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.707.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 11-2 0 1 1 0 012 0zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 11-2 0 1 1 0 012 0zm-1-1z" clipRule="evenodd" />
+                </svg>
+              )}
+            </span>
+          </button>
+          {currentUser.email ? (
+            <div style={{ position: 'relative' }}>
+              <button
+                onClick={() => setIsProfileOpen(!isProfileOpen)}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  width: '2.5rem',
+                  height: '2.5rem',
+                  background: 'transparent',
+                  border: '1px solid #FFFFFF',
+                  borderRadius: '50%',
+                  overflow: 'hidden',
+                  cursor: 'pointer',
+                  transition: 'all 0.3s ease-in-out',
+                  transform: 'scale(1)',
+                  boxShadow: '0 4px 8px rgba(0,0,0,0.2)'
+                }}
+                onMouseEnter={(e) => e.target.style.transform = 'scale(1.05)'}
+                onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
+              >
+                {currentUser.profilePic ? (
+                  <img
+                    src={currentUser.profilePic}
+                    alt="Profile"
+                    style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '50%' }}
+                  />
+                ) : (
+                  <svg style={{ width: '1.5rem', height: '1.5rem', fill: isDarkMode ? '#FFFFFF' : '#6015C3' }} viewBox="0 0 24 24">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
+                  </svg>
+                )}
+              </button>
+              {isProfileOpen && (
+                <div style={{
+                  position: 'absolute',
+                  right: 0,
+                  top: '3rem',
+                  width: '12rem',
+                  background: isDarkMode ? 'rgba(42, 38, 64, 0.95)' : 'rgba(255, 255, 255, 0.98)',
+                  borderRadius: '0.5rem',
+                  boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
+                  padding: '1rem',
+                  animation: 'fadeIn 0.3s ease',
+                  zIndex: 100,
+                  border: `1px solid ${isDarkMode ? '#4B0E9A33' : '#9577E633'}`,
+                  backdropFilter: 'blur(12px)'
+                }}>
+                  <Link
+                    to="/profile"
+                    style={{ display: 'block', color: isDarkMode ? '#FFFFFF' : '#2D1B4E', padding: '0.5rem 0', textDecoration: 'none', transition: 'color 0.3s ease-in-out' }}
+                    onClick={() => setIsProfileOpen(false)}
+                    onMouseEnter={(e) => e.target.style.color = isDarkMode ? '#9577E6' : '#6015C3'}
+                    onMouseLeave={(e) => e.target.style.color = isDarkMode ? '#FFFFFF' : '#2D1B4E'}
+                  >
+                    Profile
+                  </Link>
+                  <button
+                    onClick={() => {
+                      handleLogout();
+                      setIsProfileOpen(false);
+                    }}
+                    style={{ display: 'block', width: '100%', textAlign: 'left', color: isDarkMode ? '#FFFFFF' : '#2D1B4E', padding: '0.5rem 0', background: 'none', border: 'none', cursor: 'pointer', transition: 'color 0.3s ease-in-out' }}
+                    onMouseEnter={(e) => e.target.style.color = isDarkMode ? '#9577E6' : '#6015C3'}
+                    onMouseLeave={(e) => e.target.style.color = isDarkMode ? '#FFFFFF' : '#2D1B4E'}
+                  >
+                    Sign Out
+                  </button>
+                </div>
+              )}
+            </div>
+          ) : (
+            <div style={{ display: 'flex', gap: '1rem' }}>
+              <Link
+                to="/login"
+                style={{ color: '#FFFFFF', fontWeight: '600', textDecoration: 'none', transition: 'transform 0.3s ease-in-out', transform: 'scale(1)' }}
+                onMouseEnter={(e) => e.target.style.transform = 'scale(1.03)'}
+                onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
+              >
+                Login
+              </Link>
+              <Link
+                to="/register"
+                style={{ color: '#FFFFFF', fontWeight: '600', textDecoration: 'none', transition: 'transform 0.3s ease-in-out', transform: 'scale(1)' }}
+                onMouseEnter={(e) => e.target.style.transform = 'scale(1.03)'}
+                onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
+              >
+                Register
+              </Link>
+            </div>
+          )}
+        </div>
+      </div>
       <style>
         {`
-          @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
-          :root {
-            --dark-mode-bg: ${isDarkMode ? 'rgba(31, 27, 46, 0.95)' : 'rgba(255, 255, 255, 0.95)'};
-            --dark-mode-text: ${isDarkMode ? '#FFFFFF' : '#2D1B4E'};
-            --dark-mode-accent: ${isDarkMode ? '#A8A4CE' : '#6015C3'};
-            --dark-mode-gradient-start: ${isDarkMode ? '#450F8A' : '#6015C3'};
-            --dark-mode-gradient-end: ${isDarkMode ? '#6A4ABF' : '#9577E6'};
-            --dark-mode-shadow: ${isDarkMode ? '#450F8A33' : '#6015C333'};
-          }
-          .header {
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            background: var(--dark-mode-bg);
-            box-shadow: 0 2px 4px var(--dark-mode-shadow);
-            padding: 0.75rem 1rem;
-            border-bottom: 1px solid var(--dark-mode-shadow);
-            font-family: 'Poppins', sans-serif;
-          }
-          .header-container {
-            max-width: 1440px;
-            margin: 0 auto;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 env(safe-area-inset-right) 0 env(safe-area-inset-left);
-          }
-          .logo-link {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            text-decoration: none;
-            color: var(--dark-mode-text);
-            font-size: 1.5rem;
-            font-weight: 700;
-            animation: fadeIn 0.5s ease;
-          }
-          .logo-link img {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-          }
-          .nav-menu {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            flex-grow: 1;
-            justify-content: flex-end;
-          }
-          .nav-link {
-            color: var(--dark-mode-accent);
-            text-decoration: none;
-            padding: 0.75rem 1.25rem;
-            border-radius: 0.5rem;
-            font-size: 0.875rem;
-            font-weight: 600;
-            transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
-          }
-          .nav-link:hover, .nav-link.active {
-            background: var(--dark-mode-gradient-start);
-            color: #FFFFFF;
-            transform: scale(1.05);
-          }
-          .nav-link:active {
-            transform: scale(0.95);
-          }
-          .toggle-container {
-            width: 48px;
-            height: 24px;
-            background: ${isDarkMode ? '#450F8A' : '#E6E0FA'};
-            border-radius: 12px;
-            padding: 2px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            transition: background 0.3s ease;
-            box-shadow: inset 0 1px 2px var(--dark-mode-shadow);
-          }
-          .toggle-circle {
-            width: 20px;
-            height: 20px;
-            background: ${isDarkMode ? '#9577E6' : '#6015C3'};
-            border-radius: 50%;
-            transform: ${isDarkMode ? 'translateX(24px)' : 'translateX(0)'};
-            transition: transform 0.3s ease, background 0.3s ease;
-            box-shadow: 0 1px 2px var(--dark-mode-shadow);
-          }
-          .toggle-container:active {
-            transform: scale(0.95);
-          }
-          .hamburger {
-            display: none;
-            flex-direction: column;
-            justify-content: space-between;
-            width: 40px;
-            height: 40px;
-            padding: 8px;
-            cursor: pointer;
-            box-sizing: border-box;
-          }
-          .hamburger div {
-            width: 100%;
-            height: 3px;
-            background: ${isDarkMode ? '#FFFFFF' : '#6015C3'};
-            border-radius: 2px;
-            transition: transform 0.3s ease, opacity 0.3s ease;
-            transform-origin: center;
-          }
-          .hamburger.open div:nth-child(1) {
-            transform: translate3d(0, 10px, 0) rotate(45deg);
-          }
-          .hamburger.open div:nth-child(2) {
-            opacity: 0;
-          }
-          .hamburger.open div:nth-child(3) {
-            transform: translate3d(0, -10px, 0) rotate(-45deg);
-          }
-          .hamburger:active {
-            transform: scale(0.95);
-          }
           @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
+            from { opacity: 0; }
+            to { opacity: 1; }
+          }
+          @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+          }
+          @keyframes heartPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+          }
+          @keyframes scalePulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+          }
+          @keyframes textGlow {
+            from { letter-spacing: 0; opacity: 0.7; }
+            to { letter-spacing: 2px; opacity: 1; }
           }
           @media (max-width: 768px) {
-            .nav-menu {
-              position: fixed;
-              top: 0;
-              right: 0;
-              width: 70%;
-              height: 100%;
-              background: ${isDarkMode ? '#2A2640' : '#F9F5FF'};
-              transform: translateX(${isMenuOpen ? '0' : '100%'});
-              transition: transform 0.3s ease;
-              padding: 2rem 1rem;
-              box-shadow: -2px 0 4px var(--dark-mode-shadow);
-              flex-direction: column;
-              align-items: flex-start;
-              z-index: 1000;
+            .site-name {
+              font-size: 1.2rem;
             }
-            .nav-link {
-              display: block;
-              margin: 0.75rem 0;
-              font-size: 1.1rem;
-              padding: 0.5rem 1rem;
+            div[style*="gap: 1rem"] {
+              gap: 0.75rem;
             }
-            .toggle-container {
-              width: 40px;
-              height: 20px;
-            }
-            .toggle-circle {
-              width: 16px;
-              height: 16px;
-            }
-            .hamburger {
-              display: flex;
-            }
-            .header {
+            button[style*="padding: 0.5rem 1rem"] {
               padding: 0.5rem 0.75rem;
+              font-size: 0.875rem;
             }
           }
           @media (max-width: 480px) {
-            .logo-link {
-              font-size: 1.25rem;
+            .site-name {
+              display: none;
             }
-            .logo-link img {
-              width: 28px;
-              height: 28px;
+            div[style*="gap: 1rem"] {
+              gap: 0.5rem;
             }
-            .nav-link {
-              font-size: 1rem;
-            }
-            .header {
-              padding: 0.5rem env(safe-area-inset-right) 0.5rem env(safe-area-inset-left);
-            }
-          }
-          @media (prefers-reduced-motion: reduce) {
-            * {
-              animation: none !important;
-              transition: none !important;
-            }
-          }
-          :focus {
-            outline: 2px solid var(--dark-mode-gradient-end);
-            outline-offset: 2px;
           }
         `}
       </style>
-      <div className="header-container">
-        <Link to="/home" className="logo-link">
-          <img src="/worldfacts-logo.png" alt="WorldFacts Logo" />
-          WorldFacts
-        </Link>
-        <nav className="nav-menu">
-          <NavLink to="/home" className="nav-link" exact activeClassName="active">
-            Home
-          </NavLink>
-          <NavLink to="/favorites" className="nav-link" activeClassName="active">
-            Favorites
-          </NavLink>
-          <div
-            className="toggle-container"
-            onClick={toggleDarkMode}
-            role="switch"
-            aria-checked={isDarkMode}
-            aria-label="Toggle Dark Mode"
-            tabIndex="0"
-            onKeyDown={(e) => {
-              if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                toggleDarkMode();
-              }
-            }}
-          >
-            <div className="toggle-circle"></div>
-          </div>
-        </nav>
-        <div
-          className={`hamburger ${isMenuOpen ? 'open' : ''}`}
-          onClick={toggleMenu}
-          aria-label="Toggle Menu"
-          role="button"
-          tabIndex="0"
-          onKeyDown={(e) => {
-            if (e.key === 'Enter' || e.key === ' ') {
-              e.preventDefault();
-              toggleMenu();
-            }
-          }}
-        >
-          <div></div>
-          <div></div>
-          <div></div>
-        </div>
-      </div>
     </header>
   );
 }
