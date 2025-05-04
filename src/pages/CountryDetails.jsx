@@ -116,6 +116,7 @@ export default function CountryDetails({ isDarkMode, favorites, toggleFavorite }
 
   const isFavorite = favorites.includes(country.name.common);
   const wikipediaUrl = `https://en.wikipedia.org/wiki/${encodeURIComponent(country.name.common).replace(/%20/g, '_')}`;
+  const googleMapsUrl = `https://www.google.com/maps/place/${encodeURIComponent(country.name.common)}`;
 
   return (
     <div
@@ -869,43 +870,83 @@ export default function CountryDetails({ isDarkMode, favorites, toggleFavorite }
               </p>
             </div>
           </div>
-          {/* Wikipedia link */}
-          <a
-            href={wikipediaUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '0.5rem',
-              background: `linear-gradient(45deg, ${isDarkMode ? '#450F8A' : '#6015C3'}, ${isDarkMode ? '#6A4ABF' : '#9577E6'})`,
-              color: '#FFFFFF',
-              padding: '0.75rem 1.5rem',
-              borderRadius: '0.5rem',
-              fontWeight: '600',
-              textDecoration: 'none',
-              transition: 'all 0.3s ease-in-out',
-              transform: isModeAnimating ? 'scale(1.05)' : 'scale(1)',
-              boxShadow: `0 6px 12px ${isDarkMode ? '#450F8A66' : '#6015C366'}`,
-              animation: isModeAnimating ? 'none' : 'fadeInUp 0.7s ease-in-out 1s',
-              position: 'relative',
-              overflow: 'hidden',
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = 'scale(1.05)';
-              e.currentTarget.style.boxShadow = `0 8px 16px ${isDarkMode ? '#450F8A99' : '#6015C399'}`;
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = isModeAnimating ? 'scale(1.05)' : 'scale(1)';
-              e.currentTarget.style.boxShadow = `0 6px 12px ${isDarkMode ? '#450F8A66' : '#6015C366'}`;
-            }}
-            aria-label="Learn More on Wikipedia"
-          >
-            <svg style={{ width: '1.25rem', height: '1.25rem', fill: '#FFFFFF' }} viewBox="0 0 24 24">
-              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95.49-7.43-2.14-7.93-6.09C2.58 9.89 5.21 6.41 9.16 5.91c3.95-.49 7.43 2.14 7.93 6.09.49 3.95-2.14 7.43-6.09 7.93z" />
-            </svg>
-            Learn More on Wikipedia
-          </a>
+          {/* External links */}
+          <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+            {/* Wikipedia link */}
+            <a
+              href={wikipediaUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                background: `linear-gradient(45deg, ${isDarkMode ? '#450F8A' : '#6015C3'}, ${isDarkMode ? '#6A4ABF' : '#9577E6'})`,
+                color: '#FFFFFF',
+                padding: '0.75rem 1.5rem',
+                borderRadius: '0.5rem',
+                fontWeight: '600',
+                textDecoration: 'none',
+                transition: 'all 0.3s ease-in-out',
+                transform: isModeAnimating ? 'scale(1.05)' : 'scale(1)',
+                boxShadow: `0 6px 12px ${isDarkMode ? '#450F8A66' : '#6015C366'}`,
+                animation: isModeAnimating ? 'none' : 'fadeInUp 0.7s ease-in-out 1s',
+                position: 'relative',
+                overflow: 'hidden',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = 'scale(1.05)';
+                e.currentTarget.style.boxShadow = `0 8px 16px ${isDarkMode ? '#450F8A99' : '#6015C399'}`;
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = isModeAnimating ? 'scale(1.05)' : 'scale(1)';
+                e.currentTarget.style.boxShadow = `0 6px 12px ${isDarkMode ? '#450F8A66' : '#6015C366'}`;
+              }}
+              aria-label="Learn More on Wikipedia"
+            >
+              <svg style={{ width: '1.25rem', height: '1.25rem', fill: '#FFFFFF' }} viewBox="0 0 24 24">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95.49-7.43-2.14-7.93-6.09C2.58 9.89 5.21 6.41 9.16 5.91c3.95-.49 7.43 2.14 7.93 6.09.49 3.95-2.14 7.43-6.09 7.93z" />
+              </svg>
+              Learn More on Wikipedia
+            </a>
+            {/* Google Maps link */}
+            <a
+              href={googleMapsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                background: `linear-gradient(45deg, ${isDarkMode ? '#450F8A' : '#6015C3'}, ${isDarkMode ? '#6A4ABF' : '#9577E6'})`,
+                color: '#FFFFFF',
+                padding: '0.75rem 1.5rem',
+                borderRadius: '0.5rem',
+                fontWeight: '600',
+                textDecoration: 'none',
+                transition: 'all 0.3s ease-in-out',
+                transform: isModeAnimating ? 'scale(1.05)' : 'scale(1)',
+                boxShadow: `0 6px 12px ${isDarkMode ? '#450F8A66' : '#6015C366'}`,
+                animation: isModeAnimating ? 'none' : 'fadeInUp 0.7s ease-in-out 1.1s',
+                position: 'relative',
+                overflow: 'hidden',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = 'scale(1.05)';
+                e.currentTarget.style.boxShadow = `0 8px 16px ${isDarkMode ? '#450F8A99' : '#6015C399'}`;
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = isModeAnimating ? 'scale(1.05)' : 'scale(1)';
+                e.currentTarget.style.boxShadow = `0 6px 12px ${isDarkMode ? '#450F8A66' : '#6015C366'}`;
+              }}
+              aria-label="View on Google Maps"
+            >
+              <svg style={{ width: '1.25rem', height: '1.25rem', fill: '#FFFFFF' }} viewBox="0 0 24 24">
+                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
+              </svg>
+              View on Google Maps
+            </a>
+          </div>
         </div>
       </div>
     </div>
