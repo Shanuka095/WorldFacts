@@ -178,7 +178,7 @@ export default function Profile({ isDarkMode, favorites, toggleFavorite }) {
       ></div>
       {/* Back button */}
       <Link
-        to="/"
+        to="/home"
         style={{
           display: 'inline-flex',
           alignItems: 'center',
