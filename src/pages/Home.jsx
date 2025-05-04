@@ -35,24 +35,18 @@ export default function Home({ isDarkMode, favorites, toggleFavorite }) {
         }
         data = await Promise.all(favorites.map(name => getCountryByName(name).catch(() => null)));
         data = data.flat().filter(Boolean);
-        console.log('Favorites data:', data);
-      } else if (searchTerm && searchTerm.length >= 2) { // Minimum 2 characters for search
+      } else if (searchTerm && searchTerm.length >= 2) {
         const result = await getCountryByName(searchTerm);
         data = Array.isArray(result) ? result : [result].filter(Boolean);
-        console.log('Search data:', data);
       } else if (language) {
         data = await getCountriesByLanguage(language);
-        console.log('Language data:', data);
       } else if (region) {
         data = await getCountriesByRegion(region);
-        console.log('Region data:', data);
       } else {
         data = await getAllCountries();
-        console.log('All countries data:', data);
       }
       setCountries(data);
     } catch (error) {
-      console.error('Error fetching countries:', error);
       setError('Failed to load countries. Please try again.');
       setCountries([]);
     } finally {
@@ -68,8 +62,53 @@ export default function Home({ isDarkMode, favorites, toggleFavorite }) {
   }, [debouncedFetch]);
 
   return (
-    <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '2rem', background: `linear-gradient(135deg, ${isDarkMode ? '#1F1B2E' : '#F9F5FF'}, ${isDarkMode ? '#2A2640' : '#E6E0FA'})`, minHeight: '100vh', animation: 'fadeIn 0.5s ease' }}>
-      <h1 style={{ fontSize: '2.5rem', fontWeight: '700', color: isDarkMode ? '#9577E6' : '#6015C3', marginBottom: '1.5rem', textAlign: 'center', animation: 'slideInDown 0.5s ease', textShadow: '0 2px 4px rgba(0,0,0,0.2)' }}>Explore WorldFacts</h1>
+    <div style={{
+      maxWidth: '1280px',
+      margin: '0 auto',
+      padding: '2rem',
+      background: `linear-gradient(135deg, ${isDarkMode ? '#1F1B2E' : '#F9F5FF'}, ${isDarkMode ? '#2A2640' : '#E6E0FA'})`,
+      minHeight: '100vh',
+      animation: 'gradientShift 15s ease infinite',
+      position: 'relative',
+      overflow: 'hidden',
+      backgroundSize: '200% 200%'
+    }}>
+      {/* Particle background */}
+      <div style={{
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        background: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Ccircle fill='${encodeURIComponent(isDarkMode ? '#9577E6' : '#6015C3')}' fill-opacity='0.1' cx='20' cy='20' r='2'/%3E%3Ccircle fill='${encodeURIComponent(isDarkMode ? '#450F8A' : '#450F8A')}' fill-opacity='0.1' cx='10' cy='10' r='1'/%3E%3Ccircle fill='${encodeURIComponent(isDarkMode ? '#6A4ABF' : '#9577E6')}' fill-opacity='0.1' cx='30' cy='30' r='1.5'/%3E%3C/svg%3E")`,
+        opacity: 0.3,
+        animation: 'particleFloat 20s linear infinite',
+        zIndex: 0,
+        pointerEvents: 'none'
+      }}></div>
+      {/* Gradient overlay */}
+      <div style={{
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        background: `linear-gradient(45deg, ${isDarkMode ? '#450F8A33' : '#6015C333'}, transparent)`,
+        opacity: 0.2,
+        zIndex: 0,
+        pointerEvents: 'none'
+      }}></div>
+      <h1 style={{
+        fontSize: '2.5rem',
+        fontWeight: '700',
+        color: isDarkMode ? '#9577E6' : '#6015C3',
+        marginBottom: '1.5rem',
+        textAlign: 'center',
+        animation: 'slideInDown 0.5s ease',
+        textShadow: '0 2px 4px rgba(0,0,0,0.2)',
+        position: 'relative',
+        zIndex: 1
+      }}>Explore WorldFacts</h1>
       <SearchFilter
         isDarkMode={isDarkMode}
         searchTerm={searchTerm}
@@ -80,14 +119,49 @@ export default function Home({ isDarkMode, favorites, toggleFavorite }) {
         setLanguage={setLanguage}
       />
       {loading ? (
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '3rem' }}>
-          <div style={{ width: '3rem', height: '3rem', border: `4px solid ${isDarkMode ? '#450F8A' : '#6015C3'}`, borderTop: '4px solid transparent', borderRadius: '50%', animation: 'spin 1s linear infinite' }}></div>
-          <p style={{ marginLeft: '1rem', color: isDarkMode ? '#9577E6' : '#6015C3', fontSize: '1.25rem', fontWeight: '600' }}>Loading...</p>
+        <div style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          marginTop: '3rem',
+          position: 'relative',
+          zIndex: 1
+        }}>
+          <div style={{
+            width: '3rem',
+            height: '3rem',
+            border: `4px solid ${isDarkMode ? '#450F8A' : '#6015C3'}`,
+            borderTop: '4px solid transparent',
+            borderRadius: '50%',
+            animation: 'spin 1s linear infinite'
+          }}></div>
+          <p style={{
+            marginLeft: '1rem',
+            color: isDarkMode ? '#9577E6' : '#6015C3',
+            fontSize: '1.25rem',
+            fontWeight: '600'
+          }}>Loading...</p>
         </div>
       ) : error ? (
-        <p style={{ textAlign: 'center', color: isDarkMode ? '#9577E6' : '#6015C3', fontSize: '1.25rem', fontWeight: '600', marginTop: '3rem', animation: 'fadeIn 0.5s ease' }}>{error}</p>
+        <p style={{
+          textAlign: 'center',
+          color: isDarkMode ? '#9577E6' : '#6015C3',
+          fontSize: '1.25rem',
+          fontWeight: '600',
+          marginTop: '3rem',
+          animation: 'fadeIn 0.5s ease',
+          position: 'relative',
+          zIndex: 1
+        }}>{error}</p>
       ) : countries.length ? (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '2rem', marginTop: '2rem' }}>
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
+          gap: '2rem',
+          marginTop: '2rem',
+          position: 'relative',
+          zIndex: 1
+        }}>
           {countries.map((country) => (
             <CountryCard
               key={country.name.common}
@@ -99,7 +173,18 @@ export default function Home({ isDarkMode, favorites, toggleFavorite }) {
           ))}
         </div>
       ) : (
-        <p style={{ textAlign: 'center', color: isDarkMode ? '#9577E6' : '#6015C3', fontSize: '1.25rem', fontWeight: '600', marginTop: '3rem', animation: 'fadeIn 0.5s ease' }}>{showFavorites ? 'No favorite countries.' : 'No countries found.'}</p>
+        <p style={{
+          textAlign: 'center',
+          color: isDarkMode ? '#9577E6' : '#6015C3',
+          fontSize: '1.25rem',
+          fontWeight: '600',
+          marginTop: '3rem',
+          animation: 'fadeIn 0.5s ease',
+          position: 'relative',
+          zIndex: 1
+        }}>
+          {showFavorites ? 'No favorite countries yet.' : 'No countries found.'}
+        </p>
       )}
       <style>
         {`
@@ -113,6 +198,21 @@ export default function Home({ isDarkMode, favorites, toggleFavorite }) {
           }
           @keyframes spin {
             to { transform: rotate(360deg); }
+          }
+          @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+          }
+          @keyframes particleFloat {
+            0% { background-position: 0 0; }
+            100% { background-position: 40px 40px; }
+          }
+          @media (prefers-reduced-motion: reduce) {
+            * {
+              animation: none !important;
+              transition: none !important;
+            }
           }
         `}
       </style>
