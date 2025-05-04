@@ -1,183 +1,162 @@
-WorldFacts 🌐
-*** Live Demo: https://world-facts.vercel.app  ***
-Your elegant guide to exploring countries worldwide.
+# 🌍 WorldFacts
 
-  
-  
-  
-  
-  
+**Live Demo:** [world-facts.vercel.app](https://world-facts.vercel.app)
 
+WorldFacts is a modern, responsive web application that allows users to explore detailed information about countries around the world. Built with cutting-edge technologies and clean UI/UX principles, WorldFacts lets you search, filter, and favorite countries, all with real-time data and interactive maps.
 
-WorldFacts is a sophisticated, responsive web application that empowers users to explore, search, and save country information with a modern, intuitive interface. Built with cutting-edge technologies, it offers a seamless experience across devices.
-🌟 Features
+---
 
-AuthenticationSecurely register and log in, with user data persisted in localStorage for a demo experience.
+## 🚀 Features
 
-Country ExplorationBrowse all countries, search by name, filter by region or language, and access detailed profiles.
+- 🔐 **Authentication**  
+  Register and log in securely (demo mode) with data stored in `localStorage`.
 
-Rich Country DetailsView flags, population, currencies, languages, interactive maps (via React-Leaflet), and real-time clocks comparing local and country time.
+- 🌐 **Country Exploration**  
+  Browse all countries, search by name, filter by region or language, and access detailed profiles.
 
-PersonalizationSave favorite countries, toggle between all and favorite views, and switch between light/dark themes.
+- 📍 **Detailed Country View**  
+  View flags, population, currencies, languages, live clocks, and interactive maps via React-Leaflet.
 
+- ⭐ **Personalization**  
+  Save favorite countries, toggle grid/list views, and switch between light and dark themes.
 
-🛠 Tech Stack
+---
 
+## 🛠️ Tech Stack
 
+| Category      | Technologies                                                                 |
+|---------------|------------------------------------------------------------------------------|
+| **Frontend**  | React 18, React Router 6, Tailwind CSS 3, Framer Motion, React-Leaflet, React Clock |
+| **Development** | Vite, Jest, React Testing Library, ESLint                                 |
+| **Storage**   | Browser `localStorage` (for demo)                                             |
+| **API**       | [REST Countries API](https://restcountries.com/)                             |
+| **Deployment**| Vercel with custom `vercel.json` for SPA routing                             |
 
-Category
-Technologies
+---
 
+## 📦 Setup & Installation
 
-
-Frontend
-React 18, React Router 6, Tailwind CSS 3, Framer Motion, React-Leaflet, React Clock
-
-
-Development
-Vite, Jest, React Testing Library, ESLint
-
-
-Storage
-Browser localStorage (demo)
-
-
-API
-REST Countries API
-
-
-Deployment
-Vercel with vercel.json for SPA routing
-
-
-📦 Setup & Installation
-
-Clone the Repository  
+```bash
+# Clone the repository
 git clone https://github.com/Shanuka095/Rest-Countries-App-Frontend.git
 cd Rest-Countries-App-Frontend
 
-
-Install Dependencies  
+# Install dependencies
 npm install
 
-
-Start Development Server  
+# Start the development server
 npm run dev
 
-Open http://localhost:5173.
+# Visit in browser
+http://localhost:5173
 
-Build for Production  
+# Build for production
 npm run build
 
-Output in dist/.
+# Output: dist/
 
-Run Tests  
+# Run tests
 npm test
+```
 
+---
 
+## 📁 Project Structure
 
-📂 Project Structure
+```
 Rest-Countries-App-Frontend/
 ├── src/
-│   ├── components/              # UI components
-│   │   ├── CountryCard.jsx      # Country summary
-│   │   ├── SearchFilter.jsx     # Search/filter UI
-│   │   ├── Header.jsx           # Navigation
-│   │   ├── __tests__/           # Tests
-│   ├── pages/                   # Pages
-│   │   ├── Home.jsx             # Country list
-│   │   ├── CountryDetails.jsx   # Country details
-│   │   ├── __tests__/           # Tests
-│   ├── services/                # API logic
-│   │   ├── api.js               # API calls
-│   ├── __mocks__/               # Test mocks
-├── vercel.json                  # Vercel routing
+│   ├── components/
+│   │   ├── CountryCard.jsx         # Country summary card
+│   │   ├── SearchFilter.jsx        # Search and filter controls
+│   │   ├── Header.jsx              # Navigation header
+│   │   └── __tests__/              # Component unit tests
+│   ├── pages/
+│   │   ├── Home.jsx                # Country listing page
+│   │   ├── CountryDetails.jsx      # Detailed country view
+│   │   └── __tests__/              # Page-specific tests
+│   ├── services/
+│   │   └── api.js                  # API interaction layer
+│   └── __mocks__/                  # Mock data for testing
+├── vercel.json                     # SPA routing rules for Vercel
+```
 
-🌍 API Integration
-The app integrates the REST Countries API:  
+---
 
-GET /all: Fetch all countries.  
-GET /name/{name}: Search by name.  
-GET /region/{region}: Filter by region.  
-GET /alpha/{code}: Get country by code.
+## 🌍 API Integration
 
-Environment Variable:  
+WorldFacts uses the REST Countries API to retrieve global data.
+
+**Endpoints Used:**
+
+- `GET /all` – Fetch all countries  
+- `GET /name/{name}` – Search by name  
+- `GET /region/{region}` – Filter by region  
+- `GET /alpha/{code}` – Get by ISO country code
+
+**Environment Variable:**
+
+```
 VITE_API_URL=https://restcountries.com/v3.1
+```
 
-📱 Mobile Experience
-Access WorldFacts anywhere:  
+---
 
-Open https://world-facts.vercel.app in any mobile browser.  
-Enjoy a fully responsive, touch-optimized interface.
+## 📱 Mobile Experience
 
-📸 Screenshots
+The app is fully responsive and mobile-friendly.  
+Simply visit: [world-facts.vercel.app](https://world-facts.vercel.app) on any smartphone or tablet to enjoy an optimized experience.
 
-  
-  
+---
 
+## 🧠 Technical Insights
 
-Explore countries with a clean, modern UI.
-🔍 Technical Insights
+### Why REST Countries API?
 
-Why REST Countries API?
+- ✅ No API key required  
+- 🌐 Rich data: flags, languages, population, and more  
+- ⚡ Fast, stable, and well-documented  
 
+### Key Challenges & Solutions
 
-Rich Data: Comprehensive details like flags, population, and timezones.  
-No Authentication: Free and accessible without keys.  
-Reliable: Stable with fast responses.  
-Documented: Clear, predictable endpoints.
+| Challenge                      | Solution                                                   |
+|-------------------------------|------------------------------------------------------------|
+| Authentication (no backend)   | Used `localStorage` for demo-mode user data               |
+| Device responsiveness          | Tailwind CSS responsive utilities                         |
+| Timezone accuracy              | Implemented with `Intl.DateTimeFormat` + `React Clock`    |
+| Efficient filtering/search     | Client-side caching and optimized filter logic            |
+| SPA Routing on Vercel (404s)   | Custom `vercel.json` with rewrite rules                   |
 
+---
 
-Challenges & Solutions
+## 🚧 Future Enhancements
 
+- 🔒 Full backend for authentication  
+- 📊 Advanced filters (e.g., by population, sub-region)  
+- 📈 Data visualization with charts  
+- 📶 Offline support with service workers  
+- 🌐 Multilingual interface support  
 
-Authentication Without Backend  
+---
 
-Challenge: No server for user management.  
-Solution: localStorage for user sessions (demo).
+## 🤝 Contributing
 
+This is an academic project developed for a course at SLIIT. While it’s not actively maintained, contributions, suggestions, and feedback are welcome!
 
-Responsive Design  
+> To contribute: Open an issue or submit a pull request on [GitHub](https://github.com/Shanuka095/Rest-Countries-App-Frontend).
 
-Challenge: Cross-device compatibility.  
-Solution: Tailwind CSS with responsive utilities.
+---
 
+## 📄 License
 
-Time Zone Rendering  
+Developed for educational purposes at the **Sri Lanka Institute of Information Technology (SLIIT)**.  
+Usage and modification are permitted with attribution.
 
-Challenge: Accurate country time display.  
-Solution: Intl.DateTimeFormat and React Clock.
+---
 
+## ✨ Created By
 
-Performant Filtering  
+**Shanuka Induran**  
+> Discover the world — one country at a time: [WorldFacts 🌍](https://world-facts.vercel.app)
 
-Challenge: Fast search/filter on large data.  
-Solution: Client-side filtering with caching.
-
-
-Vercel 404 on Reload  
-
-Challenge: 404 errors on sub-routes.  
-Solution: vercel.json with rewrite rule for SPA routing.
-
-
-
-
-Future Enhancements
-
-
-Backend for secure authentication.  
-Advanced filters (e.g., population ranges).  
-Interactive charts for comparisons.  
-Offline support via service workers.  
-Multilingual UI.
-
-🤝 Get Involved
-This project is an academic assignment, but feedback is welcome! Open an issue on GitHub.
-📜 License
-Developed for an academic assignment at SLIIT.
-
-
-  Created with passion by Shanuka Induran  
-  🌍 Discover the world at world-facts.vercel.app
-  Share with friends and explore together! 🚀
+---
