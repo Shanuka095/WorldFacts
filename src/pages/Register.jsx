@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 
-export default function Register({ isDarkMode }) {
+export default function Register({ isDarkMode, setIsAuthenticated }) {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [phone, setPhone] = useState('');
@@ -82,7 +82,8 @@ export default function Register({ isDarkMode }) {
       profilePic,
       registrationDate: newUser.registrationDate
     }));
-    navigate('/');
+    setIsAuthenticated(true);
+    navigate('/home');
   };
 
   return (
@@ -235,9 +236,9 @@ export default function Register({ isDarkMode }) {
           Already have an account?{' '}
           <Link
             to="/login"
-            style={{ color: isDarkMode ? '#FFFFFF' : '#6D16DF', textDecoration: 'none', fontWeight: '600', transition: 'color 0.3s ease' }}
-            onMouseEnter={(e) => e.target.style.color = isDarkMode ? '#9577E6' : '#4B0E9A'}
-            onMouseLeave={(e) => e.target.style.color = isDarkMode ? '#FFFFFF' : '#6D16DF'}
+            style={{ color: isDarkMode ? '#9577E6' : '#6D16DF', textDecoration: 'none', fontWeight: '600', transition: 'color 0.3s ease' }}
+            onMouseEnter={(e) => e.target.style.color = isDarkMode ? '#FFFFFF' : '#4B0E9A'}
+            onMouseLeave={(e) => e.target.style.color = isDarkMode ? '#9577E6' : '#6D16DF'}
           >
             Login
           </Link>
