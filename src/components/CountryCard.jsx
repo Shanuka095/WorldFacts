@@ -7,7 +7,7 @@ export default function CountryCard({ country, toggleFavorite, isFavorite, isDar
 
   useEffect(() => {
     setIsModeAnimating(true);
-    const timer = setTimeout(() => setIsModeAnimating(false), 500); // Match animation duration
+    const timer = setTimeout(() => setIsModeAnimating(false), 500);
     return () => clearTimeout(timer);
   }, [isDarkMode]);
 
@@ -18,11 +18,37 @@ export default function CountryCard({ country, toggleFavorite, isFavorite, isDar
       borderRadius: '0.75rem', 
       padding: '1.5rem', 
       border: `1px solid ${isDarkMode ? '#450F8A' : '#6015C3'}`, 
-      transition: 'all 0.3s ease', 
+      transition: 'all 0.3s ease, border-color 0.3s ease', 
       animation: `${isModeAnimating ? 'darkModeTransition 0.5s ease' : 'fadeInUp 0.5s ease'}`, 
       position: 'relative', 
-      overflow: 'hidden' 
-    }}>
+      overflow: 'hidden',
+      zIndex: 1
+    }}
+    onMouseEnter={(e) => {
+      e.currentTarget.style.borderColor = isDarkMode ? '#9577E6' : '#450F8A';
+      e.currentTarget.style.boxShadow = `0 8px 16px ${isDarkMode ? '#450F8A66' : '#6015C366'}, 0 0 20px ${isDarkMode ? '#9577E633' : '#450F8A33'}`;
+    }}
+    onMouseLeave={(e) => {
+      e.currentTarget.style.borderColor = isDarkMode ? '#450F8A' : '#6015C3';
+      e.currentTarget.style.boxShadow = `0 6px 12px ${isDarkMode ? '#450F8A33' : '#6015C333'}`;
+    }}
+    >
+      {/* Ripple effect */}
+      <div style={{ 
+        position: 'absolute', 
+        top: 0, 
+        left: 0, 
+        width: '100%', 
+        height: '100%', 
+        background: `radial-gradient(circle at center, ${isDarkMode ? '#450F8A33' : '#6015C333'} 0%, transparent 70%)`, 
+        opacity: 0, 
+        transition: 'opacity 0.5s ease', 
+        zIndex: 0,
+        pointerEvents: 'none'
+      }}
+      className="ripple-effect"
+      ></div>
+      {/* Gradient overlay */}
       <div style={{ 
         position: 'absolute', 
         top: 0, 
@@ -32,7 +58,8 @@ export default function CountryCard({ country, toggleFavorite, isFavorite, isDar
         background: `linear-gradient(45deg, ${isDarkMode ? '#450F8A33' : '#6015C333'}, transparent)`, 
         opacity: isModeAnimating ? 0.4 : 0.2, 
         zIndex: 0, 
-        transition: 'opacity 0.5s ease' 
+        transition: 'opacity 0.5s ease',
+        pointerEvents: 'none'
       }}></div>
       <Link
         to={`/country/${encodedCountryName}`}
@@ -86,7 +113,6 @@ export default function CountryCard({ country, toggleFavorite, isFavorite, isDar
       <button
         onClick={(e) => {
           e.stopPropagation();
-          console.log(`Toggling favorite for ${country.name.common}`);
           toggleFavorite(country.name.common);
         }}
         style={{ 
@@ -121,6 +147,17 @@ export default function CountryCard({ country, toggleFavorite, isFavorite, isDar
             0% { transform: scale(1); opacity: 0.8; }
             50% { transform: scale(1.02); opacity: 1; }
             100% { transform: scale(1); opacity: 1; }
+          }
+          @keyframes ripple {
+            0% { transform: scale(0); opacity: 0.5; }
+            100% { transform: scale(4); opacity: 0; }
+          }
+          .ripple-effect {
+            pointer-events: none;
+          }
+          div:hover .ripple-effect {
+            animation: ripple 0.7s ease-out;
+            opacity: 0.3;
           }
         `}
       </style>
