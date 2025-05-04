@@ -37,7 +37,7 @@ export default function CountryDetails({ isDarkMode, favorites, toggleFavorite }
   const handleFavoriteClick = (countryName) => {
     setIsFavoriteAnimating(true);
     toggleFavorite(countryName);
-    setTimeout(() => setIsFavoriteAnimating(false), 300); // Match pulse animation duration
+    setTimeout(() => setIsFavoriteAnimating(false), 300);
   };
 
   // Handle loading state
@@ -54,19 +54,19 @@ export default function CountryDetails({ isDarkMode, favorites, toggleFavorite }
       >
         <div
           style={{
-            width: '3rem',
-            height: '3rem',
-            border: `4px solid ${isDarkMode ? '#450F8A' : '#6015C3'}`,
-            borderTop: '4px solid transparent',
+            width: '2rem',
+            height: '2rem',
+            border: `3px solid ${isDarkMode ? '#450F8A' : '#6015C3'}`,
+            borderTop: '3px solid transparent',
             borderRadius: '50%',
             animation: 'spin 1s linear infinite',
           }}
         ></div>
         <p
           style={{
-            marginLeft: '1rem',
+            marginLeft: '0.75rem',
             color: isDarkMode ? '#FFFFFF' : '#6015C3',
-            fontSize: '1.25rem',
+            fontSize: '1rem',
             fontWeight: '600',
           }}
         >
@@ -83,7 +83,7 @@ export default function CountryDetails({ isDarkMode, favorites, toggleFavorite }
         style={{
           maxWidth: '1440px',
           margin: '0 auto',
-          padding: '2rem 1rem',
+          padding: '1rem',
           background: isDarkMode ? '#1F1B2E' : '#F9F5FF',
           minHeight: '100vh',
           fontFamily: "'Poppins', sans-serif",
@@ -93,7 +93,7 @@ export default function CountryDetails({ isDarkMode, favorites, toggleFavorite }
           style={{
             color: isDarkMode ? '#FFFFFF' : '#2D1B4E',
             textAlign: 'center',
-            fontSize: '1.5rem',
+            fontSize: '1rem',
           }}
         >
           {error || 'Country not found'}
@@ -102,10 +102,12 @@ export default function CountryDetails({ isDarkMode, favorites, toggleFavorite }
           to="/home"
           style={{
             display: 'inline-block',
-            marginTop: '1rem',
+            marginTop: '0.5rem',
             color: isDarkMode ? '#FFFFFF' : '#6015C3',
             textDecoration: 'none',
             fontWeight: '600',
+            fontSize: '0.875rem',
+            padding: '0.5rem 1rem',
           }}
         >
           Back to Home
@@ -123,7 +125,7 @@ export default function CountryDetails({ isDarkMode, favorites, toggleFavorite }
       style={{
         maxWidth: '1440px',
         margin: '0 auto',
-        padding: '2rem 1rem',
+        padding: '1rem',
         background: `radial-gradient(circle at top left, ${isDarkMode ? '#2A2640' : '#E6E0FA'}, ${isDarkMode ? '#1F1B2E' : '#F9F5FF'})`,
         minHeight: '100vh',
         fontFamily: "'Poppins', sans-serif",
@@ -153,10 +155,6 @@ export default function CountryDetails({ isDarkMode, favorites, toggleFavorite }
             50% { transform: scale(1.02); opacity: 1; }
             100% { transform: scale(1); opacity: 1; }
           }
-          @keyframes neonGlow {
-            from { box-shadow: 0 0 10px rgba(69, 15, 138, 0.4), 0 0 20px rgba(69, 15, 138, 0.2); }
-            to { box-shadow: 0 0 20px rgba(69, 15, 138, 0.6), 0 0 40px rgba(69, 15, 138, 0.4); }
-          }
           @keyframes pulse {
             0% { transform: scale(1); }
             50% { transform: scale(1.2); }
@@ -165,6 +163,26 @@ export default function CountryDetails({ isDarkMode, favorites, toggleFavorite }
           @media (max-width: 768px) {
             .country-details-grid {
               grid-template-columns: 1fr;
+            }
+            h2 {
+              font-size: 1.5rem;
+            }
+            h3 {
+              font-size: 1rem;
+            }
+            p {
+              font-size: 0.875rem;
+            }
+            img {
+              max-width: 100%;
+              height: auto;
+            }
+            button, a[style*="padding"] {
+              padding: 0.5rem 1rem;
+              font-size: 0.875rem;
+            }
+            div[style*="padding: '2.5rem'"] {
+              padding: 1rem;
             }
           }
           :focus {
@@ -195,30 +213,31 @@ export default function CountryDetails({ isDarkMode, favorites, toggleFavorite }
           gap: '0.5rem',
           background: `linear-gradient(45deg, ${isDarkMode ? '#450F8A' : '#6015C3'}, ${isDarkMode ? '#6A4ABF' : '#9577E6'})`,
           color: '#FFFFFF',
-          padding: '0.75rem 1.5rem',
+          padding: '0.5rem 1rem',
           borderRadius: '0.5rem',
           fontWeight: '600',
           textDecoration: 'none',
           transition: 'all 0.3s ease-in-out',
           transform: isModeAnimating ? 'scale(1.05)' : 'scale(1)',
           boxShadow: `0 6px 12px ${isDarkMode ? '#450F8A66' : '#6015C366'}`,
-          marginBottom: '2rem',
+          marginBottom: '1rem',
           animation: isModeAnimating ? 'none' : 'slideInLeft 0.5s ease-in-out',
           position: 'relative',
           overflow: 'hidden',
+          fontSize: '0.875rem',
         }}
-        onMouseEnter={(e) => {
+        onTouchStart={(e) => {
           e.currentTarget.style.transform = 'scale(1.05)';
           e.currentTarget.style.boxShadow = `0 8px 16px ${isDarkMode ? '#450F8A99' : '#6015C399'}`;
         }}
-        onMouseLeave={(e) => {
+        onTouchEnd={(e) => {
           e.currentTarget.style.transform = isModeAnimating ? 'scale(1.05)' : 'scale(1)';
           e.currentTarget.style.boxShadow = `0 6px 12px ${isDarkMode ? '#450F8A66' : '#6015C366'}`;
         }}
         aria-label="Back to Home"
       >
         <svg
-          style={{ width: '1.25rem', height: '1.25rem', fill: 'none', stroke: '#FFFFFF', strokeWidth: '2' }}
+          style={{ width: '1rem', height: '1rem', fill: 'none', stroke: '#FFFFFF', strokeWidth: '2' }}
           viewBox="0 0 24 24"
         >
           <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
@@ -241,8 +260,8 @@ export default function CountryDetails({ isDarkMode, favorites, toggleFavorite }
           transition: 'transform 0.3s ease-in-out',
           zIndex: 1,
         }}
-        onMouseEnter={(e) => (e.currentTarget.style.transform = 'translateY(-5px)')}
-        onMouseLeave={(e) => (e.currentTarget.style.transform = 'translateY(0)')}
+        onTouchStart={(e) => (e.currentTarget.style.transform = 'translateY(-5px)')}
+        onTouchEnd={(e) => (e.currentTarget.style.transform = 'translateY(0)')}
       >
         {/* Gradient overlay */}
         <div
@@ -265,9 +284,9 @@ export default function CountryDetails({ isDarkMode, favorites, toggleFavorite }
               display: 'flex',
               justifyContent: 'space-between',
               alignItems: 'center',
-              marginBottom: '2rem',
+              marginBottom: '1rem',
               flexWrap: 'wrap',
-              gap: '1rem',
+              gap: '0.5rem',
             }}
           >
             <h2
@@ -292,10 +311,10 @@ export default function CountryDetails({ isDarkMode, favorites, toggleFavorite }
                   ? 'linear-gradient(45deg, #FF4D4D, #FF7878)'
                   : `linear-gradient(45deg, ${isDarkMode ? '#6A4ABF' : '#9577E6'}, ${isDarkMode ? '#450F8A' : '#6015C3'})`,
                 color: '#FFFFFF',
-                padding: '0.75rem 1.5rem',
+                padding: '0.5rem 1rem',
                 borderRadius: '0.5rem',
                 fontWeight: '600',
-                fontSize: '1rem',
+                fontSize: '0.875rem',
                 border: 'none',
                 cursor: 'pointer',
                 transition: 'transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease',
@@ -305,11 +324,11 @@ export default function CountryDetails({ isDarkMode, favorites, toggleFavorite }
                 position: 'relative',
                 overflow: 'hidden',
               }}
-              onMouseEnter={(e) => {
+              onTouchStart={(e) => {
                 e.currentTarget.style.transform = 'scale(1.05)';
-                e.currentTarget.style.boxShadow = `0 6px 16px ${isDarkMode ? '#450F8A66' : '#6015C366'}, 0 0 20px ${isDarkMode ? '#450F8A33' : '#6015C333'}`;
+                e.currentTarget.style.boxShadow = `0 6px 16px ${isDarkMode ? '#450F8A66' : '#6015C366'}`;
               }}
-              onMouseLeave={(e) => {
+              onTouchEnd={(e) => {
                 e.currentTarget.style.transform = isModeAnimating || isFavoriteAnimating ? 'scale(1.05)' : 'scale(1)';
                 e.currentTarget.style.boxShadow = `0 4px 12px ${isDarkMode ? '#450F8A33' : '#6015C333'}`;
               }}
@@ -317,8 +336,8 @@ export default function CountryDetails({ isDarkMode, favorites, toggleFavorite }
             >
               <svg
                 style={{
-                  width: '1.25rem',
-                  height: '1.25rem',
+                  width: '1rem',
+                  height: '1rem',
                   fill: isFavorite ? '#FFFFFF' : 'none',
                   stroke: isFavorite ? 'none' : '#FFFFFF',
                   strokeWidth: '2',
@@ -343,9 +362,9 @@ export default function CountryDetails({ isDarkMode, favorites, toggleFavorite }
           <div
             style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
-              gap: '1.5rem',
-              marginBottom: '2rem',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+              gap: '1rem',
+              marginBottom: '1rem',
             }}
             className="country-details-grid"
           >
@@ -353,7 +372,7 @@ export default function CountryDetails({ isDarkMode, favorites, toggleFavorite }
             <div
               style={{
                 background: isDarkMode ? '#3B3555' : '#F9F5FF',
-                padding: '1.5rem',
+                padding: '1rem',
                 borderRadius: '0.75rem',
                 boxShadow: `0 4px 12px ${isDarkMode ? '#450F8A33' : '#6015C333'}`,
                 border: `2px solid transparent`,
@@ -361,19 +380,19 @@ export default function CountryDetails({ isDarkMode, favorites, toggleFavorite }
                 animation: isModeAnimating ? 'darkModeTransition 0.5s ease 0.1s' : 'fadeInUp 0.7s ease-in-out 0.1s',
                 transition: 'transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out',
               }}
-              onMouseEnter={(e) => {
+              onTouchStart={(e) => {
                 e.currentTarget.style.transform = 'translateY(-5px) scale(1.02)';
                 e.currentTarget.style.boxShadow = `0 6px 16px ${isDarkMode ? '#450F8A66' : '#6015C366'}`;
               }}
-              onMouseLeave={(e) => {
+              onTouchEnd={(e) => {
                 e.currentTarget.style.transform = 'translateY(0) scale(1)';
                 e.currentTarget.style.boxShadow = `0 4px 12px ${isDarkMode ? '#450F8A33' : '#6015C333'}`;
               }}
             >
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.5rem' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
                 <span
                   style={{
-                    fontSize: '1.5rem',
+                    fontSize: '1.25rem',
                     transform: isModeAnimating ? 'scale(1.1)' : 'scale(1)',
                     transition: 'transform 0.3s ease',
                   }}
@@ -409,7 +428,7 @@ export default function CountryDetails({ isDarkMode, favorites, toggleFavorite }
             <div
               style={{
                 background: isDarkMode ? '#3B3555' : '#F9F5FF',
-                padding: '1.5rem',
+                padding: '1rem',
                 borderRadius: '0.75rem',
                 boxShadow: `0 4px 12px ${isDarkMode ? '#450F8A33' : '#6015C333'}`,
                 border: `2px solid transparent`,
@@ -417,19 +436,19 @@ export default function CountryDetails({ isDarkMode, favorites, toggleFavorite }
                 animation: isModeAnimating ? 'darkModeTransition 0.5s ease 0.2s' : 'fadeInUp 0.7s ease-in-out 0.2s',
                 transition: 'transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out',
               }}
-              onMouseEnter={(e) => {
+              onTouchStart={(e) => {
                 e.currentTarget.style.transform = 'translateY(-5px) scale(1.02)';
                 e.currentTarget.style.boxShadow = `0 6px 16px ${isDarkMode ? '#450F8A66' : '#6015C366'}`;
               }}
-              onMouseLeave={(e) => {
+              onTouchEnd={(e) => {
                 e.currentTarget.style.transform = 'translateY(0) scale(1)';
                 e.currentTarget.style.boxShadow = `0 4px 12px ${isDarkMode ? '#450F8A33' : '#6015C333'}`;
               }}
             >
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.5rem' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
                 <span
                   style={{
-                    fontSize: '1.5rem',
+                    fontSize: '1.25rem',
                     transform: isModeAnimating ? 'scale(1.1)' : 'scale(1)',
                     transition: 'transform 0.3s ease',
                   }}
@@ -459,7 +478,6 @@ export default function CountryDetails({ isDarkMode, favorites, toggleFavorite }
                     boxShadow: `0 4px 8px ${isDarkMode ? '#450F8A33' : '#6015C333'}`,
                     transform: isModeAnimating ? 'scale(1.02)' : 'scale(1)',
                     transition: 'transform 0.3s ease',
-                    animation: 'neonGlow 2s ease-in-out infinite alternate',
                   }}
                 />
               ) : (
@@ -469,7 +487,7 @@ export default function CountryDetails({ isDarkMode, favorites, toggleFavorite }
                     justifyContent: 'center',
                     alignItems: 'center',
                     width: '100%',
-                    height: '150px',
+                    height: '100px',
                     background: isDarkMode ? '#2A2640' : '#E6E0FA',
                     borderRadius: '0.5rem',
                     boxShadow: `0 4px 8px ${isDarkMode ? '#450F8A33' : '#6015C333'}`,
@@ -477,8 +495,8 @@ export default function CountryDetails({ isDarkMode, favorites, toggleFavorite }
                 >
                   <svg
                     style={{
-                      width: '80px',
-                      height: '80px',
+                      width: '60px',
+                      height: '60px',
                       fill: 'none',
                       stroke: isDarkMode ? '#FFFFFF' : '#6015C3',
                       strokeWidth: '2',
@@ -498,25 +516,25 @@ export default function CountryDetails({ isDarkMode, favorites, toggleFavorite }
             <div
               style={{
                 background: isDarkMode ? '#3B3555' : '#F9F5FF',
-                padding: '1.5rem',
+                padding: '1rem',
                 borderRadius: '0.75rem',
                 boxShadow: `0 4px 12px ${isDarkMode ? '#450F8A33' : '#6015C333'}`,
                 animation: isModeAnimating ? 'darkModeTransition 0.5s ease 0.3s' : 'fadeInUp 0.7s ease-in-out 0.3s',
                 transition: 'transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out',
               }}
-              onMouseEnter={(e) => {
+              onTouchStart={(e) => {
                 e.currentTarget.style.transform = 'translateY(-5px) scale(1.02)';
                 e.currentTarget.style.boxShadow = `0 6px 16px ${isDarkMode ? '#450F8A66' : '#6015C366'}`;
               }}
-              onMouseLeave={(e) => {
+              onTouchEnd={(e) => {
                 e.currentTarget.style.transform = 'translateY(0) scale(1)';
                 e.currentTarget.style.boxShadow = `0 4px 12px ${isDarkMode ? '#450F8A33' : '#6015C333'}`;
               }}
             >
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
                 <span
                   style={{
-                    fontSize: '1.5rem',
+                    fontSize: '1.25rem',
                     transform: isModeAnimating ? 'scale(1.1)' : 'scale(1)',
                     transition: 'transform 0.3s ease',
                   }}
@@ -538,8 +556,8 @@ export default function CountryDetails({ isDarkMode, favorites, toggleFavorite }
               <p
                 style={{
                   fontSize: '1rem',
-                  color: isDarkMode ? '#FFFFFF' : '#2D1B4E',
-                  marginTop: '0.5rem',
+                  color: isDarkMode ? '#A8A4CE' : '#6015C3',
+                  margin: '0',
                   transform: isModeAnimating ? 'translateY(-2px)' : 'translateY(0)',
                   transition: 'color 0.3s ease, transform 0.3s ease',
                 }}
@@ -547,250 +565,34 @@ export default function CountryDetails({ isDarkMode, favorites, toggleFavorite }
                 {country.capital?.[0] || 'N/A'}
               </p>
             </div>
-            {/* Population */}
+            {/* Region */}
             <div
               style={{
                 background: isDarkMode ? '#3B3555' : '#F9F5FF',
-                padding: '1.5rem',
+                padding: '1rem',
                 borderRadius: '0.75rem',
                 boxShadow: `0 4px 12px ${isDarkMode ? '#450F8A33' : '#6015C333'}`,
                 animation: isModeAnimating ? 'darkModeTransition 0.5s ease 0.4s' : 'fadeInUp 0.7s ease-in-out 0.4s',
                 transition: 'transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out',
               }}
-              onMouseEnter={(e) => {
+              onTouchStart={(e) => {
                 e.currentTarget.style.transform = 'translateY(-5px) scale(1.02)';
                 e.currentTarget.style.boxShadow = `0 6px 16px ${isDarkMode ? '#450F8A66' : '#6015C366'}`;
               }}
-              onMouseLeave={(e) => {
+              onTouchEnd={(e) => {
                 e.currentTarget.style.transform = 'translateY(0) scale(1)';
                 e.currentTarget.style.boxShadow = `0 4px 12px ${isDarkMode ? '#450F8A33' : '#6015C333'}`;
               }}
             >
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
                 <span
                   style={{
-                    fontSize: '1.5rem',
-                    transform: isModeAnimating ? 'scale(1.1)' : 'scale(1)',
-                    transition: 'transform 0.3s ease',
-                  }}
-                >
-                  👥
-                </span>
-                <h3
-                  style={{
-                    fontSize: '1.2rem',
-                    fontWeight: '600',
-                    color: isDarkMode ? '#FFFFFF' : '#2D1B4E',
-                    transform: isModeAnimating ? 'translateY(-2px)' : 'translateY(0)',
-                    transition: 'color 0.3s ease, transform 0.3s ease',
-                  }}
-                >
-                  Population
-                </h3>
-              </div>
-              <p
-                style={{
-                  fontSize: '1rem',
-                  color: isDarkMode ? '#FFFFFF' : '#2D1B4E',
-                  marginTop: '0.5rem',
-                  transform: isModeAnimating ? 'translateY(-2px)' : 'translateY(0)',
-                  transition: 'color 0.3s ease, transform 0.3s ease',
-                }}
-              >
-                {country.population.toLocaleString() || 'N/A'}
-              </p>
-            </div>
-            {/* Area */}
-            <div
-              style={{
-                background: isDarkMode ? '#3B3555' : '#F9F5FF',
-                padding: '1.5rem',
-                borderRadius: '0.75rem',
-                boxShadow: `0 4px 12px ${isDarkMode ? '#450F8A33' : '#6015C333'}`,
-                animation: isModeAnimating ? 'darkModeTransition 0.5s ease 0.5s' : 'fadeInUp 0.7s ease-in-out 0.5s',
-                transition: 'transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out',
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'translateY(-5px) scale(1.02)';
-                e.currentTarget.style.boxShadow = `0 6px 16px ${isDarkMode ? '#450F8A66' : '#6015C366'}`;
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'translateY(0) scale(1)';
-                e.currentTarget.style.boxShadow = `0 4px 12px ${isDarkMode ? '#450F8A33' : '#6015C333'}`;
-              }}
-            >
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                <span
-                  style={{
-                    fontSize: '1.5rem',
+                    fontSize: '1.25rem',
                     transform: isModeAnimating ? 'scale(1.1)' : 'scale(1)',
                     transition: 'transform 0.3s ease',
                   }}
                 >
                   🌍
-                </span>
-                <h3
-                  style={{
-                    fontSize: '1.2rem',
-                    fontWeight: '600',
-                    color: isDarkMode ? '#FFFFFF' : '#2D1B4E',
-                    transform: isModeAnimating ? 'translateY(-2px)' : 'translateY(0)',
-                    transition: 'color 0.3s ease, transform 0.3s ease',
-                  }}
-                >
-                  Area
-                </h3>
-              </div>
-              <p
-                style={{
-                  fontSize: '1rem',
-                  color: isDarkMode ? '#FFFFFF' : '#2D1B4E',
-                  marginTop: '0.5rem',
-                  transform: isModeAnimating ? 'translateY(-2px)' : 'translateY(0)',
-                  transition: 'color 0.3s ease, transform 0.3s ease',
-                }}
-              >
-                {country.area ? `${country.area.toLocaleString()} km²` : 'N/A'}
-              </p>
-            </div>
-            {/* Currency */}
-            <div
-              style={{
-                background: isDarkMode ? '#3B3555' : '#F9F5FF',
-                padding: '1.5rem',
-                borderRadius: '0.75rem',
-                boxShadow: `0 4px 12px ${isDarkMode ? '#450F8A33' : '#6015C333'}`,
-                animation: isModeAnimating ? 'darkModeTransition 0.5s ease 0.6s' : 'fadeInUp 0.7s ease-in-out 0.6s',
-                transition: 'transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out',
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'translateY(-5px) scale(1.02)';
-                e.currentTarget.style.boxShadow = `0 6px 16px ${isDarkMode ? '#450F8A66' : '#6015C366'}`;
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'translateY(0) scale(1)';
-                e.currentTarget.style.boxShadow = `0 4px 12px ${isDarkMode ? '#450F8A33' : '#6015C333'}`;
-              }}
-            >
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                <span
-                  style={{
-                    fontSize: '1.5rem',
-                    transform: isModeAnimating ? 'scale(1.1)' : 'scale(1)',
-                    transition: 'transform 0.3s ease',
-                  }}
-                >
-                  💵
-                </span>
-                <h3
-                  style={{
-                    fontSize: '1.2rem',
-                    fontWeight: '600',
-                    color: isDarkMode ? '#FFFFFF' : '#2D1B4E',
-                    transform: isModeAnimating ? 'translateY(-2px)' : 'translateY(0)',
-                    transition: 'color 0.3s ease, transform 0.3s ease',
-                  }}
-                >
-                  Currency
-                </h3>
-              </div>
-              <p
-                style={{
-                  fontSize: '1rem',
-                  color: isDarkMode ? '#FFFFFF' : '#2D1B4E',
-                  marginTop: '0.5rem',
-                  transform: isModeAnimating ? 'translateY(-2px)' : 'translateY(0)',
-                  transition: 'color 0.3s ease, transform 0.3s ease',
-                }}
-              >
-                {country.currencies
-                  ? Object.values(country.currencies)
-                      .map((c) => `${c.name} (${c.symbol})`)
-                      .join(', ')
-                  : 'N/A'}
-              </p>
-            </div>
-            {/* Languages */}
-            <div
-              style={{
-                background: isDarkMode ? '#3B3555' : '#F9F5FF',
-                padding: '1.5rem',
-                borderRadius: '0.75rem',
-                boxShadow: `0 4px 12px ${isDarkMode ? '#450F8A33' : '#6015C333'}`,
-                animation: isModeAnimating ? 'darkModeTransition 0.5s ease 0.7s' : 'fadeInUp 0.7s ease-in-out 0.7s',
-                transition: 'transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out',
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'translateY(-5px) scale(1.02)';
-                e.currentTarget.style.boxShadow = `0 6px 16px ${isDarkMode ? '#450F8A66' : '#6015C366'}`;
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'translateY(0) scale(1)';
-                e.currentTarget.style.boxShadow = `0 4px 12px ${isDarkMode ? '#450F8A33' : '#6015C333'}`;
-              }}
-            >
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                <span
-                  style={{
-                    fontSize: '1.5rem',
-                    transform: isModeAnimating ? 'scale(1.1)' : 'scale(1)',
-                    transition: 'transform 0.3s ease',
-                  }}
-                >
-                  🗣️
-                </span>
-                <h3
-                  style={{
-                    fontSize: '1.2rem',
-                    fontWeight: '600',
-                    color: isDarkMode ? '#FFFFFF' : '#2D1B4E',
-                    transform: isModeAnimating ? 'translateY(-2px)' : 'translateY(0)',
-                    transition: 'color 0.3s ease, transform 0.3s ease',
-                  }}
-                >
-                  Languages
-                </h3>
-              </div>
-              <p
-                style={{
-                  fontSize: '1rem',
-                  color: isDarkMode ? '#FFFFFF' : '#2D1B4E',
-                  marginTop: '0.5rem',
-                  transform: isModeAnimating ? 'translateY(-2px)' : 'translateY(0)',
-                  transition: 'color 0.3s ease, transform 0.3s ease',
-                }}
-              >
-                {country.languages ? Object.values(country.languages).join(', ') : 'N/A'}
-              </p>
-            </div>
-            {/* Region */}
-            <div
-              style={{
-                background: isDarkMode ? '#3B3555' : '#F9F5FF',
-                padding: '1.5rem',
-                borderRadius: '0.75rem',
-                boxShadow: `0 4px 12px ${isDarkMode ? '#450F8A33' : '#6015C333'}`,
-                animation: isModeAnimating ? 'darkModeTransition 0.5s ease 0.8s' : 'fadeInUp 0.7s ease-in-out 0.8s',
-                transition: 'transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out',
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'translateY(-5px) scale(1.02)';
-                e.currentTarget.style.boxShadow = `0 6px 16px ${isDarkMode ? '#450F8A66' : '#6015C366'}`;
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'translateY(0) scale(1)';
-                e.currentTarget.style.boxShadow = `0 4px 12px ${isDarkMode ? '#450F8A33' : '#6015C333'}`;
-              }}
-            >
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                <span
-                  style={{
-                    fontSize: '1.5rem',
-                    transform: isModeAnimating ? 'scale(1.1)' : 'scale(1)',
-                    transition: 'transform 0.3s ease',
-                  }}
-                >
-                  🌐
                 </span>
                 <h3
                   style={{
@@ -807,38 +609,38 @@ export default function CountryDetails({ isDarkMode, favorites, toggleFavorite }
               <p
                 style={{
                   fontSize: '1rem',
-                  color: isDarkMode ? '#FFFFFF' : '#2D1B4E',
-                  marginTop: '0.5rem',
+                  color: isDarkMode ? '#A8A4CE' : '#6015C3',
+                  margin: '0',
                   transform: isModeAnimating ? 'translateY(-2px)' : 'translateY(0)',
                   transition: 'color 0.3s ease, transform 0.3s ease',
                 }}
               >
-                {country.region || 'N/A'}
+                {country.region}
               </p>
             </div>
             {/* Subregion */}
             <div
               style={{
                 background: isDarkMode ? '#3B3555' : '#F9F5FF',
-                padding: '1.5rem',
+                padding: '1rem',
                 borderRadius: '0.75rem',
                 boxShadow: `0 4px 12px ${isDarkMode ? '#450F8A33' : '#6015C333'}`,
-                animation: isModeAnimating ? 'darkModeTransition 0.5s ease 0.9s' : 'fadeInUp 0.7s ease-in-out 0.9s',
+                animation: isModeAnimating ? 'darkModeTransition 0.5s ease 0.5s' : 'fadeInUp 0.7s ease-in-out 0.5s',
                 transition: 'transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out',
               }}
-              onMouseEnter={(e) => {
+              onTouchStart={(e) => {
                 e.currentTarget.style.transform = 'translateY(-5px) scale(1.02)';
                 e.currentTarget.style.boxShadow = `0 6px 16px ${isDarkMode ? '#450F8A66' : '#6015C366'}`;
               }}
-              onMouseLeave={(e) => {
+              onTouchEnd={(e) => {
                 e.currentTarget.style.transform = 'translateY(0) scale(1)';
                 e.currentTarget.style.boxShadow = `0 4px 12px ${isDarkMode ? '#450F8A33' : '#6015C333'}`;
               }}
             >
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
                 <span
                   style={{
-                    fontSize: '1.5rem',
+                    fontSize: '1.25rem',
                     transform: isModeAnimating ? 'scale(1.1)' : 'scale(1)',
                     transition: 'transform 0.3s ease',
                   }}
@@ -860,8 +662,8 @@ export default function CountryDetails({ isDarkMode, favorites, toggleFavorite }
               <p
                 style={{
                   fontSize: '1rem',
-                  color: isDarkMode ? '#FFFFFF' : '#2D1B4E',
-                  marginTop: '0.5rem',
+                  color: isDarkMode ? '#A8A4CE' : '#6015C3',
+                  margin: '0',
                   transform: isModeAnimating ? 'translateY(-2px)' : 'translateY(0)',
                   transition: 'color 0.3s ease, transform 0.3s ease',
                 }}
@@ -869,10 +671,286 @@ export default function CountryDetails({ isDarkMode, favorites, toggleFavorite }
                 {country.subregion || 'N/A'}
               </p>
             </div>
+            {/* Population */}
+            <div
+              style={{
+                background: isDarkMode ? '#3B3555' : '#F9F5FF',
+                padding: '1rem',
+                borderRadius: '0.75rem',
+                boxShadow: `0 4px 12px ${isDarkMode ? '#450F8A33' : '#6015C333'}`,
+                animation: isModeAnimating ? 'darkModeTransition 0.5s ease 0.6s' : 'fadeInUp 0.7s ease-in-out 0.6s',
+                transition: 'transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out',
+              }}
+              onTouchStart={(e) => {
+                e.currentTarget.style.transform = 'translateY(-5px) scale(1.02)';
+                e.currentTarget.style.boxShadow = `0 6px 16px ${isDarkMode ? '#450F8A66' : '#6015C366'}`;
+              }}
+              onTouchEnd={(e) => {
+                e.currentTarget.style.transform = 'translateY(0) scale(1)';
+                e.currentTarget.style.boxShadow = `0 4px 12px ${isDarkMode ? '#450F8A33' : '#6015C333'}`;
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
+                <span
+                  style={{
+                    fontSize: '1.25rem',
+                    transform: isModeAnimating ? 'scale(1.1)' : 'scale(1)',
+                    transition: 'transform 0.3s ease',
+                  }}
+                >
+                  👨‍👩‍👧‍👦
+                </span>
+                <h3
+                  style={{
+                    fontSize: '1.2rem',
+                    fontWeight: '600',
+                    color: isDarkMode ? '#FFFFFF' : '#2D1B4E',
+                    transform: isModeAnimating ? 'translateY(-2px)' : 'translateY(0)',
+                    transition: 'color 0.3s ease, transform 0.3s ease',
+                  }}
+                >
+                  Population
+                </h3>
+              </div>
+              <p
+                style={{
+                  fontSize: '1rem',
+                  color: isDarkMode ? '#A8A4CE' : '#6015C3',
+                  margin: '0',
+                  transform: isModeAnimating ? 'translateY(-2px)' : 'translateY(0)',
+                  transition: 'color 0.3s ease, transform 0.3s ease',
+                }}
+              >
+                {country.population.toLocaleString()}
+              </p>
+            </div>
+            {/* Area */}
+            <div
+              style={{
+                background: isDarkMode ? '#3B3555' : '#F9F5FF',
+                padding: '1rem',
+                borderRadius: '0.75rem',
+                boxShadow: `0 4px 12px ${isDarkMode ? '#450F8A33' : '#6015C333'}`,
+                animation: isModeAnimating ? 'darkModeTransition 0.5s ease 0.7s' : 'fadeInUp 0.7s ease-in-out 0.7s',
+                transition: 'transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out',
+              }}
+              onTouchStart={(e) => {
+                e.currentTarget.style.transform = 'translateY(-5px) scale(1.02)';
+                e.currentTarget.style.boxShadow = `0 6px 16px ${isDarkMode ? '#450F8A66' : '#6015C366'}`;
+              }}
+              onTouchEnd={(e) => {
+                e.currentTarget.style.transform = 'translateY(0) scale(1)';
+                e.currentTarget.style.boxShadow = `0 4px 12px ${isDarkMode ? '#450F8A33' : '#6015C333'}`;
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
+                <span
+                  style={{
+                    fontSize: '1.25rem',
+                    transform: isModeAnimating ? 'scale(1.1)' : 'scale(1)',
+                    transition: 'transform 0.3s ease',
+                  }}
+                >
+                  📏
+                </span>
+                <h3
+                  style={{
+                    fontSize: '1.2rem',
+                    fontWeight: '600',
+                    color: isDarkMode ? '#FFFFFF' : '#2D1B4E',
+                    transform: isModeAnimating ? 'translateY(-2px)' : 'translateY(0)',
+                    transition: 'color 0.3s ease, transform 0.3s ease',
+                  }}
+                >
+                  Area
+                </h3>
+              </div>
+              <p
+                style={{
+                  fontSize: '1rem',
+                  color: isDarkMode ? '#A8A4CE' : '#6015C3',
+                  margin: '0',
+                  transform: isModeAnimating ? 'translateY(-2px)' : 'translateY(0)',
+                  transition: 'color 0.3s ease, transform 0.3s ease',
+                }}
+              >
+                {country.area.toLocaleString()} km²
+              </p>
+            </div>
+            {/* Languages */}
+            <div
+              style={{
+                background: isDarkMode ? '#3B3555' : '#F9F5FF',
+                padding: '1rem',
+                borderRadius: '0.75rem',
+                boxShadow: `0 4px 12px ${isDarkMode ? '#450F8A33' : '#6015C333'}`,
+                animation: isModeAnimating ? 'darkModeTransition 0.5s ease 0.8s' : 'fadeInUp 0.7s ease-in-out 0.8s',
+                transition: 'transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out',
+              }}
+              onTouchStart={(e) => {
+                e.currentTarget.style.transform = 'translateY(-5px) scale(1.02)';
+                e.currentTarget.style.boxShadow = `0 6px 16px ${isDarkMode ? '#450F8A66' : '#6015C366'}`;
+              }}
+              onTouchEnd={(e) => {
+                e.currentTarget.style.transform = 'translateY(0) scale(1)';
+                e.currentTarget.style.boxShadow = `0 4px 12px ${isDarkMode ? '#450F8A33' : '#6015C333'}`;
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
+                <span
+                  style={{
+                    fontSize: '1.25rem',
+                    transform: isModeAnimating ? 'scale(1.1)' : 'scale(1)',
+                    transition: 'transform 0.3s ease',
+                  }}
+                >
+                  🗣️
+                </span>
+                <h3
+                  style={{
+                    fontSize: '1.2rem',
+                    fontWeight: '600',
+                    color: isDarkMode ? '#FFFFFF' : '#2D1B4E',
+                    transform: isModeAnimating ? 'translateY(-2px)' : 'translateY(0)',
+                    transition: 'color 0.3s ease, transform 0.3s ease',
+                  }}
+                >
+                  Languages
+                </h3>
+              </div>
+              <p
+                style={{
+                  fontSize: '1rem',
+                  color: isDarkMode ? '#A8A4CE' : '#6015C3',
+                  margin: '0',
+                  transform: isModeAnimating ? 'translateY(-2px)' : 'translateY(0)',
+                  transition: 'color 0.3s ease, transform 0.3s ease',
+                }}
+              >
+                {country.languages ? Object.values(country.languages).join(', ') : 'N/A'}
+              </p>
+            </div>
+            {/* Currencies */}
+            <div
+              style={{
+                background: isDarkMode ? '#3B3555' : '#F9F5FF',
+                padding: '1rem',
+                borderRadius: '0.75rem',
+                boxShadow: `0 4px 12px ${isDarkMode ? '#450F8A33' : '#6015C333'}`,
+                animation: isModeAnimating ? 'darkModeTransition 0.5s ease 0.9s' : 'fadeInUp 0.7s ease-in-out 0.9s',
+                transition: 'transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out',
+              }}
+              onTouchStart={(e) => {
+                e.currentTarget.style.transform = 'translateY(-5px) scale(1.02)';
+                e.currentTarget.style.boxShadow = `0 6px 16px ${isDarkMode ? '#450F8A66' : '#6015C366'}`;
+              }}
+              onTouchEnd={(e) => {
+                e.currentTarget.style.transform = 'translateY(0) scale(1)';
+                e.currentTarget.style.boxShadow = `0 4px 12px ${isDarkMode ? '#450F8A33' : '#6015C333'}`;
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
+                <span
+                  style={{
+                    fontSize: '1.25rem',
+                    transform: isModeAnimating ? 'scale(1.1)' : 'scale(1)',
+                    transition: 'transform 0.3s ease',
+                  }}
+                >
+                  💵
+                </span>
+                <h3
+                  style={{
+                    fontSize: '1.2rem',
+                    fontWeight: '600',
+                    color: isDarkMode ? '#FFFFFF' : '#2D1B4E',
+                    transform: isModeAnimating ? 'translateY(-2px)' : 'translateY(0)',
+                    transition: 'color 0.3s ease, transform 0.3s ease',
+                  }}
+                >
+                  Currencies
+                </h3>
+              </div>
+              <p
+                style={{
+                  fontSize: '1rem',
+                  color: isDarkMode ? '#A8A4CE' : '#6015C3',
+                  margin: '0',
+                  transform: isModeAnimating ? 'translateY(-2px)' : 'translateY(0)',
+                  transition: 'color 0.3s ease, transform 0.3s ease',
+                }}
+              >
+                {country.currencies
+                  ? Object.values(country.currencies)
+                      .map((currency) => `${currency.name} (${currency.symbol})`)
+                      .join(', ')
+                  : 'N/A'}
+              </p>
+            </div>
+            {/* Timezones */}
+            <div
+              style={{
+                background: isDarkMode ? '#3B3555' : '#F9F5FF',
+                padding: '1rem',
+                borderRadius: '0.75rem',
+                boxShadow: `0 4px 12px ${isDarkMode ? '#450F8A33' : '#6015C333'}`,
+                animation: isModeAnimating ? 'darkModeTransition 0.5s ease 1s' : 'fadeInUp 0.7s ease-in-out 1s',
+                transition: 'transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out',
+              }}
+              onTouchStart={(e) => {
+                e.currentTarget.style.transform = 'translateY(-5px) scale(1.02)';
+                e.currentTarget.style.boxShadow = `0 6px 16px ${isDarkMode ? '#450F8A66' : '#6015C366'}`;
+              }}
+              onTouchEnd={(e) => {
+                e.currentTarget.style.transform = 'translateY(0) scale(1)';
+                e.currentTarget.style.boxShadow = `0 4px 12px ${isDarkMode ? '#450F8A33' : '#6015C333'}`;
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
+                <span
+                  style={{
+                    fontSize: '1.25rem',
+                    transform: isModeAnimating ? 'scale(1.1)' : 'scale(1)',
+                    transition: 'transform 0.3s ease',
+                  }}
+                >
+                  ⏰
+                </span>
+                <h3
+                  style={{
+                    fontSize: '1.2rem',
+                    fontWeight: '600',
+                    color: isDarkMode ? '#FFFFFF' : '#2D1B4E',
+                    transform: isModeAnimating ? 'translateY(-2px)' : 'translateY(0)',
+                    transition: 'color 0.3s ease, transform 0.3s ease',
+                  }}
+                >
+                  Timezones
+                </h3>
+              </div>
+              <p
+                style={{
+                  fontSize: '1rem',
+                  color: isDarkMode ? '#A8A4CE' : '#6015C3',
+                  margin: '0',
+                  transform: isModeAnimating ? 'translateY(-2px)' : 'translateY(0)',
+                  transition: 'color 0.3s ease, transform 0.3s ease',
+                }}
+              >
+                {country.timezones?.join(', ') || 'N/A'}
+              </p>
+            </div>
           </div>
           {/* External links */}
-          <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
-            {/* Wikipedia link */}
+          <div
+            style={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              gap: '0.75rem',
+              marginTop: '1rem',
+              justifyContent: 'center',
+            }}
+          >
             <a
               href={wikipediaUrl}
               target="_blank"
@@ -883,33 +961,33 @@ export default function CountryDetails({ isDarkMode, favorites, toggleFavorite }
                 gap: '0.5rem',
                 background: `linear-gradient(45deg, ${isDarkMode ? '#450F8A' : '#6015C3'}, ${isDarkMode ? '#6A4ABF' : '#9577E6'})`,
                 color: '#FFFFFF',
-                padding: '0.75rem 1.5rem',
+                padding: '0.5rem 1rem',
                 borderRadius: '0.5rem',
                 fontWeight: '600',
                 textDecoration: 'none',
                 transition: 'all 0.3s ease-in-out',
                 transform: isModeAnimating ? 'scale(1.05)' : 'scale(1)',
-                boxShadow: `0 6px 12px ${isDarkMode ? '#450F8A66' : '#6015C366'}`,
-                animation: isModeAnimating ? 'none' : 'fadeInUp 0.7s ease-in-out 1s',
-                position: 'relative',
-                overflow: 'hidden',
+                boxShadow: `0 4px 12px ${isDarkMode ? '#450F8A33' : '#6015C333'}`,
+                fontSize: '0.875rem',
               }}
-              onMouseEnter={(e) => {
+              onTouchStart={(e) => {
                 e.currentTarget.style.transform = 'scale(1.05)';
-                e.currentTarget.style.boxShadow = `0 8px 16px ${isDarkMode ? '#450F8A99' : '#6015C399'}`;
+                e.currentTarget.style.boxShadow = `0 6px 16px ${isDarkMode ? '#450F8A66' : '#6015C366'}`;
               }}
-              onMouseLeave={(e) => {
+              onTouchEnd={(e) => {
                 e.currentTarget.style.transform = isModeAnimating ? 'scale(1.05)' : 'scale(1)';
-                e.currentTarget.style.boxShadow = `0 6px 12px ${isDarkMode ? '#450F8A66' : '#6015C366'}`;
+                e.currentTarget.style.boxShadow = `0 4px 12px ${isDarkMode ? '#450F8A33' : '#6015C333'}`;
               }}
-              aria-label="Learn More on Wikipedia"
+              aria-label="Visit Wikipedia"
             >
-              <svg style={{ width: '1.25rem', height: '1.25rem', fill: '#FFFFFF' }} viewBox="0 0 24 24">
-                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95.49-7.43-2.14-7.93-6.09C2.58 9.89 5.21 6.41 9.16 5.91c3.95-.49 7.43 2.14 7.93 6.09.49 3.95-2.14 7.43-6.09 7.93z" />
+              <svg
+                style={{ width: '1rem', height: '1rem', fill: '#FFFFFF' }}
+                viewBox="0 0 24 24"
+              >
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.22-1.79L8 14v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1h-6v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z" />
               </svg>
-              Learn More on Wikipedia
+              Wikipedia
             </a>
-            {/* Google Maps link */}
             <a
               href={googleMapsUrl}
               target="_blank"
@@ -920,31 +998,32 @@ export default function CountryDetails({ isDarkMode, favorites, toggleFavorite }
                 gap: '0.5rem',
                 background: `linear-gradient(45deg, ${isDarkMode ? '#450F8A' : '#6015C3'}, ${isDarkMode ? '#6A4ABF' : '#9577E6'})`,
                 color: '#FFFFFF',
-                padding: '0.75rem 1.5rem',
+                padding: '0.5rem 1rem',
                 borderRadius: '0.5rem',
                 fontWeight: '600',
                 textDecoration: 'none',
                 transition: 'all 0.3s ease-in-out',
                 transform: isModeAnimating ? 'scale(1.05)' : 'scale(1)',
-                boxShadow: `0 6px 12px ${isDarkMode ? '#450F8A66' : '#6015C366'}`,
-                animation: isModeAnimating ? 'none' : 'fadeInUp 0.7s ease-in-out 1.1s',
-                position: 'relative',
-                overflow: 'hidden',
+                boxShadow: `0 4px 12px ${isDarkMode ? '#450F8A33' : '#6015C333'}`,
+                fontSize: '0.875rem',
               }}
-              onMouseEnter={(e) => {
+              onTouchStart={(e) => {
                 e.currentTarget.style.transform = 'scale(1.05)';
-                e.currentTarget.style.boxShadow = `0 8px 16px ${isDarkMode ? '#450F8A99' : '#6015C399'}`;
+                e.currentTarget.style.boxShadow = `0 6px 16px ${isDarkMode ? '#450F8A66' : '#6015C366'}`;
               }}
-              onMouseLeave={(e) => {
+              onTouchEnd={(e) => {
                 e.currentTarget.style.transform = isModeAnimating ? 'scale(1.05)' : 'scale(1)';
-                e.currentTarget.style.boxShadow = `0 6px 12px ${isDarkMode ? '#450F8A66' : '#6015C366'}`;
+                e.currentTarget.style.boxShadow = `0 4px 12px ${isDarkMode ? '#450F8A33' : '#6015C333'}`;
               }}
               aria-label="View on Google Maps"
             >
-              <svg style={{ width: '1.25rem', height: '1.25rem', fill: '#FFFFFF' }} viewBox="0 0 24 24">
+              <svg
+                style={{ width: '1rem', height: '1rem', fill: '#FFFFFF' }}
+                viewBox="0 0 24 24"
+              >
                 <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
               </svg>
-              View on Google Maps
+              Google Maps
             </a>
           </div>
         </div>
