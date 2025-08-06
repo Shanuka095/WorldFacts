@@ -64,21 +64,42 @@ npm test
 ## 📁 Project Structure
 
 ```
-Rest-Countries-App-Frontend/
+WorldFacts/
 ├── src/
-│   ├── components/
-│   │   ├── CountryCard.jsx         # Country summary card
-│   │   ├── SearchFilter.jsx        # Search and filter controls
-│   │   ├── Header.jsx              # Navigation header
-│   │   └── __tests__/              # Component unit tests
-│   ├── pages/
-│   │   ├── Home.jsx                # Country listing page
-│   │   ├── CountryDetails.jsx      # Detailed country view
-│   │   └── __tests__/              # Page-specific tests
-│   ├── services/
-│   │   └── api.js                  # API interaction layer
-│   └── __mocks__/                  # Mock data for testing
-├── vercel.json                     # SPA routing rules for Vercel
+│   ├── components/
+│   │   ├── CountryCard.jsx
+│   │   ├── SearchFilter.jsx
+│   │   ├── Header.jsx
+│   │   └── __tests__/
+│   │       ├── CountryCard.test.jsx
+│   │       ├── Header.test.jsx
+│   │       └── SearchFilter.test.jsx
+│   ├── pages/
+│   │   ├── Home.jsx
+│   │   ├── CountryDetails.jsx
+│   │   ├── Login.jsx
+│   │   ├── Profile.jsx
+│   │   ├── Register.jsx
+│   │   └── __tests__/
+│   │       ├── CountryDetails.test.jsx
+│   │       └── Home.test.jsx
+│   ├── services/
+│   │   └── api.js
+│   ├── App.css
+│   ├── App.jsx
+│   ├── index.css
+│   ├── main.jsx
+│   └── setupTests.js
+├── .gitignore
+├── babel.config.cjs
+├── eslint.config.js
+├── index.html
+├── jest.config.cjs
+├── package-lock.json
+├── package.json
+├── README.md
+├── vercel.json
+└── vite.config.js
 ```
 
 ---
