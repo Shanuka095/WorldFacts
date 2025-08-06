@@ -8,8 +8,6 @@ export default function Register({ isDarkMode, setIsAuthenticated }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [profilePic, setProfilePic] = useState('');
-  const [preview, setPreview] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate();
@@ -22,29 +20,6 @@ export default function Register({ isDarkMode, setIsAuthenticated }) {
     if (password.length < 8) return 'Password must be at least 8 characters';
     if (password !== confirmPassword) return 'Passwords do not match';
     return '';
-  };
-
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      if (!file.type.startsWith('image/')) {
-        setError('Please upload an image file');
-        return;
-      }
-      if (file.size > 5 * 1024 * 1024) {
-        setError('Image size must be less than 5MB');
-        return;
-      }
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setProfilePic(reader.result);
-        setPreview(reader.result);
-      };
-      reader.readAsDataURL(file);
-    } else {
-      setProfilePic('');
-      setPreview('');
-    }
   };
 
   const handleRegister = (e) => {
@@ -69,7 +44,6 @@ export default function Register({ isDarkMode, setIsAuthenticated }) {
       phone,
       email,
       password,
-      profilePic: profilePic || '',
       registrationDate: new Date().toISOString()
     };
 
@@ -79,7 +53,7 @@ export default function Register({ isDarkMode, setIsAuthenticated }) {
       email,
       fullName: `${firstName} ${lastName}`,
       phone,
-      profilePic,
+      profilePic: '',
       registrationDate: newUser.registrationDate
     }));
     setIsAuthenticated(true);
@@ -205,24 +179,6 @@ export default function Register({ isDarkMode, setIsAuthenticated }) {
               {showPassword ? '🙈' : '👁️'}
             </button>
           </div>
-          <div style={{ position: 'relative' }}>
-            <input
-              type="file"
-              accept="image/*"
-              onChange={handleFileChange}
-              style={{ border: `1px solid ${isDarkMode ? '#4B0E9A' : '#6D16DF'}`, background: isDarkMode ? '#3B3555' : '#F9F5FF', color: isDarkMode ? '#FFFFFF' : '#2D1B4E', padding: '0.75rem', borderRadius: '0.5rem', width: '100%', outline: 'none', transition: 'all 0.3s ease', boxShadow: '0 2px 4px rgba(0,0,0,0.1)', cursor: 'pointer' }}
-              onFocus={(e) => e.target.style.boxShadow = `0 0 0 3px ${isDarkMode ? '#4B0E9A66' : '#6D16DF66'}`}
-              onBlur={(e) => e.target.style.boxShadow = '0 2px 4px rgba(0,0,0,0.1)'}
-            />
-            <span style={{ position: 'absolute', right: '0.75rem', top: '50%', transform: 'translateY(-50%)', color: isDarkMode ? '#FFFFFF' : '#6D16DF', fontSize: '1.25rem' }}>🖼️</span>
-            {preview && (
-              <img
-                src={preview}
-                alt="Profile Preview"
-                style={{ width: '100%', maxWidth: '150px', height: 'auto', borderRadius: '0.5rem', marginTop: '1rem', boxShadow: `0 4px 8px ${isDarkMode ? '#4B0E9A33' : '#6D16DF33'}`, animation: 'fadeIn 0.5s ease' }}
-              />
-            )}
-          </div>
           <button
             type="submit"
             style={{ background: `linear-gradient(45deg, ${isDarkMode ? '#4B0E9A' : '#6D16DF'}, ${isDarkMode ? '#6A4ABF' : '#9577E6'})`, color: '#FFFFFF', padding: '0.75rem', borderRadius: '0.5rem', fontWeight: '600', border: 'none', cursor: 'pointer', transition: 'all 0.3s ease', transform: 'scale(1)', boxShadow: `0 4px 12px ${isDarkMode ? '#4B0E9A66' : '#6D16DF66'}` }}
@@ -261,10 +217,6 @@ export default function Register({ isDarkMode, setIsAuthenticated }) {
           @keyframes fade {
             0%, 100% { opacity: 0.3; }
             50% { opacity: 0.8; }
-          }
-          @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
           }
           @media (max-width: 640px) {
             div[style*="grid-template-columns: 1fr 1fr"] {
